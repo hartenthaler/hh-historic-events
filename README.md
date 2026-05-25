@@ -74,18 +74,22 @@ The module currently includes the following data sources.
 
 * **Wars and Battles Worldwide**  
   Stored as GEDCOM text records in `resources/data/gedcom/german-wars-battles-worldwide.ged`.
+  See [provider documentation](docs/german-wars-battles-worldwide.md).
 
 * **German Chancellors Presidents (CSV)**  
   Stored as CSV data in `resources/data/csv/GermanChancellorsPresidents.csv`.
+  See [provider documentation](docs/german-chancellors-presidents.md).
 
 * **German Chancellors Presidents (Wikidata)**  
   Loaded from Wikidata when enabled. Responses are cached below `data/cache/hh-historic-events/`.
-* 
+
 * **Historic Events: Switzerland**  
   Stored as GEDCOM text records in `resources/data/gedcom/swiss-historic-events.ged`.
+  See [provider documentation](docs/swiss-historic-events.md).
 
 * **Gramps Historical Facts**  
   Stored as CSV files in `resources/data/csv/*_data_v1_0.csv` and related Gramps CSV files.
+  See [provider documentation](docs/gramps-historical-facts.md).
 
 <a name="Configuration"></a>
 ## ⚙️ Configuration
