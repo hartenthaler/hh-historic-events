@@ -1,0 +1,283 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: hh-historic-events\n"
+"POT-Creation-Date: 2026-05-25 20:28+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Hermann Hartenthaler <hermann@hartenthaler.de>\n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.9\n"
+"X-Poedit-Basepath: ../..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: translate;noop;plural:1,2;translateContext:2,1c\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: .git\n"
+
+#: src/TextGedcomEventProvider.php
+msgid "Historic Events: Switzerland"
+msgstr "Historische Ereignisse: Schweiz"
+
+#: src/TextGedcomEventProvider.php
+msgid "Wars and Battles Worldwide"
+msgstr "Kriege und Schlachten weltweit"
+
+#: src/GrampsCsvEventProvider.php
+msgid "Gramps Historical Facts"
+msgstr "Gramps Historische Fakten"
+
+#: src/GermanChancellorsPresidentsCsvProvider.php
+msgid "German Chancellors Presidents (CSV)"
+msgstr "Deutsche Kanzler und Präsidenten (CSV)"
+
+#: src/GermanChancellorsPresidentsWikidataProvider.php
+msgid "German Chancellors Presidents (Wikidata)"
+msgstr "Deutsche Kanzler und Präsidenten (Wikidata)"
+
+#: src/TextGedcomEventProvider.php
+msgid "Historical facts - events in Switzerland"
+msgstr "Historische Fakten - Ereignisse in der Schweiz"
+
+#: src/TextGedcomEventProvider.php
+msgid "Historical facts - Wars and Battles Worldwide (since 900)"
+msgstr "Historische Fakten - weltweite Kriege und Schlachten (seit 900)"
+
+#: src/TextGedcomEventProvider.php
+msgid "Historic event: Switzerland"
+msgstr "Historisches Ereignis: Schweiz"
+
+#: resources/views/settings.phtml
+msgid "Event language"
+msgstr "Sprache der Ereignisse"
+
+#: resources/views/settings.phtml
+msgid "Event languages"
+msgstr "Sprachen der Ereignisse"
+
+#: resources/views/settings.phtml
+msgid "Select which data sources are used for each event language."
+msgstr "Lege fest, welche Datenquellen für jede Ereignissprache verwendet werden."
+
+#: resources/views/settings.phtml
+msgid "Source"
+msgstr "Quelle"
+
+#: src/TextGedcomEventProvider.php
+msgid "Wikipedia"
+msgstr "Wikipedia"
+
+#: src/TextGedcomEventProvider.php
+msgid "Peter Jehli-Kamm, baum.jehli.ch"
+msgstr "Peter Jehli-Kamm, baum.jehli.ch"
+
+#: src/GermanChancellorsPresidentsCsvProvider.php
+msgid "Wikipedia and Wikimedia Commons"
+msgstr "Wikipedia und Wikimedia Commons"
+
+#: src/GermanChancellorsPresidentsWikidataProvider.php
+msgid "Wikidata"
+msgstr "Wikidata"
+
+#: src/GrampsCsvEventProvider.php
+msgid "Gramps Historical Context gramplet"
+msgstr "Gramps Historical Context Gramplet"
+
+#: src/GrampsCsvEventProvider.php
+msgid "The Gramps source version could not be checked."
+msgstr "Die Gramps-Quellversion konnte nicht geprüft werden."
+
+#: src/GrampsCsvEventProvider.php
+#, php-format
+msgid "Newer Gramps data files are available: %s"
+msgstr "Neuere Gramps-Datendateien sind verfügbar: %s"
+
+#: src/GrampsCsvEventProvider.php
+#, php-format
+msgid "Additional Gramps data files are available: %s"
+msgstr "Zusätzliche Gramps-Datendateien sind verfügbar: %s"
+
+#: src/GrampsCsvEventProvider.php
+#, php-format
+msgid "Included Gramps data files are current. Local version: %s. Latest source version found: %s."
+msgstr "Die enthaltenen Gramps-Datendateien sind aktuell. Lokale Version: %s. Neueste gefundene Quellversion: %s."
+
+#: src/TextGedcomEventProvider.php
+#: src/GermanChancellorsPresidentsCsvProvider.php
+#: src/GermanChancellorsPresidentsWikidataProvider.php
+msgid "German"
+msgstr "Deutsch"
+
+#: src/GrampsCsvEventProvider.php
+msgid "Danish"
+msgstr "Dänisch"
+
+#: src/GrampsCsvEventProvider.php
+msgid "English"
+msgstr "Englisch"
+
+#: src/GrampsCsvEventProvider.php
+msgid "Swedish"
+msgstr "Schwedisch"
+
+#: src/GrampsCsvEventProvider.php
+msgid "Ukrainian"
+msgstr "Ukrainisch"
+
+#: src/TextGedcomEventProvider.php
+msgid "revolt"
+msgstr "Aufstand"
+
+#: src/TextGedcomEventProvider.php
+msgid "siege"
+msgstr "Belagerung"
+
+#: src/TextGedcomEventProvider.php
+msgid "blockade"
+msgstr "Blockade"
+
+#: src/TextGedcomEventProvider.php
+msgid "civil war"
+msgstr "Bürgerkrieg"
+
+#: src/TextGedcomEventProvider.php
+msgid "conquest"
+msgstr "Eroberung"
+
+#: src/TextGedcomEventProvider.php
+msgid "feud"
+msgstr "Fehde"
+
+#: src/TextGedcomEventProvider.php
+msgid "campaign"
+msgstr "Feldzug"
+
+#: src/TextGedcomEventProvider.php
+msgid "combat"
+msgstr "Gefecht"
+
+#: src/TextGedcomEventProvider.php
+msgid "invasion"
+msgstr "Invasion"
+
+#: src/TextGedcomEventProvider.php
+msgid "struggle"
+msgstr "Kampf"
+
+#: src/TextGedcomEventProvider.php
+msgid "conflict"
+msgstr "Konflikt"
+
+#: src/TextGedcomEventProvider.php
+msgid "crusade"
+msgstr "Kreuzzug"
+
+#: src/TextGedcomEventProvider.php
+msgid "war"
+msgstr "Krieg"
+
+#: src/TextGedcomEventProvider.php
+msgid "massacre"
+msgstr "Massaker"
+
+#: src/TextGedcomEventProvider.php
+msgid "offensive"
+msgstr "Offensive"
+
+#: src/TextGedcomEventProvider.php
+msgid "revolution"
+msgstr "Revolution"
+
+#: src/TextGedcomEventProvider.php
+msgid "battle"
+msgstr "Schlacht"
+
+#: src/TextGedcomEventProvider.php
+msgid "naval battle"
+msgstr "Seeschlacht"
+
+#: src/TextGedcomEventProvider.php
+msgid "operation"
+msgstr "Operation"
+
+#: src/GermanChancellorsPresidentsCsvProvider.php:36
+#: src/GermanChancellorsPresidentsWikidataProvider.php:44
+msgid "Historical facts - Chancellors and Presidents of Germany (since 1949)"
+msgstr ""
+"Historische Fakten - Bundeskanzler und Bundespräsidenten in Deutschland, "
+"sowie Staatsoberhäupter der DDR (seit 1949)"
+
+#: src/GermanChancellorsPresidentsCsvProvider.php:61
+msgid "source"
+msgstr "Quelle"
+
+#: src/GermanChancellorsPresidentsCsvProvider.php:134
+#: src/GermanChancellorsPresidentsWikidataProvider.php:121
+msgid "Chancellor of Germany"
+msgstr "Bundeskanzler von Deutschland"
+
+#: src/GermanChancellorsPresidentsCsvProvider.php:134
+#: src/GermanChancellorsPresidentsWikidataProvider.php:122
+msgid "President of Germany"
+msgstr "Bundespräsident von Deutschland"
+
+#: src/GermanChancellorsPresidentsCsvProvider.php:134
+msgid "acting"
+msgstr "geschäftsführend"
+
+#: src/GermanChancellorsPresidentsWikidataProvider.php:99
+msgid "from"
+msgstr "ab"
+
+#: src/GermanChancellorsPresidentsWikidataProvider.php:100
+#, php-format
+msgid "member of party %s"
+msgstr "Mitglied der Partei %s"
+
+#: src/GermanChancellorsPresidentsWikidataProvider.php:123
+msgid "Head of former state GDR"
+msgstr "Staatsoberhaupt der DDR"
+
+#: src/GrampsCsvEventProvider.php:41
+msgid "Historical facts (in several languages) - provided by Gramps"
+msgstr ""
+"Historische Fakten (in verschiedenen Sprachen) - bereitgestellt von Gramps"
+
+#: src/GrampsCsvEventProvider.php:68
+msgid "Historic event"
+msgstr "Historisches Ereignis"
+
+#: src/HhHistoricEvents.php:52
+msgid "Historical facts from selectable data sources"
+msgstr "Historische Fakten aus wählbaren Datenquellen"
+
+#: src/HhHistoricEvents.php:144
+#, php-format
+msgid "The preferences for the module \"%s\" have been updated."
+msgstr ""
+
+#: resources/views/settings.phtml:16
+msgid "Control panel"
+msgstr ""
+
+#: resources/views/settings.phtml:42
+msgid "Use this data source"
+msgstr "Verwende diese Datenquelle"
+
+#: resources/views/settings.phtml:78
+msgid "save"
+msgstr ""
+
+#~ msgid "Use csv file"
+#~ msgstr "Verwendung der csv-Datei"
+
+#~ msgid "Should the content of the csv file be used?"
+#~ msgstr "Soll der Inhalt der csv-Datei verwendet werden?"
+
+#~ msgid "Use wikidata"
+#~ msgstr "Verwendung von wikidata"
+
+#~ msgid "Should the content of wikidata be used?"
+#~ msgstr "Sollen Angaben aus wikidata verwendet werden?"

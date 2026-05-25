@@ -1,0 +1,145 @@
+<?php
+
+declare(strict_types=1);
+
+use Fisharebest\Webtrees\Http\RequestHandlers\ControlPanel;
+use Fisharebest\Webtrees\I18N;
+
+/**
+ * @var string $title
+ * @var string $description
+ * @var array<int,array<string,mixed>> $languages
+ * @var array<int,array<string,mixed>> $providers
+ */
+?>
+
+<?= view('components/breadcrumbs', [
+    'links' => [route(ControlPanel::class) => I18N::translate('Control panel'), $title],
+]) ?>
+
+<h1><?= e($title) ?></h1>
+<p><?= e($description) ?></p>
+
+<form method="post" class="mb-5">
+    <?= csrf_field() ?>
+
+    <fieldset class="form-group mb-4">
+        <div class="row">
+            <legend class="col-form-label col-sm-3 wt-page-options-label">
+                <?= I18N::translate('Event languages') ?>
+            </legend>
+            <div class="col-sm-9 wt-page-options-value">
+                <div class="small text-muted mb-2">
+                    <?= I18N::translate('Select which data sources are used for each event language.') ?>
+                </div>
+
+                <?php foreach ($languages as $language): ?>
+                    <div class="mb-3">
+                        <div class="fw-bold mb-1">
+                            <?= e($language['label']) ?>
+                        </div>
+                        <div class="row">
+                            <?php foreach ($language['sources'] as $source): ?>
+                                <div class="col-sm-6 col-lg-4">
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            name="<?= e($source['form_key']) ?>"
+                                            id="<?= e($source['form_key']) ?>"
+                                            value="1"
+                                            <?= $source['enabled'] ? 'checked' : '' ?>
+                                        >
+                                        <label class="form-check-label" for="<?= e($source['form_key']) ?>">
+                                            <?= e($source['provider_title']) ?>
+                                        </label>
+                                    </div>
+                                </div>
+                            <?php endforeach ?>
+                        </div>
+                    </div>
+                <?php endforeach ?>
+            </div>
+        </div>
+    </fieldset>
+
+    <?php foreach ($providers as $provider): ?>
+        <fieldset class="form-group mb-4">
+            <div class="row">
+                <legend class="col-form-label col-sm-3 wt-page-options-label">
+                    <?= e($provider['title']) ?>
+                </legend>
+                <div class="col-sm-9 wt-page-options-value">
+                    <div class="form-check mb-2">
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            name="<?= e($provider['form_key']) ?>"
+                            id="<?= e($provider['form_key']) ?>"
+                            value="1"
+                            <?= $provider['enabled'] ? 'checked' : '' ?>
+                        >
+                        <label class="form-check-label" for="<?= e($provider['form_key']) ?>">
+                            <?= I18N::translate('Use this data source') ?>
+                        </label>
+                    </div>
+
+                    <div class="small text-muted mb-2">
+                        <?= e($provider['description']) ?>
+                    </div>
+                    <div class="small text-muted mb-2">
+                        <?= I18N::translate('Source') ?>:
+                        <?php if ($provider['source_url'] !== ''): ?>
+                            <a href="<?= e($provider['source_url']) ?>" target="_blank" rel="noopener noreferrer">
+                                <?= e($provider['source_title']) ?>
+                            </a>
+                        <?php else: ?>
+                            <?= e($provider['source_title']) ?>
+                        <?php endif ?>
+                    </div>
+                    <?php if ($provider['source_status'] !== ''): ?>
+                        <div class="small text-muted mb-2">
+                            <?= e($provider['source_status']) ?>
+                        </div>
+                    <?php endif ?>
+                    <div class="small text-muted mb-2">
+                        <?= I18N::translate('Event language') ?>:
+                        <?= e($provider['languages']) ?>
+                    </div>
+
+                    <?php if ($provider['types'] !== []): ?>
+                        <div class="row">
+                            <?php foreach ($provider['types'] as $type): ?>
+                                <div class="col-sm-6 col-lg-4">
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            name="<?= e($type['form_key']) ?>"
+                                            id="<?= e($type['form_key']) ?>"
+                                            value="1"
+                                            <?= $type['enabled'] ? 'checked' : '' ?>
+                                        >
+                                        <label class="form-check-label" for="<?= e($type['form_key']) ?>">
+                                            <?= e($type['label']) ?>
+                                            <?php if ($type['language'] !== ''): ?>
+                                                <span class="text-muted">
+                                                    (<?= e($type['language']) ?>)
+                                                </span>
+                                            <?php endif ?>
+                                        </label>
+                                    </div>
+                                </div>
+                            <?php endforeach ?>
+                        </div>
+                    <?php endif ?>
+                </div>
+            </div>
+        </fieldset>
+    <?php endforeach ?>
+
+    <button type="submit" class="btn btn-primary">
+        <?= view('icons/save') ?>
+        <?= I18N::translate('save') ?>
+    </button>
+</form>
