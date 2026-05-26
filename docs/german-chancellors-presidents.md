@@ -1,8 +1,11 @@
 # German Chancellors and Presidents
 
-This provider supplies historical facts for the webtrees timeline: chancellors and presidents of Germany since 1949.
+This provider supplies historical facts for the webtrees timeline:
+chancellors and presidents of Germany since 1949.
 
-The event text is in German. The provider can use the included CSV data, and `hh-historic-events` also includes a separate optional Wikidata provider for the same topic.
+The event text is in German.
+The provider can use the included CSV data or
+use Wikidata.
 
 ## Usage
 
@@ -18,7 +21,9 @@ The structure of historic events provided by this provider is oriented on GEDCOM
 3 CONT <image attribution>
 ```
 
-The basic information is stored as a CSV file in `resources/data/csv` and can be edited easily. The comma-separated columns are:
+For the CSV based provider:
+The basic information is stored as a CSV file in `resources/data/csv` and can be edited easily.
+The comma-separated columns are:
 
 * name and party
 * type and subtype, using `C`, `P` and `A` for chancellor, president and acting
@@ -49,7 +54,8 @@ You can contribute to this provider by:
 * contributing code: check the issues for work that needs attention; if your change is not covered by an existing issue, create one first
 * testing: testing is currently manual; please create an issue for any bugs you find
 
-To get the information for an image link and attribution:
+To get information for new entries in the CSV provider:
+especially an image link and attribution:
 
 1. Go to the Wikipedia article.
 1. Click on an image.
