@@ -1,3 +1,11 @@
+From date;To date;Event;Link
+########################################################
+## FORMAT: webtrees gramps-historical-facts
+## TOPIC: General world history
+## VERSION: 1.0
+## AUTHOR: Kaj Mikkelsen / HistContext contributors
+## CONTACT: https://github.com/kajmikkelsen/HistContext
+########################################################
 1520;1527;Smallpox (New World);https://wikipedia.org/wiki/Smallpox
 1629;1631;Great Bubonic Plague of Milan (Italy);https://wikipedia.org/wiki/Italian_plague_of_1629%E2%80%931631
 1665;1666;Great Bubonic Plague of London (England);https://wikipedia.org/wiki/Great_Plague_of_London

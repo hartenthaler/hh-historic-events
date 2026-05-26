@@ -1,3 +1,11 @@
+From date;To date;Event;Link
+########################################################
+## FORMAT: webtrees gramps-historical-facts
+## TOPIC: Ukrainian history
+## VERSION: 1.0
+## AUTHOR: Kaj Mikkelsen / HistContext contributors
+## CONTACT: https://github.com/kajmikkelsen/HistContext
+########################################################
 1600;1648;Повстання козаків під проводом Северина Наливайка;https://uk.wikipedia.org/wiki/Северин_Наливайко
 1648;1657;Хмельниччина (Національно-визвольна війна);https://uk.wikipedia.org/wiki/Національно-визвольна_війна_українського_народу
 1654;1654;Переяславська рада;https://uk.wikipedia.org/wiki/Переяславська_рада

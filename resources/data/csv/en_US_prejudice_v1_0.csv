@@ -1,3 +1,11 @@
+From date;To date;Event;Link
+########################################################
+## FORMAT: webtrees gramps-historical-facts
+## TOPIC: Prejudice and discrimination in the United States
+## VERSION: 1.0
+## AUTHOR: Kaj Mikkelsen / HistContext contributors
+## CONTACT: https://github.com/kajmikkelsen/HistContext
+########################################################
 1619;1863;Enslavement and forced relocation of Africans;https://wikipedia.org/wiki/Slavery_in_the_United_States
 1700;1850;Anti-Catholic sentiment (primarily Northeast);https://wikipedia.org/wiki/Anti-Catholicism_in_the_United_States
 1700;1900;Coverture laws limiting women's legal rights;https://wikipedia.org/wiki/Coverture

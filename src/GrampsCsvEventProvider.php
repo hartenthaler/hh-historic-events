@@ -20,6 +20,7 @@ use function fclose;
 use function fgetcsv;
 use function fopen;
 use function glob;
+use function implode;
 use function is_array;
 use function is_dir;
 use function is_file;
@@ -33,7 +34,9 @@ use function sprintf;
 use function str_ends_with;
 use function str_replace;
 use function str_starts_with;
+use function substr;
 use function time;
+use function trim;
 use function version_compare;
 
 use const PATHINFO_FILENAME;
@@ -142,7 +145,10 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
         $options = [];
         foreach ($this->csvFiles() as $file) {
             $id = pathinfo($file, PATHINFO_FILENAME);
-            $options[$id] = basename($file);
+            $topic = $this->csvFileTopic($file);
+            $options[$id] = $topic === ''
+                ? basename($file)
+                : implode(' - ', [$topic, basename($file)]);
         }
 
         return $options;
@@ -328,6 +334,35 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
         return $dataSet === 'custom';
     }
 
+    private function csvFileTopic(string $file): string
+    {
+        if (!is_file($file)) {
+            return '';
+        }
+
+        $handle = fopen($file, 'r');
+        if ($handle === false) {
+            return '';
+        }
+
+        while (($row = fgetcsv($handle, 0, ';', '"', '\\')) !== false) {
+            $firstColumn = $row[0] ?? '';
+            if (str_starts_with($firstColumn, '## TOPIC:')) {
+                fclose($handle);
+
+                return trim(substr($firstColumn, 9));
+            }
+
+            if ($firstColumn !== '' && !str_starts_with($firstColumn, '#') && $firstColumn !== 'From date') {
+                break;
+            }
+        }
+
+        fclose($handle);
+
+        return '';
+    }
+
     /**
      * @return array<int,array<string,string>>
      */
@@ -345,6 +380,10 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
 
         while (($row = fgetcsv($handle, 0, ';', '"', '\\')) !== false) {
             if (($row[0] ?? '') === '' || str_starts_with($row[0], '#')) {
+                continue;
+            }
+
+            if (($row[0] ?? '') === 'From date' && ($row[1] ?? '') === 'To date') {
                 continue;
             }
 

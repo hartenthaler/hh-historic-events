@@ -1,3 +1,11 @@
+From date;To date;Event;Link
+########################################################
+## FORMAT: webtrees gramps-historical-facts
+## TOPIC: Presidents of the United States
+## VERSION: 1.0
+## AUTHOR: Kaj Mikkelsen / HistContext contributors
+## CONTACT: https://github.com/kajmikkelsen/HistContext
+########################################################
 1789;1797;George Washington (USA President #1);https://wikipedia.org/wiki/George_Washington
 1797;1801;John Adams (USA President #2);https://wikipedia.org/wiki/John_Adams
 1801;1809;Thomas Jefferson (USA President #3);https://wikipedia.org/wiki/Thomas_Jefferson

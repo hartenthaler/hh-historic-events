@@ -1,3 +1,11 @@
+From date;To date;Event;Link
+########################################################
+## FORMAT: webtrees gramps-historical-facts
+## TOPIC: Danish history
+## VERSION: 1.0
+## AUTHOR: Kaj Mikkelsen / HistContext contributors
+## CONTACT: https://github.com/kajmikkelsen/HistContext
+########################################################
 1708;;"Lov mod tiggeri";https://danmarkshistorien.dk/vis/materiale/fattiglovene-fra-1708-og-forbuddet-mod-tiggeri
 1728;1728;"Købehavns Brand";https://da.wikipedia.org/wiki/K%C3%B8benhavns_brand_1728
 1733;1788;"Stavnsbåndet indføres";https://da.wikipedia.org/wiki/Stavnsb%C3%A5ndet

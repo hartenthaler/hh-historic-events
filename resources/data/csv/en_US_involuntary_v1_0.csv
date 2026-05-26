@@ -1,4 +1,11 @@
-# Test für Kommentar
+From date;To date;Event;Link
+########################################################
+## FORMAT: webtrees gramps-historical-facts
+## TOPIC: Involuntary commitment and institutional care in the United States
+## VERSION: 1.0
+## AUTHOR: Kaj Mikkelsen / HistContext contributors
+## CONTACT: https://github.com/kajmikkelsen/HistContext
+########################################################
 1664;Today;Establishment of the first poorhouse in the American colonies;https://wikipedia.org/wiki/Poorhouse
 1820;1900;Widespread establishment of county poorhouses across the US;https://wikipedia.org/wiki/Poorhouse
 1840;Today;Involuntary commitment laws begin to emerge for the mentally ill;https://wikipedia.org/wiki/Mental_health_law
