@@ -10,10 +10,12 @@ The structure of historic events provided by this provider is oriented on GEDCOM
 
 ```gedcom
 1 EVEN <event>
-2 TYPE Historic event
+2 TYPE <TOPIC>
 2 DATE <date period>
 2 NOTE [link](<link>)
 ```
+
+TOPIC is an element in the head of the CSV file. 
 
 The basic information contains historical events with the year they happened and optionally the year they ended. It is stored as CSV files in `resources/data/csv` and can be edited easily.
 
