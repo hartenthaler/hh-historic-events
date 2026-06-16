@@ -270,6 +270,29 @@ msgstr "Verwende diese Datenquelle"
 msgid "save"
 msgstr ""
 
+#: src/HhHistoricEvents.php:116
+msgid ""
+"The Historic Events module can query Wikidata for selected historical event "
+"data. Responses are cached locally for 24 hours to reduce external requests."
+msgstr ""
+"Das Modul \"Historische Ereignisse\" kann Wikidata nach ausgewählten "
+"historischen Ereignisdaten abfragen. Antworten werden 24 Stunden lokal "
+"zwischengespeichert, um externe Anfragen zu reduzieren."
+
+#: src/HhHistoricEvents.php:122
+msgid "Server IP address and technical request metadata."
+msgstr "IP-Adresse des Servers und technische Metadaten der Anfrage."
+
+#: src/HhHistoricEvents.php:123
+msgid "Requested Wikidata entities for the enabled historical event provider."
+msgstr "Abgefragte Wikidata-Entitäten für den aktivierten Ereignis-Anbieter."
+
+#: src/HhHistoricEvents.php:128
+msgid "Wikidata responses are cached locally for 24 hours to reduce external requests."
+msgstr ""
+"Wikidata-Antworten werden 24 Stunden lokal zwischengespeichert, um externe "
+"Anfragen zu reduzieren."
+
 #~ msgid "Use csv file"
 #~ msgstr "Verwendung der csv-Datei"
 

@@ -91,6 +91,51 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
         return self::CUSTOM_WEBSITE;
     }
 
+    /**
+     * Privacy information consumed by hh_legal_notice.
+     *
+     * @return array{third_party_services:list<array{name:string,url:string,country:string,privacy_url:string,description:string,data:list<string>}>,security_measures:list<string>}
+     */
+    public function privacyNotices(): array
+    {
+        foreach ($this->providerFactory()->providers() as $provider) {
+            if (!$provider instanceof GermanChancellorsPresidentsWikidataProvider) {
+                continue;
+            }
+
+            if (!$this->providerIsEnabled($provider) || !$this->providerHasEnabledLanguage($provider)) {
+                return [
+                    'third_party_services' => [],
+                    'security_measures' => [],
+                ];
+            }
+
+            return [
+                'third_party_services' => [
+                    [
+                        'name' => 'Wikidata',
+                        'url' => 'https://www.wikidata.org/',
+                        'country' => 'United States',
+                        'privacy_url' => 'https://foundation.wikimedia.org/wiki/Policy:Privacy_policy',
+                        'description' => I18N::translate('The Historic Events module can query Wikidata for selected historical event data. Responses are cached locally for 24 hours to reduce external requests.'),
+                        'data' => [
+                            I18N::translate('Server IP address and technical request metadata.'),
+                            I18N::translate('Requested Wikidata entities for the enabled historical event provider.'),
+                        ],
+                    ],
+                ],
+                'security_measures' => [
+                    I18N::translate('Wikidata responses are cached locally for 24 hours to reduce external requests.'),
+                ],
+            ];
+        }
+
+        return [
+            'third_party_services' => [],
+            'security_measures' => [],
+        ];
+    }
+
     public function isEnabledByDefault(): bool
     {
         return false;
