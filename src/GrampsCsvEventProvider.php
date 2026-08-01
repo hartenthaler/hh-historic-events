@@ -228,6 +228,17 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
         return $customFolder !== '' && is_file($customFolder . $typeId . '.csv');
     }
 
+    public function typeOverridesBundled(string $typeId): bool
+    {
+        $customFolder = $this->folders[0] ?? '';
+        $bundledFolder = $this->folders[1] ?? '';
+
+        return $customFolder !== ''
+            && $bundledFolder !== ''
+            && is_file($customFolder . $typeId . '.csv')
+            && is_file($bundledFolder . $typeId . '.csv');
+    }
+
     public function hasCustomTypes(): bool
     {
         foreach ($this->csvFiles() as $file) {

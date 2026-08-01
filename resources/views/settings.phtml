@@ -177,6 +177,15 @@ use Fisharebest\Webtrees\I18N;
                                                     <?= I18N::translate('User-specific') ?>
                                                 </span>
                                             <?php endif ?>
+                                            <?php if ($type['overrides_bundled']): ?>
+                                                <span
+                                                    class="text-warning me-1"
+                                                    title="<?= e(I18N::translate('Overrides a bundled file')) ?>"
+                                                    aria-label="<?= e(I18N::translate('Overrides a bundled file')) ?>"
+                                                >
+                                                    <i class="fa-solid fa-code-compare" aria-hidden="true"></i>
+                                                </span>
+                                            <?php endif ?>
                                             <?= e($type['label']) ?>
                                             <?php if ($type['language'] !== ''): ?>
                                                 <span class="text-muted">
