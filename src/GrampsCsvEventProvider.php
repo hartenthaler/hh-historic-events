@@ -10,6 +10,7 @@ use Hartenthaler\WebtreesModules\History\HhHistoricEvents\Http\HttpGetClient;
 use Illuminate\Support\Collection;
 use Psr\Http\Client\ClientExceptionInterface;
 
+use function array_values;
 use function basename;
 use function dirname;
 use function file_exists;
@@ -26,12 +27,13 @@ use function is_dir;
 use function is_file;
 use function json_decode;
 use function json_encode;
+use function ksort;
 use function mkdir;
 use function pathinfo;
 use function preg_match;
 use function preg_replace;
+use function strtolower;
 use function sprintf;
-use function str_ends_with;
 use function str_replace;
 use function str_starts_with;
 use function substr;
@@ -47,8 +49,11 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
     private const SOURCE_URL = 'https://github.com/kajmikkelsen/HistContext';
     private const SOURCE_CACHE_TTL = 86400;
 
+    /**
+     * @param list<string> $folders Folders in descending priority order
+     */
     public function __construct(
-        private readonly string $folder,
+        private readonly array $folders,
         private readonly HttpGetClient $httpClient
     ) {
     }
@@ -134,12 +139,23 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
 
     public function eventLanguageOptions(): array
     {
-        return [
+        $languages = [
             'da' => I18N::translate('Danish'),
             'en' => I18N::translate('English'),
             'sv' => I18N::translate('Swedish'),
             'uk' => I18N::translate('Ukrainian'),
         ];
+
+        foreach ($this->csvFiles() as $file) {
+            $languageId = $this->fileLanguageId($file);
+            if ($languageId !== '' && !isset($languages[$languageId])) {
+                $languages[$languageId] = $this->languageLabel($languageId);
+            }
+        }
+
+        ksort($languages);
+
+        return $languages;
     }
 
     public function typeOptions(): array
@@ -147,10 +163,18 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
         $options = [];
         foreach ($this->csvFiles() as $file) {
             $id = pathinfo($file, PATHINFO_FILENAME);
-            $topic = $this->csvFileTopic($file);
-            $options[$id] = $topic === ''
-                ? basename($file)
-                : implode(' - ', [$topic, basename($file)]);
+            $metadata = $this->csvFileMetadata($file);
+            $labelParts = [];
+
+            if (($metadata['TOPIC'] ?? '') !== '') {
+                $labelParts[] = $metadata['TOPIC'];
+            }
+            if (($metadata['REGION'] ?? '') !== '') {
+                $labelParts[] = $metadata['REGION'];
+            }
+            $labelParts[] = basename($file);
+
+            $options[$id] = implode(' - ', $labelParts);
         }
 
         return $options;
@@ -158,19 +182,22 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
 
     public function typeLanguage(string $typeId): string
     {
-        $languageId = $this->typeLanguageId($typeId);
-
-        return match ($languageId) {
-            'da' => I18N::translate('Danish'),
-            'sv' => I18N::translate('Swedish'),
-            'uk' => I18N::translate('Ukrainian'),
-            'en' => I18N::translate('English'),
-            default => '',
-        };
+        return $this->languageLabel($this->typeLanguageId($typeId));
     }
 
     public function typeLanguageId(string $typeId): string
     {
+        foreach ($this->csvFiles() as $file) {
+            if (pathinfo($file, PATHINFO_FILENAME) === $typeId) {
+                $languageId = $this->fileLanguageId($file);
+                if ($languageId !== '') {
+                    return $languageId;
+                }
+
+                break;
+            }
+        }
+
         return match ($typeId) {
             'da_DK_data_v1_0' => 'da',
             'sv_SE_data_v1_0' => 'sv',
@@ -197,7 +224,7 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
     public function historicEvents(string $languageTag, array $enabledTypes): Collection
     {
         $collection = new Collection();
-        $eventType = I18N::translate('Historic event');
+        $defaultEventType = I18N::translate('Historic event');
 
         foreach ($this->csvFiles() as $file) {
             $typeId = pathinfo($file, PATHINFO_FILENAME);
@@ -209,6 +236,7 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
                 $date = $event['toDate'] === ''
                     ? $event['fromDate']
                     : 'FROM ' . $event['fromDate'] . ' TO ' . $event['toDate'];
+                $eventType = $event['category'] !== '' ? $event['category'] : $defaultEventType;
 
                 $collection->push(
                     '1 EVEN ' . $event['event'] .
@@ -227,16 +255,25 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
      */
     private function csvFiles(): array
     {
-        $files = [];
-        foreach (glob($this->folder . '*.csv') ?: [] as $file) {
-            if (str_ends_with($file, 'GermanChancellorsPresidents.csv')) {
-                continue;
-            }
+        $filesByName = [];
 
-            $files[] = $file;
+        // Folders are ordered by priority. Custom files therefore replace
+        // bundled files with the same basename without modifying the module.
+        foreach ($this->folders as $folder) {
+            foreach (glob($folder . '*.csv') ?: [] as $file) {
+                $fileName = basename($file);
+
+                if ($fileName === 'GermanChancellorsPresidents.csv' || isset($filesByName[$fileName])) {
+                    continue;
+                }
+
+                $filesByName[$fileName] = $file;
+            }
         }
 
-        return $files;
+        ksort($filesByName);
+
+        return array_values($filesByName);
     }
 
     /**
@@ -334,23 +371,26 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
         return $dataSet === 'custom';
     }
 
-    private function csvFileTopic(string $file): string
+    /**
+     * @return array<string,string>
+     */
+    private function csvFileMetadata(string $file): array
     {
         if (!is_file($file)) {
-            return '';
+            return [];
         }
 
         $handle = fopen($file, 'r');
         if ($handle === false) {
-            return '';
+            return [];
         }
 
+        $metadata = [];
         while (($row = fgetcsv($handle, 0, ';', '"', '\\')) !== false) {
-            $firstColumn = $row[0] ?? '';
-            if (str_starts_with($firstColumn, '## TOPIC:')) {
-                fclose($handle);
-
-                return trim(substr($firstColumn, 9));
+            $firstColumn = trim($row[0] ?? '');
+            if (preg_match('/^##\s+([A-Z][A-Z0-9_-]*):\s*(.*)$/', $firstColumn, $matches) === 1) {
+                $metadata[$matches[1]] = trim($matches[2]);
+                continue;
             }
 
             if ($firstColumn !== '' && !str_starts_with($firstColumn, '#') && $firstColumn !== 'From date') {
@@ -360,7 +400,27 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
 
         fclose($handle);
 
-        return '';
+        return $metadata;
+    }
+
+    private function fileLanguageId(string $file): string
+    {
+        $language = strtolower($this->csvFileMetadata($file)['LANGUAGE'] ?? '');
+
+        return str_replace('_', '-', $language);
+    }
+
+    private function languageLabel(string $languageId): string
+    {
+        return match ($languageId) {
+            'da' => I18N::translate('Danish'),
+            'sv' => I18N::translate('Swedish'),
+            'uk' => I18N::translate('Ukrainian'),
+            'en' => I18N::translate('English'),
+            'de' => I18N::translate('German'),
+            '' => '',
+            default => $languageId,
+        };
     }
 
     /**
@@ -392,6 +452,7 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
                 'toDate' => str_replace('Today', '', $row[1] ?? ''),
                 'event' => $row[2] ?? '',
                 'link' => $row[3] ?? '',
+                'category' => trim($row[4] ?? ''),
             ];
         }
 

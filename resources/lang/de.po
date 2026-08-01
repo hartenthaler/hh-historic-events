@@ -293,6 +293,27 @@ msgstr ""
 "Wikidata-Antworten werden 24 Stunden lokal zwischengespeichert, um externe "
 "Anfragen zu reduzieren."
 
+#: resources/views/settings.phtml
+msgid "Custom CSV files"
+msgstr "Eigene CSV-Dateien"
+
+#: resources/views/settings.phtml
+msgid "Store custom CSV files in this persistent data directory. Files in this directory override bundled CSV files with the same name."
+msgstr ""
+"Speichern Sie eigene CSV-Dateien in diesem dauerhaften Datenverzeichnis. "
+"Dateien in diesem Verzeichnis haben Vorrang vor gleichnamigen mitgelieferten "
+"CSV-Dateien."
+
+#: resources/views/settings.phtml
+msgid "CSV columns: start date; end date; event text; source link; optional category"
+msgstr "CSV-Spalten: Startdatum; Enddatum; Ereignistext; Quellenlink; optionale Kategorie"
+
+#: resources/views/settings.phtml
+msgid "New custom files require FORMAT, TOPIC, and LANGUAGE metadata. REGION optionally describes the geographical region in the language of the file."
+msgstr ""
+"Neue eigene Dateien benötigen die Metadaten FORMAT, TOPIC und LANGUAGE. "
+"REGION beschreibt optional die geografische Region in der Sprache der Datei."
+
 #~ msgid "Use csv file"
 #~ msgstr "Verwendung der csv-Datei"
 
