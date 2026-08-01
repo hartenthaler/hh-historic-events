@@ -37,6 +37,8 @@ If the optional category is present, it is used as the GEDCOM `TYPE` of the hist
 
 Administrators can add or override CSV files in the persistent directory `data/modules/hh-historic-events/data/`. A custom file takes precedence over a bundled file with the same name. The exact server path is shown on the module settings page.
 
+The complete metadata and column format for custom files is documented in [Custom CSV file format](custom-csv-format.md).
+
 An override of the special file `GermanChancellorsPresidents.csv` must retain the comma-separated structure of the bundled file. The general semicolon-separated format described above applies to the Gramps event files.
 
 ### Reproducible parser check

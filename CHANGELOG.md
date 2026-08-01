@@ -4,6 +4,8 @@
 
 - Added a persistent data directory for user-specific CSV files; custom files override bundled files with the same name.
 - Added an optional fifth CSV column for a per-event category used as GEDCOM `TYPE`.
+- Added metadata support for the content language and geographical region of custom CSV files.
+- Added a dedicated custom CSV file-format specification.
 - Documented individual CSV files as a source for user-specific family events.
 - Added the GitHub download-count badge to the README.
 - Added a shared PSR-18 HTTP adapter for remote event providers.

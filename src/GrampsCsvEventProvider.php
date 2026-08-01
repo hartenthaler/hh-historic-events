@@ -32,6 +32,7 @@ use function mkdir;
 use function pathinfo;
 use function preg_match;
 use function preg_replace;
+use function strtolower;
 use function sprintf;
 use function str_replace;
 use function str_starts_with;
@@ -138,12 +139,23 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
 
     public function eventLanguageOptions(): array
     {
-        return [
+        $languages = [
             'da' => I18N::translate('Danish'),
             'en' => I18N::translate('English'),
             'sv' => I18N::translate('Swedish'),
             'uk' => I18N::translate('Ukrainian'),
         ];
+
+        foreach ($this->csvFiles() as $file) {
+            $languageId = $this->fileLanguageId($file);
+            if ($languageId !== '' && !isset($languages[$languageId])) {
+                $languages[$languageId] = $this->languageLabel($languageId);
+            }
+        }
+
+        ksort($languages);
+
+        return $languages;
     }
 
     public function typeOptions(): array
@@ -151,10 +163,18 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
         $options = [];
         foreach ($this->csvFiles() as $file) {
             $id = pathinfo($file, PATHINFO_FILENAME);
-            $topic = $this->csvFileTopic($file);
-            $options[$id] = $topic === ''
-                ? basename($file)
-                : implode(' - ', [$topic, basename($file)]);
+            $metadata = $this->csvFileMetadata($file);
+            $labelParts = [];
+
+            if (($metadata['TOPIC'] ?? '') !== '') {
+                $labelParts[] = $metadata['TOPIC'];
+            }
+            if (($metadata['REGION'] ?? '') !== '') {
+                $labelParts[] = $metadata['REGION'];
+            }
+            $labelParts[] = basename($file);
+
+            $options[$id] = implode(' - ', $labelParts);
         }
 
         return $options;
@@ -162,19 +182,22 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
 
     public function typeLanguage(string $typeId): string
     {
-        $languageId = $this->typeLanguageId($typeId);
-
-        return match ($languageId) {
-            'da' => I18N::translate('Danish'),
-            'sv' => I18N::translate('Swedish'),
-            'uk' => I18N::translate('Ukrainian'),
-            'en' => I18N::translate('English'),
-            default => '',
-        };
+        return $this->languageLabel($this->typeLanguageId($typeId));
     }
 
     public function typeLanguageId(string $typeId): string
     {
+        foreach ($this->csvFiles() as $file) {
+            if (pathinfo($file, PATHINFO_FILENAME) === $typeId) {
+                $languageId = $this->fileLanguageId($file);
+                if ($languageId !== '') {
+                    return $languageId;
+                }
+
+                break;
+            }
+        }
+
         return match ($typeId) {
             'da_DK_data_v1_0' => 'da',
             'sv_SE_data_v1_0' => 'sv',
@@ -348,23 +371,26 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
         return $dataSet === 'custom';
     }
 
-    private function csvFileTopic(string $file): string
+    /**
+     * @return array<string,string>
+     */
+    private function csvFileMetadata(string $file): array
     {
         if (!is_file($file)) {
-            return '';
+            return [];
         }
 
         $handle = fopen($file, 'r');
         if ($handle === false) {
-            return '';
+            return [];
         }
 
+        $metadata = [];
         while (($row = fgetcsv($handle, 0, ';', '"', '\\')) !== false) {
-            $firstColumn = $row[0] ?? '';
-            if (str_starts_with($firstColumn, '## TOPIC:')) {
-                fclose($handle);
-
-                return trim(substr($firstColumn, 9));
+            $firstColumn = trim($row[0] ?? '');
+            if (preg_match('/^##\s+([A-Z][A-Z0-9_-]*):\s*(.*)$/', $firstColumn, $matches) === 1) {
+                $metadata[$matches[1]] = trim($matches[2]);
+                continue;
             }
 
             if ($firstColumn !== '' && !str_starts_with($firstColumn, '#') && $firstColumn !== 'From date') {
@@ -374,7 +400,27 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
 
         fclose($handle);
 
-        return '';
+        return $metadata;
+    }
+
+    private function fileLanguageId(string $file): string
+    {
+        $language = strtolower($this->csvFileMetadata($file)['LANGUAGE'] ?? '');
+
+        return str_replace('_', '-', $language);
+    }
+
+    private function languageLabel(string $languageId): string
+    {
+        return match ($languageId) {
+            'da' => I18N::translate('Danish'),
+            'sv' => I18N::translate('Swedish'),
+            'uk' => I18N::translate('Ukrainian'),
+            'en' => I18N::translate('English'),
+            'de' => I18N::translate('German'),
+            '' => '',
+            default => $languageId,
+        };
     }
 
     /**
