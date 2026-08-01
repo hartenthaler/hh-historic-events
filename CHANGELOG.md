@@ -2,6 +2,7 @@
 
 ## Next release
 
+- Warn administrators that many active sources or a single large event collection can significantly affect webtrees performance.
 - Mark user-specific CSV collections that override a bundled file with an explanatory icon.
 - Divide administration settings into language and individual-source sections and show user-specific collections first.
 - Display the canonical custom-data path and link the CSV format documentation and a bundled example file from the administration page.

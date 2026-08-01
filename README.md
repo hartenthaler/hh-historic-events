@@ -110,6 +110,8 @@ The most important settings are
 * which record types are enabled inside a data source
 * whether the Wikidata source is used
 
+For good performance, enable only the data sources and collections that are actually needed. Processing many sources, or a single large collection such as Wars and Battles Worldwide, can noticeably slow down webtrees.
+
 The Wikidata source should only be enabled if the web server may perform outbound HTTPS requests to Wikidata.
 The module caches Wikidata responses for 24 hours.
 If the cache directory is not writable, the module still works, but Wikidata responses are not stored locally.
