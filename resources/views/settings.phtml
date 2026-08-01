@@ -70,6 +70,8 @@ use Fisharebest\Webtrees\I18N;
 <form method="post" class="mb-5">
     <?= csrf_field() ?>
 
+    <h2 class="h3 mt-4"><?= I18N::translate('1. Selection by language') ?></h2>
+
     <fieldset class="form-group mb-4">
         <div class="row">
             <legend class="col-form-label col-sm-3 wt-page-options-label">
@@ -109,6 +111,8 @@ use Fisharebest\Webtrees\I18N;
             </div>
         </div>
     </fieldset>
+
+    <h2 class="h3 mt-5"><?= I18N::translate('2. Selection by individual data sources') ?></h2>
 
     <?php foreach ($providers as $provider): ?>
         <fieldset class="form-group mb-4">
@@ -168,6 +172,11 @@ use Fisharebest\Webtrees\I18N;
                                             <?= $type['enabled'] ? 'checked' : '' ?>
                                         >
                                         <label class="form-check-label" for="<?= e($type['form_key']) ?>">
+                                            <?php if ($type['custom']): ?>
+                                                <span class="badge text-bg-info me-1">
+                                                    <?= I18N::translate('User-specific') ?>
+                                                </span>
+                                            <?php endif ?>
                                             <?= e($type['label']) ?>
                                             <?php if ($type['language'] !== ''): ?>
                                                 <span class="text-muted">

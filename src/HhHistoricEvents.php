@@ -44,6 +44,7 @@ use function rtrim;
 use function str_ends_with;
 use function substr;
 use function time;
+use function usort;
 
 final class HhHistoricEvents extends AbstractModule implements ModuleCustomInterface, ModuleHistoricEventsInterface, ModuleConfigInterface
 {
@@ -282,17 +283,26 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
     private function adminProviders(): array
     {
         $providers = [];
+        $providerOrder = 0;
+
         foreach ($this->providerFactory()->providers() as $provider) {
             $types = [];
+            $typeOrder = 0;
             foreach ($provider->typeOptions() as $typeId => $label) {
+                $isCustom = $provider instanceof GrampsCsvEventProvider && $provider->typeIsCustom($typeId);
                 $types[] = [
                     'id' => $typeId,
                     'label' => $label,
                     'language' => $provider->typeLanguage($typeId),
                     'form_key' => $this->typeFormKey($provider->id(), $typeId),
                     'enabled' => $this->typeIsEnabled($provider, $typeId),
+                    'custom' => $isCustom,
+                    'order' => $typeOrder++,
                 ];
             }
+
+            usort($types, static fn (array $left, array $right): int =>
+                ($right['custom'] <=> $left['custom']) ?: ($left['order'] <=> $right['order']));
 
             $providers[] = [
                 'id' => $provider->id(),
@@ -305,8 +315,14 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
                 'form_key' => $this->providerFormKey($provider->id()),
                 'enabled' => $this->providerIsEnabled($provider),
                 'types' => $types,
+                'has_custom_types' => $provider instanceof GrampsCsvEventProvider
+                    && $provider->hasCustomTypes(),
+                'order' => $providerOrder++,
             ];
         }
+
+        usort($providers, static fn (array $left, array $right): int =>
+            ($right['has_custom_types'] <=> $left['has_custom_types']) ?: ($left['order'] <=> $right['order']));
 
         return $providers;
     }
