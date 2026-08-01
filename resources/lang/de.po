@@ -354,6 +354,18 @@ msgstr "Nutzerspezifisch"
 msgid "Overrides a bundled file"
 msgstr "Überschreibt eine mitgelieferte Datei"
 
+#: resources/views/settings.phtml
+msgid "Performance notice"
+msgstr "Hinweis zur Performance"
+
+#: resources/views/settings.phtml
+msgid "Activating many data sources, or even one large collection such as Wars and Battles Worldwide, can significantly reduce overall webtrees performance. Enable only the sources and collections that are actually needed."
+msgstr ""
+"Die Aktivierung vieler Datenquellen oder bereits einer großen Sammlung wie "
+"Weltweite Kriege und Schlachten kann die Gesamtperformance von webtrees "
+"deutlich beeinträchtigen. Aktivieren Sie nur die tatsächlich benötigten "
+"Quellen und Sammlungen."
+
 #~ msgid "Use csv file"
 #~ msgstr "Verwendung der csv-Datei"
 

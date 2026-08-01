@@ -114,6 +114,13 @@ use Fisharebest\Webtrees\I18N;
 
     <h2 class="h3 mt-5"><?= I18N::translate('2. Selection by individual data sources') ?></h2>
 
+    <div class="alert alert-warning" role="alert">
+        <h3 class="h5 alert-heading"><?= I18N::translate('Performance notice') ?></h3>
+        <p class="mb-0">
+            <?= I18N::translate('Activating many data sources, or even one large collection such as Wars and Battles Worldwide, can significantly reduce overall webtrees performance. Enable only the sources and collections that are actually needed.') ?>
+        </p>
+    </div>
+
     <?php foreach ($providers as $provider): ?>
         <fieldset class="form-group mb-4">
             <div class="row">
