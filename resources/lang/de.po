@@ -350,6 +350,10 @@ msgstr "2. Auswahl nach einzelnen Datenquellen"
 msgid "User-specific"
 msgstr "Nutzerspezifisch"
 
+#: resources/views/settings.phtml
+msgid "Overrides a bundled file"
+msgstr "Überschreibt eine mitgelieferte Datei"
+
 #~ msgid "Use csv file"
 #~ msgstr "Verwendung der csv-Datei"
 
