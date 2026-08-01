@@ -1,0 +1,15 @@
+########################################################
+## FORMAT: webtrees gramps-historical-facts
+## TOPIC: Geschichte der Familie Muster
+## LANGUAGE: de
+## REGION: Deutschland und Württemberg
+## VERSION: 1.0
+## AUTHOR: Erika Muster
+## CONTACT: erika.muster@example.com
+## LICENSE:
+## SOURCE: Familienchronik der Familie Muster
+## DESCRIPTION: Beispiel für nutzerdefinierte historische Familienereignisse
+########################################################
+From date;To date;Event text;Source link;Category
+1872;;Die Familie Muster zieht nach Stuttgart;;Familiengeschichte
+1901;1903;Das Familienhaus der Familie Muster wird gebaut;https://example.com/source;Familiengeschichte

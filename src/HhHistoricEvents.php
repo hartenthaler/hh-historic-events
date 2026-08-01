@@ -39,6 +39,8 @@ use function json_encode;
 use function md5;
 use function mkdir;
 use function redirect;
+use function realpath;
+use function rtrim;
 use function str_ends_with;
 use function substr;
 use function time;
@@ -243,7 +245,9 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
             'description' => $this->description(),
             'languages' => $this->adminLanguages(),
             'providers' => $this->adminProviders(),
-            'custom_data_folder' => $this->customDataFolder(),
+            'custom_data_folder' => $this->customDataFolderDisplay(),
+            'custom_csv_documentation_url' => self::CUSTOM_WEBSITE . 'blob/main/docs/custom-csv-format.md',
+            'custom_csv_example_url' => self::CUSTOM_WEBSITE . 'raw/main/docs/examples/custom-family-events-de.csv',
             'active_legacy_modules' => $this->activeLegacyModules(),
         ]);
     }
@@ -342,6 +346,13 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
     private function customDataFolder(): string
     {
         return Webtrees::DATA_DIR . 'modules/' . self::CUSTOM_MODULE . '/data/';
+    }
+
+    private function customDataFolderDisplay(): string
+    {
+        $resolvedFolder = realpath($this->customDataFolder());
+
+        return rtrim($resolvedFolder !== false ? $resolvedFolder : $this->customDataFolder(), '/\\') . DIRECTORY_SEPARATOR;
     }
 
     private function ensureCustomDataFolder(): void
