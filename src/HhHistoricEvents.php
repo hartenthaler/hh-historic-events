@@ -13,6 +13,7 @@ use Fisharebest\Webtrees\Module\ModuleCustomInterface;
 use Fisharebest\Webtrees\Module\ModuleCustomTrait;
 use Fisharebest\Webtrees\Module\ModuleHistoricEventsInterface;
 use Fisharebest\Webtrees\Module\ModuleHistoricEventsTrait;
+use Fisharebest\Webtrees\Services\ModuleService;
 use Fisharebest\Webtrees\View;
 use Fisharebest\Webtrees\Webtrees;
 use Hartenthaler\WebtreesModules\History\HhHistoricEvents\Http\HttpGetClient;
@@ -58,9 +59,17 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
     public const CUSTOM_LAST = 'https://github.com/' . self::CUSTOM_GITHUB_USER . '/' .
         self::CUSTOM_MODULE . '/raw/main/latest-version.txt';
     private const EVENTS_CACHE_TTL = 86400;
+    private const LEGACY_MODULE_NAMES = [
+        'german-wars-battles-worldwide',
+        'german-chancellors-presidents',
+        'swiss-historic-events',
+        'gramps-historical-facts',
+    ];
 
-    public function __construct(private readonly HttpGetClient $httpClient)
-    {
+    public function __construct(
+        private readonly HttpGetClient $httpClient,
+        private readonly ModuleService $moduleService
+    ) {
     }
 
     public function boot(): void
@@ -235,6 +244,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
             'languages' => $this->adminLanguages(),
             'providers' => $this->adminProviders(),
             'custom_data_folder' => $this->customDataFolder(),
+            'active_legacy_modules' => $this->activeLegacyModules(),
         ]);
     }
 
@@ -341,6 +351,28 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
         if (!is_dir($folder)) {
             @mkdir($folder, 0775, true);
         }
+    }
+
+    /**
+     * @return list<array{name:string,title:string}>
+     */
+    private function activeLegacyModules(): array
+    {
+        $activeModules = [];
+
+        foreach (self::LEGACY_MODULE_NAMES as $moduleName) {
+            $module = $this->moduleService->findByName($moduleName, true);
+            if ($module === null || !$module->isEnabled()) {
+                continue;
+            }
+
+            $activeModules[] = [
+                'name' => $moduleName,
+                'title' => $module->title(),
+            ];
+        }
+
+        return $activeModules;
     }
 
     private function providerIsEnabled(EventDataProviderInterface $provider): bool

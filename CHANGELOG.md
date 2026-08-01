@@ -2,6 +2,7 @@
 
 ## Next release
 
+- Warn administrators when superseded historic-event modules are still active and name the modules that must be removed.
 - Use the per-row category, file topic, and translated generic type in that order for Gramps event `TYPE` values.
 - Do not generate empty link notes for CSV events without a source URL.
 - Consolidated general usage, contribution, and testing guidance in the README.

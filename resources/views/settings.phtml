@@ -11,6 +11,7 @@ use Fisharebest\Webtrees\I18N;
  * @var array<int,array<string,mixed>> $languages
  * @var array<int,array<string,mixed>> $providers
  * @var string $custom_data_folder
+ * @var list<array{name:string,title:string}> $active_legacy_modules
  */
 ?>
 
@@ -20,6 +21,26 @@ use Fisharebest\Webtrees\I18N;
 
 <h1><?= e($title) ?></h1>
 <p><?= e($description) ?></p>
+
+<?php if ($active_legacy_modules !== []): ?>
+    <div class="alert alert-danger" role="alert">
+        <h2 class="h5 alert-heading"><?= I18N::translate('Superseded modules are active') ?></h2>
+        <p>
+            <?= I18N::translate('The following older modules are still active and provide data already included in this module:') ?>
+        </p>
+        <ul>
+            <?php foreach ($active_legacy_modules as $legacy_module): ?>
+                <li>
+                    <?= e($legacy_module['title']) ?>
+                    (<code><?= e($legacy_module['name']) ?></code>)
+                </li>
+            <?php endforeach ?>
+        </ul>
+        <p class="mb-0 fw-bold">
+            <?= I18N::translate('Disable these modules and delete their folders from modules_v4. Do not run them in parallel with this module.') ?>
+        </p>
+    </div>
+<?php endif ?>
 
 <div class="alert alert-info">
     <h2 class="h5"><?= I18N::translate('Custom CSV files') ?></h2>
