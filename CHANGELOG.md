@@ -2,6 +2,9 @@
 
 ## Next release
 
+- Use the per-row category, file topic, and translated generic type in that order for Gramps event `TYPE` values.
+- Do not generate empty link notes for CSV events without a source URL.
+- Consolidated general usage, contribution, and testing guidance in the README.
 - Added a persistent data directory for user-specific CSV files; custom files override bundled files with the same name.
 - Added an optional fifth CSV column for a per-event category used as GEDCOM `TYPE`.
 - Added metadata support for the content language and geographical region of custom CSV files.

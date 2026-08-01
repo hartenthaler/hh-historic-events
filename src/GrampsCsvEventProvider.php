@@ -232,18 +232,24 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
                 continue;
             }
 
+            $topic = $this->csvFileMetadata($file)['TOPIC'] ?? '';
+
             foreach ($this->loadCsvFile($file) as $event) {
                 $date = $event['toDate'] === ''
                     ? $event['fromDate']
                     : 'FROM ' . $event['fromDate'] . ' TO ' . $event['toDate'];
-                $eventType = $event['category'] !== '' ? $event['category'] : $defaultEventType;
-
-                $collection->push(
-                    '1 EVEN ' . $event['event'] .
+                $eventType = $event['category'] !== ''
+                    ? $event['category']
+                    : ($topic !== '' ? $topic : $defaultEventType);
+                $gedcom = '1 EVEN ' . $event['event'] .
                     "\n2 TYPE " . $eventType .
-                    "\n2 DATE " . $date .
-                    "\n2 NOTE [link](" . $event['link'] . ' )'
-                );
+                    "\n2 DATE " . $date;
+
+                if ($event['link'] !== '') {
+                    $gedcom .= "\n2 NOTE [link](" . $event['link'] . ' )';
+                }
+
+                $collection->push($gedcom);
             }
         }
 
@@ -451,7 +457,7 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
                 'fromDate' => $row[0] ?? '',
                 'toDate' => str_replace('Today', '', $row[1] ?? ''),
                 'event' => $row[2] ?? '',
-                'link' => $row[3] ?? '',
+                'link' => trim($row[3] ?? ''),
                 'category' => trim($row[4] ?? ''),
             ];
         }
