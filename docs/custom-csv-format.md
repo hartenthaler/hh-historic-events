@@ -8,6 +8,8 @@ data/modules/hh-historic-events/data/
 
 The exact server path is shown in the module settings. A custom file overrides a bundled file with the same filename. The files are UTF-8 encoded and use semicolons as column separators.
 
+A complete German example is available as [`custom-family-events-de.csv`](examples/custom-family-events-de.csv).
+
 ## Metadata Header
 
 New custom files should begin with this header:

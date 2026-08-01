@@ -11,6 +11,8 @@ use Fisharebest\Webtrees\I18N;
  * @var array<int,array<string,mixed>> $languages
  * @var array<int,array<string,mixed>> $providers
  * @var string $custom_data_folder
+ * @var string $custom_csv_documentation_url
+ * @var string $custom_csv_example_url
  * @var list<array{name:string,title:string}> $active_legacy_modules
  */
 ?>
@@ -53,6 +55,15 @@ use Fisharebest\Webtrees\I18N;
     </p>
     <p class="small mb-0">
         <?= I18N::translate('New custom files require FORMAT, TOPIC, and LANGUAGE metadata. REGION optionally describes the geographical region in the language of the file.') ?>
+    </p>
+    <p class="small mt-2 mb-0">
+        <a href="<?= e($custom_csv_documentation_url) ?>" target="_blank" rel="noopener noreferrer">
+            <?= I18N::translate('Custom CSV file format') ?>
+        </a>
+        ·
+        <a href="<?= e($custom_csv_example_url) ?>" target="_blank" rel="noopener noreferrer">
+            <?= I18N::translate('Download example CSV file') ?>
+        </a>
     </p>
 </div>
 
