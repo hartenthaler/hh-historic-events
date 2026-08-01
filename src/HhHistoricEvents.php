@@ -227,12 +227,14 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
     public function getAdminAction(ServerRequestInterface $request): ResponseInterface
     {
         $this->layout = 'layouts/administration';
+        $this->ensureCustomDataFolder();
 
         return $this->viewResponse($this->name() . '::settings', [
             'title' => $this->title(),
             'description' => $this->description(),
             'languages' => $this->adminLanguages(),
             'providers' => $this->adminProviders(),
+            'custom_data_folder' => $this->customDataFolder(),
         ]);
     }
 
@@ -320,7 +322,25 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
 
     private function providerFactory(): EventDataProviderFactory
     {
-        return new EventDataProviderFactory($this->resourcesFolder(), $this->httpClient);
+        return new EventDataProviderFactory(
+            $this->resourcesFolder(),
+            $this->customDataFolder(),
+            $this->httpClient
+        );
+    }
+
+    private function customDataFolder(): string
+    {
+        return Webtrees::DATA_DIR . 'modules/' . self::CUSTOM_MODULE . '/data/';
+    }
+
+    private function ensureCustomDataFolder(): void
+    {
+        $folder = $this->customDataFolder();
+
+        if (!is_dir($folder)) {
+            @mkdir($folder, 0775, true);
+        }
     }
 
     private function providerIsEnabled(EventDataProviderInterface $provider): bool

@@ -10,6 +10,7 @@ use Hartenthaler\WebtreesModules\History\HhHistoricEvents\Http\HttpGetClient;
 use Illuminate\Support\Collection;
 use Psr\Http\Client\ClientExceptionInterface;
 
+use function array_values;
 use function basename;
 use function dirname;
 use function file_exists;
@@ -26,12 +27,12 @@ use function is_dir;
 use function is_file;
 use function json_decode;
 use function json_encode;
+use function ksort;
 use function mkdir;
 use function pathinfo;
 use function preg_match;
 use function preg_replace;
 use function sprintf;
-use function str_ends_with;
 use function str_replace;
 use function str_starts_with;
 use function substr;
@@ -47,8 +48,11 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
     private const SOURCE_URL = 'https://github.com/kajmikkelsen/HistContext';
     private const SOURCE_CACHE_TTL = 86400;
 
+    /**
+     * @param list<string> $folders Folders in descending priority order
+     */
     public function __construct(
-        private readonly string $folder,
+        private readonly array $folders,
         private readonly HttpGetClient $httpClient
     ) {
     }
@@ -197,7 +201,7 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
     public function historicEvents(string $languageTag, array $enabledTypes): Collection
     {
         $collection = new Collection();
-        $eventType = I18N::translate('Historic event');
+        $defaultEventType = I18N::translate('Historic event');
 
         foreach ($this->csvFiles() as $file) {
             $typeId = pathinfo($file, PATHINFO_FILENAME);
@@ -209,6 +213,7 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
                 $date = $event['toDate'] === ''
                     ? $event['fromDate']
                     : 'FROM ' . $event['fromDate'] . ' TO ' . $event['toDate'];
+                $eventType = $event['category'] !== '' ? $event['category'] : $defaultEventType;
 
                 $collection->push(
                     '1 EVEN ' . $event['event'] .
@@ -227,16 +232,25 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
      */
     private function csvFiles(): array
     {
-        $files = [];
-        foreach (glob($this->folder . '*.csv') ?: [] as $file) {
-            if (str_ends_with($file, 'GermanChancellorsPresidents.csv')) {
-                continue;
-            }
+        $filesByName = [];
 
-            $files[] = $file;
+        // Folders are ordered by priority. Custom files therefore replace
+        // bundled files with the same basename without modifying the module.
+        foreach ($this->folders as $folder) {
+            foreach (glob($folder . '*.csv') ?: [] as $file) {
+                $fileName = basename($file);
+
+                if ($fileName === 'GermanChancellorsPresidents.csv' || isset($filesByName[$fileName])) {
+                    continue;
+                }
+
+                $filesByName[$fileName] = $file;
+            }
         }
 
-        return $files;
+        ksort($filesByName);
+
+        return array_values($filesByName);
     }
 
     /**
@@ -392,6 +406,7 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
                 'toDate' => str_replace('Today', '', $row[1] ?? ''),
                 'event' => $row[2] ?? '',
                 'link' => $row[3] ?? '',
+                'category' => trim($row[4] ?? ''),
             ];
         }
 

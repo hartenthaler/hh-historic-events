@@ -10,6 +10,7 @@ final class EventDataProviderFactory
 {
     public function __construct(
         private readonly string $resourcesFolder,
+        private readonly string $customDataFolder,
         private readonly HttpGetClient $httpClient
     ) {
     }
@@ -20,6 +21,7 @@ final class EventDataProviderFactory
     public function providers(): array
     {
         $dataFolder = $this->resourcesFolder . 'data/';
+        $bundledCsvFolder = $dataFolder . 'csv/';
 
         return [
             new TextGedcomEventProvider(
@@ -53,7 +55,7 @@ final class EventDataProviderFactory
                 ]
             ),
             new GermanChancellorsPresidentsCsvProvider(
-                $dataFolder . 'csv/GermanChancellorsPresidents.csv'
+                $this->preferredCsvFile('GermanChancellorsPresidents.csv', $bundledCsvFolder)
             ),
             new GermanChancellorsPresidentsWikidataProvider($this->httpClient),
             new TextGedcomEventProvider(
@@ -67,9 +69,16 @@ final class EventDataProviderFactory
                 ['historic-event-switzerland' => 'Historic event: Switzerland']
             ),
             new GrampsCsvEventProvider(
-                $dataFolder . 'csv/',
+                [$this->customDataFolder, $bundledCsvFolder],
                 $this->httpClient
             ),
         ];
+    }
+
+    private function preferredCsvFile(string $fileName, string $bundledCsvFolder): string
+    {
+        $customFile = $this->customDataFolder . $fileName;
+
+        return is_file($customFile) ? $customFile : $bundledCsvFolder . $fileName;
     }
 }

@@ -25,12 +25,23 @@ The semicolon-separated columns in these files are:
 * to date
 * event text
 * link to event
+* category (optional)
 
 Example:
 
 ```csv
-1789;1797;George Washington;https://wikipedia.org/wiki/George_Washington
+1789;1797;George Washington;https://wikipedia.org/wiki/George_Washington;Politics
 ```
+
+If the optional category is present, it is used as the GEDCOM `TYPE` of the historical event. Otherwise the translated standard type `Historic event` is used.
+
+Administrators can add or override CSV files in the persistent directory `data/modules/hh-historic-events/data/`. A custom file takes precedence over a bundled file with the same name. The exact server path is shown on the module settings page.
+
+An override of the special file `GermanChancellorsPresidents.csv` must retain the comma-separated structure of the bundled file. The general semicolon-separated format described above applies to the Gramps event files.
+
+### Reproducible parser check
+
+To verify backwards compatibility, create one custom file with four columns and another with five columns, enable both sources in the module settings, and open an individual's facts and events tab. The four-column event must use the translated default type `Historic event`; the five-column event must use its fifth column as the GEDCOM `TYPE`. Give one file the same name as a bundled CSV and verify that only the custom events are shown for that source.
 
 The file names use the `.csv` extension and follow the pattern `<locale>_data_v1_0.csv`, for example `da_DK_data_v1_0.csv` for events related to Denmark.
 

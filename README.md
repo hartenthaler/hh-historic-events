@@ -95,7 +95,7 @@ The module currently includes the following data sources.
   Stored as CSV files in `resources/data/csv/*_data_v1_0.csv` and related Gramps CSV files.
   See [provider documentation](docs/gramps-historical-facts.md).
 
-* **User-specific family events:** Administrators can add individual semicolon-separated CSV files to `resources/data/csv`. Each file is offered as a separately selectable record type by the Gramps CSV provider. The supported columns are the start date, end date, event text, and an optional source link. A `## TOPIC:` header can provide a descriptive label for the file. Because this directory belongs to the module, locally added files should be backed up before an upgrade. A persistent data-directory interface is being evaluated separately.
+* **User-specific family events:** Administrators can add individual semicolon-separated CSV files to `data/modules/hh-historic-events/data/`. Each file is offered as a separately selectable record type by the Gramps CSV provider. The supported columns are the start date, end date, event text, source link, and an optional category. A `## TOPIC:` header can provide a descriptive label for the file. Files in this persistent directory survive module upgrades and override bundled CSV files with the same name.
 
 <a name="Configuration"></a>
 ## ⚙️ Configuration

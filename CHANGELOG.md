@@ -2,7 +2,9 @@
 
 ## Next release
 
-- Documented individual CSV files as a source for user-specific family events and clarified their current upgrade implications.
+- Added a persistent data directory for user-specific CSV files; custom files override bundled files with the same name.
+- Added an optional fifth CSV column for a per-event category used as GEDCOM `TYPE`.
+- Documented individual CSV files as a source for user-specific family events.
 - Added the GitHub download-count badge to the README.
 - Added a shared PSR-18 HTTP adapter for remote event providers.
 - Use the webtrees service-container HTTP client under webtrees 2.3 and retain an isolated Guzzle PSR-18 fallback for webtrees 2.2.6.
