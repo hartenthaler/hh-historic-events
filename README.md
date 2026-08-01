@@ -1,6 +1,7 @@
 # 📜 **webtrees** module for Historic Events (hh-historic-events)
 
 ![Latest Release](https://img.shields.io/github/v/release/hartenthaler/hh-historic-events)
+![Downloads](https://img.shields.io/github/downloads/hartenthaler/hh-historic-events/total)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 
 ![webtrees major version](https://img.shields.io/badge/webtrees-v2.1.x-green)
@@ -40,6 +41,7 @@ The module currently combines data from
 * `german-chancellors-presidents`
 * `swiss-historic-events`
 * `gramps-historical-facts`
+* user-specific family events from individual CSV files
 
 <a name="Scope"></a>
 ## 🔎 Scope
@@ -64,6 +66,7 @@ The module supports
 * selectable record types inside each data source
 * GEDCOM text files for large legacy event lists
 * CSV files for structured historic-event data
+* individual CSV files for user-specific family events
 * optional Wikidata source for German chancellors and presidents
 * local file cache for Wikidata responses
 * gettext translations reused from the earlier modules where available
@@ -91,6 +94,8 @@ The module currently includes the following data sources.
 * **Gramps Historical Facts**  
   Stored as CSV files in `resources/data/csv/*_data_v1_0.csv` and related Gramps CSV files.
   See [provider documentation](docs/gramps-historical-facts.md).
+
+* **User-specific family events:** Administrators can add individual semicolon-separated CSV files to `resources/data/csv`. Each file is offered as a separately selectable record type by the Gramps CSV provider. The supported columns are the start date, end date, event text, and an optional source link. A `## TOPIC:` header can provide a descriptive label for the file. Because this directory belongs to the module, locally added files should be backed up before an upgrade. A persistent data-directory interface is being evaluated separately.
 
 <a name="Configuration"></a>
 ## ⚙️ Configuration
