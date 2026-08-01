@@ -338,6 +338,18 @@ msgstr "Format eigener CSV-Dateien"
 msgid "Download example CSV file"
 msgstr "CSV-Musterdatei herunterladen"
 
+#: resources/views/settings.phtml
+msgid "1. Selection by language"
+msgstr "1. Auswahl nach Sprache"
+
+#: resources/views/settings.phtml
+msgid "2. Selection by individual data sources"
+msgstr "2. Auswahl nach einzelnen Datenquellen"
+
+#: resources/views/settings.phtml
+msgid "User-specific"
+msgstr "Nutzerspezifisch"
+
 #~ msgid "Use csv file"
 #~ msgstr "Verwendung der csv-Datei"
 

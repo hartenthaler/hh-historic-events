@@ -221,6 +221,24 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
         return true;
     }
 
+    public function typeIsCustom(string $typeId): bool
+    {
+        $customFolder = $this->folders[0] ?? '';
+
+        return $customFolder !== '' && is_file($customFolder . $typeId . '.csv');
+    }
+
+    public function hasCustomTypes(): bool
+    {
+        foreach ($this->csvFiles() as $file) {
+            if ($this->typeIsCustom(pathinfo($file, PATHINFO_FILENAME))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function historicEvents(string $languageTag, array $enabledTypes): Collection
     {
         $collection = new Collection();
