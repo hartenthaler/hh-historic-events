@@ -174,6 +174,8 @@ To update the module, replace the `hh-historic-events` files with the files from
 
 If new data sources or record types are added, review the module settings after the upgrade.
 
+This combined module replaces `german-wars-battles-worldwide`, `german-chancellors-presidents`, `swiss-historic-events`, and `gramps-historical-facts`. Do not operate these older modules in parallel. Disable them and delete their folders from `modules_v4`; the administration page displays a prominent warning while any of them remains active.
+
 <a name="Translation"></a>
 ## 🌍 Translation
 

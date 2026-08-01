@@ -314,6 +314,22 @@ msgstr ""
 "Neue eigene Dateien benötigen die Metadaten FORMAT, TOPIC und LANGUAGE. "
 "REGION beschreibt optional die geografische Region in der Sprache der Datei."
 
+#: resources/views/settings.phtml
+msgid "Superseded modules are active"
+msgstr "Ersetzte Module sind aktiv"
+
+#: resources/views/settings.phtml
+msgid "The following older modules are still active and provide data already included in this module:"
+msgstr ""
+"Die folgenden älteren Module sind noch aktiv und liefern Daten, die bereits "
+"in diesem Modul enthalten sind:"
+
+#: resources/views/settings.phtml
+msgid "Disable these modules and delete their folders from modules_v4. Do not run them in parallel with this module."
+msgstr ""
+"Deaktivieren Sie diese Module und löschen Sie ihre Ordner aus modules_v4. "
+"Betreiben Sie sie nicht parallel zu diesem Modul."
+
 #~ msgid "Use csv file"
 #~ msgstr "Verwendung der csv-Datei"
 
