@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Hartenthaler\WebtreesModules\History\HhHistoricEvents;
 
 use Composer\Autoload\ClassLoader;
+use Hartenthaler\WebtreesModules\History\HhHistoricEvents\Http\HttpGetClientFactory;
 
 $loader = new ClassLoader();
 
@@ -13,4 +14,4 @@ $loader->addPsr4('Hartenthaler\\Webtrees\\Helpers\\', __DIR__ . '/vendor/Hartent
 
 $loader->register();
 
-return new HhHistoricEvents();
+return new HhHistoricEvents(HttpGetClientFactory::create());

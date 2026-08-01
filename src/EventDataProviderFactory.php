@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Hartenthaler\WebtreesModules\History\HhHistoricEvents;
 
+use Hartenthaler\WebtreesModules\History\HhHistoricEvents\Http\HttpGetClient;
+
 final class EventDataProviderFactory
 {
-    public function __construct(private readonly string $resourcesFolder)
-    {
+    public function __construct(
+        private readonly string $resourcesFolder,
+        private readonly HttpGetClient $httpClient
+    ) {
     }
 
     /**
@@ -51,7 +55,7 @@ final class EventDataProviderFactory
             new GermanChancellorsPresidentsCsvProvider(
                 $dataFolder . 'csv/GermanChancellorsPresidents.csv'
             ),
-            new GermanChancellorsPresidentsWikidataProvider(),
+            new GermanChancellorsPresidentsWikidataProvider($this->httpClient),
             new TextGedcomEventProvider(
                 'swiss-historic-events',
                 'Historic Events: Switzerland',
@@ -63,7 +67,8 @@ final class EventDataProviderFactory
                 ['historic-event-switzerland' => 'Historic event: Switzerland']
             ),
             new GrampsCsvEventProvider(
-                $dataFolder . 'csv/'
+                $dataFolder . 'csv/',
+                $this->httpClient
             ),
         ];
     }

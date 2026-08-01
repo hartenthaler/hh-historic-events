@@ -6,9 +6,9 @@ namespace Hartenthaler\WebtreesModules\History\HhHistoricEvents;
 
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Webtrees;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
+use Hartenthaler\WebtreesModules\History\HhHistoricEvents\Http\HttpGetClient;
 use Illuminate\Support\Collection;
+use Psr\Http\Client\ClientExceptionInterface;
 
 use function basename;
 use function dirname;
@@ -47,8 +47,10 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
     private const SOURCE_URL = 'https://github.com/kajmikkelsen/HistContext';
     private const SOURCE_CACHE_TTL = 86400;
 
-    public function __construct(private readonly string $folder)
-    {
+    public function __construct(
+        private readonly string $folder,
+        private readonly HttpGetClient $httpClient
+    ) {
     }
 
     public function id(): string
@@ -271,12 +273,10 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
         }
 
         try {
-            $client = new Client(['timeout' => 5]);
-            $response = $client->get(self::SOURCE_API_URL, [
-                'headers' => ['User-Agent' => 'hh-historic-events'],
-            ]);
-            $files = json_decode($response->getBody()->getContents(), true);
-        } catch (GuzzleException) {
+            $files = json_decode($this->httpClient->get(self::SOURCE_API_URL, [
+                'User-Agent' => 'hh-historic-events',
+            ]), true);
+        } catch (ClientExceptionInterface) {
             return [];
         }
 

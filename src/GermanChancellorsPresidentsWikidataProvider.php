@@ -7,9 +7,9 @@ namespace Hartenthaler\WebtreesModules\History\HhHistoricEvents;
 use DateTime;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Webtrees;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
+use Hartenthaler\WebtreesModules\History\HhHistoricEvents\Http\HttpGetClient;
 use Illuminate\Support\Collection;
+use Psr\Http\Client\ClientExceptionInterface;
 
 use function date;
 use function dirname;
@@ -29,6 +29,10 @@ use function urlencode;
 
 final class GermanChancellorsPresidentsWikidataProvider implements EventDataProviderInterface
 {
+    public function __construct(private readonly HttpGetClient $httpClient)
+    {
+    }
+
     public function id(): string
     {
         return 'german-chancellors-presidents-wikidata';
@@ -105,7 +109,7 @@ final class GermanChancellorsPresidentsWikidataProvider implements EventDataProv
 
             try {
                 $persons = $this->getOfficeHolders($wikidataObject, $wikipedia);
-            } catch (GuzzleException) {
+            } catch (ClientExceptionInterface) {
                 continue;
             }
 
@@ -158,7 +162,7 @@ final class GermanChancellorsPresidentsWikidataProvider implements EventDataProv
      * @param array{0:string,1:string,2:string} $wikidataObject
      *
      * @return object[]
-     * @throws GuzzleException
+     * @throws ClientExceptionInterface
      */
     private function getOfficeHolders(array $wikidataObject, string $wikipediaLanguage): array
     {
@@ -215,7 +219,7 @@ final class GermanChancellorsPresidentsWikidataProvider implements EventDataProv
     }
 
     /**
-     * @throws GuzzleException
+     * @throws ClientExceptionInterface
      */
     private function readWikidata(string $query): string
     {
@@ -230,8 +234,9 @@ final class GermanChancellorsPresidentsWikidataProvider implements EventDataProv
             }
         }
 
-        $client = new Client(['timeout' => 15]);
-        $data = $client->get($url)->getBody()->getContents();
+        $data = $this->httpClient->get($url, [
+            'User-Agent' => 'hh-historic-events/0.1 (+https://github.com/hartenthaler/hh-historic-events)',
+        ]);
 
         $cacheDirectory = dirname($cacheFile);
         if (!is_dir($cacheDirectory)) {

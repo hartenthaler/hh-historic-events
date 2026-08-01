@@ -5,6 +5,7 @@
 
 ![webtrees major version](https://img.shields.io/badge/webtrees-v2.1.x-green)
 ![webtrees major version](https://img.shields.io/badge/webtrees-v2.2.x-green)
+![webtrees major version](https://img.shields.io/badge/webtrees-v2.3.x-green)
 
 This [webtrees](https://www.webtrees.net) custom module provides selectable historical events for the webtrees timeline.
 It combines several earlier historic-event modules into one configurable module, so shared improvements can be maintained in one place.
@@ -122,14 +123,15 @@ Historic data is loaded through provider classes:
 The `EventDataProviderFactory` creates the available providers.
 New historical topics can be added by creating another provider and registering it in the factory.
 
+Remote data sources use a small module-owned PSR-18 adapter. Under webtrees 2.3, the adapter obtains the HTTP client and request factory from the webtrees service container. Under webtrees 2.2.6, the factory uses the bundled Guzzle implementation through the same PSR interfaces. Translation catalogs are loaded through the stream API of webtrees 2.3 or the file-based localization API of webtrees 2.2.
+
 <a name="Requirements"></a>
 ## 📌 Requirements
 
 This module requires **webtrees** version 2.1 or later.
 It has the same system requirements as [webtrees](https://github.com/fisharebest/webtrees#system-requirements).
 
-The current development version is tested with **webtrees** 2.2.6
-and all available themes and custom modules.
+The current development version targets **webtrees** 2.2.6 and 2.3 with one shared codebase. Compatibility with the final webtrees 2.3 APIs will be checked again when a beta release is available.
 
 The optional Wikidata source requires outbound HTTPS access from the web server.
 

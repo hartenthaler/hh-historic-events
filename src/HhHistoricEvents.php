@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Hartenthaler\WebtreesModules\History\HhHistoricEvents;
 
-use Fisharebest\Localization\Translation;
 use Fisharebest\Webtrees\FlashMessages;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Module\AbstractModule;
@@ -16,6 +15,7 @@ use Fisharebest\Webtrees\Module\ModuleHistoricEventsInterface;
 use Fisharebest\Webtrees\Module\ModuleHistoricEventsTrait;
 use Fisharebest\Webtrees\View;
 use Fisharebest\Webtrees\Webtrees;
+use Hartenthaler\WebtreesModules\History\HhHistoricEvents\Http\HttpGetClient;
 use Illuminate\Support\Collection;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -27,6 +27,8 @@ use function file_exists;
 use function file_get_contents;
 use function file_put_contents;
 use function filemtime;
+use function fclose;
+use function fopen;
 use function implode;
 use function is_array;
 use function is_dir;
@@ -36,6 +38,7 @@ use function json_encode;
 use function md5;
 use function mkdir;
 use function redirect;
+use function str_ends_with;
 use function substr;
 use function time;
 
@@ -55,6 +58,10 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
     public const CUSTOM_LAST = 'https://github.com/' . self::CUSTOM_GITHUB_USER . '/' .
         self::CUSTOM_MODULE . '/raw/main/latest-version.txt';
     private const EVENTS_CACHE_TTL = 86400;
+
+    public function __construct(private readonly HttpGetClient $httpClient)
+    {
+    }
 
     public function boot(): void
     {
@@ -159,12 +166,34 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
             $poFile = $this->resourcesFolder() . 'lang/' . $languageFile . '.po';
             $moFile = $this->resourcesFolder() . 'lang/' . $languageFile . '.mo';
 
-            if (is_file($poFile)) {
-                return (new Translation($poFile))->asArray();
-            }
+            foreach ([$moFile, $poFile] as $file) {
+                if (!is_file($file)) {
+                    continue;
+                }
 
-            if (is_file($moFile)) {
-                return (new Translation($moFile))->asArray();
+                // webtrees 2.3 uses its own stream-based translation loader.
+                if (class_exists(\Fisharebest\Webtrees\I18N\Translation::class)) {
+                    $stream = fopen($file, 'rb');
+
+                    if ($stream === false) {
+                        continue;
+                    }
+
+                    try {
+                        $translation = str_ends_with($file, '.mo')
+                            ? \Fisharebest\Webtrees\I18N\Translation::fromMoStream($stream)
+                            : \Fisharebest\Webtrees\I18N\Translation::fromPoStream($stream);
+
+                        return $translation->toArray();
+                    } finally {
+                        fclose($stream);
+                    }
+                }
+
+                // webtrees 2.2 uses the former file-based localization package.
+                if (class_exists(\Fisharebest\Localization\Translation::class)) {
+                    return (new \Fisharebest\Localization\Translation($file))->asArray();
+                }
             }
         }
 
@@ -291,7 +320,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
 
     private function providerFactory(): EventDataProviderFactory
     {
-        return new EventDataProviderFactory($this->resourcesFolder());
+        return new EventDataProviderFactory($this->resourcesFolder(), $this->httpClient);
     }
 
     private function providerIsEnabled(EventDataProviderInterface $provider): bool
