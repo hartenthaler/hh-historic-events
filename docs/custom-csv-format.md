@@ -65,7 +65,9 @@ Example:
 * `end date` is empty for a single date. `Today` is accepted for compatibility and treated as an open end.
 * `event text` contains the historical statement in the language declared by `LANGUAGE`.
 * `source link` contains an optional URL for the individual event.
-* `category` is optional. If present, it becomes the GEDCOM `TYPE`; otherwise the translated default type `Historic event` is used.
+* `category` is optional. If present, it becomes the GEDCOM `TYPE`; otherwise the file's `TOPIC` is used. The translated default type `Historic event` is used only when both are empty.
+
+No GEDCOM `NOTE` is generated when `source link` is empty.
 
 Lines beginning with `#` and empty lines are ignored. A column-title row beginning with `From date;To date` is optional and ignored by the parser.
 
