@@ -233,8 +233,8 @@ msgid "Head of former state GDR"
 msgstr "Staatsoberhaupt der DDR"
 
 #: src/GrampsCsvEventProvider.php
-msgid "Historical facts from the Gramps HistContext collection and CSV files provided by website administrators."
-msgstr "Historische Fakten aus der Gramps-HistContext-Sammlung und aus CSV-Dateien, die von Website-Administratoren bereitgestellt werden."
+msgid "Historical facts from the Gramps HistContext collection and CSV files provided by administrators or webmasters."
+msgstr "Historische Fakten aus der Gramps-HistContext-Sammlung und aus CSV-Dateien, die von Administratoren bzw. Webmastern bereitgestellt werden."
 
 #: src/GrampsCsvEventProvider.php
 msgid "Gramps HistContext repository (bundled files)"

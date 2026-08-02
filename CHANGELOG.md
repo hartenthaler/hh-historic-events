@@ -4,6 +4,7 @@
 
 - Keep submitted custom CSV editor values after validation failures, omit only invalid dates, validate date order and the supported Gregorian period, and refine the date-field presentation.
 - Complete extensionless custom filenames with `.csv`, show the Gramps filename convention as the example, and present language before topic and region in the metadata editor.
+- Distinguish administrators from webmasters when describing who can provide custom CSV files.
 - Refine the custom CSV editor with webtrees language selection, localized Gregorian date entry at year, month, or day precision, explicit metadata translations, and a save-as workflow that preserves unsaved changes.
 - Add administration file management and a five-column editor for user-specific Gramps-compatible CSV collections, including create, copy, delete, and cache invalidation actions.
 - Describe collections by geographical region without adding another selection filter, and identify Wikidata events as dynamically localized.
