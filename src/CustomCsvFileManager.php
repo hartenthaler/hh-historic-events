@@ -7,9 +7,12 @@ namespace Hartenthaler\WebtreesModules\History\HhHistoricEvents;
 use RuntimeException;
 
 use function array_fill;
+use function array_search;
 use function array_slice;
 use function basename;
+use function checkdate;
 use function fclose;
+use function date;
 use function fgetcsv;
 use function file_get_contents;
 use function file_put_contents;
@@ -25,6 +28,8 @@ use function mkdir;
 use function pathinfo;
 use function preg_match;
 use function str_starts_with;
+use function strcasecmp;
+use function strtoupper;
 use function stream_get_contents;
 use function trim;
 use function unlink;
@@ -103,8 +108,8 @@ final class CustomCsvFileManager
 
             $values = array_slice($row + array_fill(0, 5, ''), 0, 5);
             $rows[] = [
-                'from_date' => (string) $values[0],
-                'to_date' => (string) $values[1],
+                'from_date' => $this->dateForEditor((string) $values[0]),
+                'to_date' => $this->dateForEditor((string) $values[1]),
                 'event' => (string) $values[2],
                 'link' => (string) $values[3],
                 'category' => (string) $values[4],
@@ -148,8 +153,8 @@ final class CustomCsvFileManager
 
         foreach ($rows as $row) {
             $values = [
-                $this->singleLine($row['from_date'] ?? ''),
-                $this->singleLine($row['to_date'] ?? ''),
+                $this->canonicalDate($row['from_date'] ?? ''),
+                $this->canonicalDate($row['to_date'] ?? ''),
                 $this->singleLine($row['event'] ?? ''),
                 $this->singleLine($row['link'] ?? ''),
                 $this->singleLine($row['category'] ?? ''),
@@ -172,24 +177,22 @@ final class CustomCsvFileManager
     /** @param array<string,string> $metadata */
     public function create(string $filename, array $metadata): void
     {
+        $this->saveAs($filename, $metadata, []);
+    }
+
+    /**
+     * @param array<string,string> $metadata
+     * @param list<array{from_date:string,to_date:string,event:string,link:string,category:string}> $rows
+     */
+    public function saveAs(string $filename, array $metadata, array $rows): void
+    {
         $filename = $this->filename($filename);
         if (is_file($this->path($filename))) {
             throw new RuntimeException('A CSV file with this name already exists.');
         }
 
         $this->ensureFolder();
-        $this->save($filename, $metadata, []);
-    }
-
-    public function copy(string $sourceFilename, string $targetFilename): void
-    {
-        $source = $this->read($sourceFilename);
-        $targetFilename = $this->filename($targetFilename);
-        if (is_file($this->path($targetFilename))) {
-            throw new RuntimeException('A CSV file with this name already exists.');
-        }
-
-        $this->save($targetFilename, $source['metadata'], $source['rows']);
+        $this->save($filename, $metadata, $rows);
     }
 
     public function delete(string $filename): void
@@ -233,5 +236,62 @@ final class CustomCsvFileManager
     private function singleLine(string $value): string
     {
         return trim((string) preg_replace('/[\x00-\x1F\x7F]+/u', ' ', $value));
+    }
+
+    private function dateForEditor(string $value): string
+    {
+        try {
+            return $this->canonicalDate($value);
+        } catch (RuntimeException) {
+            return $this->singleLine($value);
+        }
+    }
+
+    private function canonicalDate(string $value): string
+    {
+        $value = $this->singleLine($value);
+        if ($value === '') {
+            return '';
+        }
+        if (strcasecmp($value, 'Today') === 0) {
+            return strtoupper(date('j M Y'));
+        }
+        if (preg_match('/\A(\d{4})-(\d{2})-(\d{2})\z/', $value, $matches) === 1) {
+            $year = (int) $matches[1];
+            $month = (int) $matches[2];
+            $day = (int) $matches[3];
+            if (!checkdate($month, $day, $year)) {
+                throw new RuntimeException('Use a valid Gregorian date without a range or qualifier.');
+            }
+
+            return $day . ' ' . $this->monthName($month) . ' ' . $year;
+        }
+
+        $value = strtoupper($value);
+        if (preg_match('/\A[1-9]\d{0,3}\z/', $value) === 1) {
+            return $value;
+        }
+        if (preg_match('/\A(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC) ([1-9]\d{0,3})\z/', $value) === 1) {
+            return $value;
+        }
+        if (preg_match('/\A(\d{1,2}) (JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC) ([1-9]\d{0,3})\z/', $value, $matches) === 1) {
+            if (!checkdate($this->monthNumber($matches[2]), (int) $matches[1], (int) $matches[3])) {
+                throw new RuntimeException('Use a valid Gregorian date without a range or qualifier.');
+            }
+
+            return (int) $matches[1] . ' ' . $matches[2] . ' ' . (int) $matches[3];
+        }
+
+        throw new RuntimeException('Use a valid Gregorian date without a range or qualifier.');
+    }
+
+    private function monthName(int $month): string
+    {
+        return [1 => 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'][$month];
+    }
+
+    private function monthNumber(string $month): int
+    {
+        return (int) array_search($month, [1 => 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'], true);
     }
 }

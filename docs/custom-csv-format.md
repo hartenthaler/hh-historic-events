@@ -12,7 +12,9 @@ The exact server path is shown in the module settings. A custom file overrides a
 
 The module settings include a file manager and a five-column table editor for these administrator-provided files. Administrators can create, edit, copy, and delete them without direct filesystem access. Saving a file clears the module's generated event cache. Bundled collections and the separate German chancellors/presidents CSV provider cannot be changed with this editor.
 
-Each language variant is stored as its own CSV file. The file manager can copy an existing collection to a new filename; the administrator then changes its `LANGUAGE` metadata and translates its event rows. The module does not synchronize the contents of separate language files.
+The editor uses the active webtrees languages for `LANGUAGE`. Date fields accept the usual input order of the current webtrees language and use the core webtrees date reformatting behavior. The editor stores simple Gregorian GEDCOM dates such as `30 JAN 1900`; it does not offer calendars, date ranges, or qualifiers such as `ABT` and `CAL`.
+
+Each language variant is stored as its own CSV file. "Save current changes as a new file" writes the complete current form state to the new filename without changing the original file; the administrator can change its `LANGUAGE` metadata and translate its event rows before using this action. The module does not synchronize the contents of separate language files.
 
 A complete German example is available as [`custom-family-events-de.csv`](examples/custom-family-events-de.csv).
 
