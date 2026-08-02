@@ -10,6 +10,10 @@ data/modules/hh-historic-events/data/
 
 The exact server path is shown in the module settings. A custom file overrides a bundled file with the same filename. The files are UTF-8 encoded and use semicolons as column separators.
 
+The module settings include a file manager and a five-column table editor for these administrator-provided files. Administrators can create, edit, copy, and delete them without direct filesystem access. Saving a file clears the module's generated event cache. Bundled collections and the separate German chancellors/presidents CSV provider cannot be changed with this editor.
+
+Each language variant is stored as its own CSV file. The file manager can copy an existing collection to a new filename; the administrator then changes its `LANGUAGE` metadata and translates its event rows. The module does not synchronize the contents of separate language files.
+
 A complete German example is available as [`custom-family-events-de.csv`](examples/custom-family-events-de.csv).
 
 ## Metadata Header

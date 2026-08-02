@@ -14,6 +14,8 @@ use Fisharebest\Webtrees\I18N;
  * @var string $custom_csv_documentation_url
  * @var string $custom_csv_example_url
  * @var list<array{name:string,title:string}> $active_legacy_modules
+ * @var list<array{filename:string,topic:string,language:string,region:string,edit_url:string}> $custom_csv_files
+ * @var array{filename:string,metadata:array<string,string>,rows:list<array<string,string>>}|null $selected_custom_csv
  */
 ?>
 
@@ -66,6 +68,219 @@ use Fisharebest\Webtrees\I18N;
         </a>
     </p>
 </div>
+
+<section class="mb-5">
+    <h2 class="h3"><?= I18N::translate('Manage custom CSV files') ?></h2>
+    <p class="text-muted">
+        <?= I18N::translate('Only administrator-provided CSV files in the persistent data directory can be changed here. Bundled collections remain read-only.') ?>
+    </p>
+
+    <?php if ($custom_csv_files === []): ?>
+        <p><?= I18N::translate('No custom CSV files are available.') ?></p>
+    <?php else: ?>
+        <div class="table-responsive mb-4">
+            <table class="table table-sm table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th><?= I18N::translate('File') ?></th>
+                        <th><?= I18N::translate('Topic') ?></th>
+                        <th><?= I18N::translate('Language') ?></th>
+                        <th><?= I18N::translate('Region') ?></th>
+                        <th><span class="visually-hidden"><?= I18N::translate('Action') ?></span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($custom_csv_files as $custom_csv_file): ?>
+                        <tr>
+                            <td><code><?= e($custom_csv_file['filename']) ?></code></td>
+                            <td><?= e($custom_csv_file['topic']) ?></td>
+                            <td><?= e($custom_csv_file['language']) ?></td>
+                            <td><?= e($custom_csv_file['region']) ?></td>
+                            <td class="text-end">
+                                <a class="btn btn-sm btn-outline-primary" href="<?= e($custom_csv_file['edit_url']) ?>">
+                                    <?= view('icons/edit') ?>
+                                    <?= I18N::translate('edit') ?>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endforeach ?>
+                </tbody>
+            </table>
+        </div>
+    <?php endif ?>
+
+    <form method="post" class="border p-3 mb-4">
+        <?= csrf_field() ?>
+        <h3 class="h5"><?= I18N::translate('Create a custom CSV file') ?></h3>
+        <div class="row g-3 align-items-end">
+            <div class="col-md-4">
+                <label class="form-label" for="new_filename"><?= I18N::translate('Filename') ?></label>
+                <input class="form-control" id="new_filename" name="new_filename" type="text" required pattern="[A-Za-z0-9][A-Za-z0-9._-]*\.csv" placeholder="family-history-de.csv">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label" for="new_topic"><?= I18N::translate('Topic') ?></label>
+                <input class="form-control" id="new_topic" name="metadata[TOPIC]" type="text" required>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label" for="new_language"><?= I18N::translate('Language') ?></label>
+                <input class="form-control" id="new_language" name="metadata[LANGUAGE]" type="text" required placeholder="de">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label" for="new_region"><?= I18N::translate('Region') ?></label>
+                <input class="form-control" id="new_region" name="metadata[REGION]" type="text">
+            </div>
+        </div>
+        <button class="btn btn-primary mt-3" name="action" type="submit" value="create-custom-csv">
+            <i class="fa-solid fa-file-circle-plus" aria-hidden="true"></i>
+            <?= I18N::translate('Create file') ?>
+        </button>
+    </form>
+
+    <?php if ($selected_custom_csv !== null): ?>
+        <?php
+        $metadata_labels = [
+            'TOPIC' => I18N::translate('Topic'),
+            'LANGUAGE' => I18N::translate('Language'),
+            'REGION' => I18N::translate('Region'),
+            'VERSION' => I18N::translate('Version'),
+            'AUTHOR' => I18N::translate('Author'),
+            'CONTACT' => I18N::translate('Contact'),
+            'LICENSE' => I18N::translate('License'),
+            'SOURCE' => I18N::translate('Source'),
+            'DESCRIPTION' => I18N::translate('Description'),
+        ];
+        $editor_rows = $selected_custom_csv['rows'];
+        $editor_rows[] = ['from_date' => '', 'to_date' => '', 'event' => '', 'link' => '', 'category' => ''];
+        ?>
+        <form method="post" class="border p-3 mb-3" id="custom-csv-editor">
+            <?= csrf_field() ?>
+            <input name="filename" type="hidden" value="<?= e($selected_custom_csv['filename']) ?>">
+            <h3 class="h4"><?= I18N::translate('Edit custom CSV file') ?>: <code><?= e($selected_custom_csv['filename']) ?></code></h3>
+
+            <div class="row g-3 mb-4">
+                <?php foreach ($metadata_labels as $metadata_key => $metadata_label): ?>
+                    <div class="col-md-6 col-lg-4">
+                        <label class="form-label" for="metadata_<?= e(strtolower($metadata_key)) ?>"><?= e($metadata_label) ?></label>
+                        <input
+                            class="form-control"
+                            id="metadata_<?= e(strtolower($metadata_key)) ?>"
+                            name="metadata[<?= e($metadata_key) ?>]"
+                            type="text"
+                            value="<?= e($selected_custom_csv['metadata'][$metadata_key] ?? '') ?>"
+                            <?= $metadata_key === 'TOPIC' || $metadata_key === 'LANGUAGE' ? 'required' : '' ?>
+                        >
+                    </div>
+                <?php endforeach ?>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-sm align-middle" id="custom-csv-rows">
+                    <thead>
+                        <tr>
+                            <th><?= I18N::translate('Start date') ?></th>
+                            <th><?= I18N::translate('End date') ?></th>
+                            <th><?= I18N::translate('Event text') ?></th>
+                            <th><?= I18N::translate('Source link') ?></th>
+                            <th><?= I18N::translate('Category') ?></th>
+                            <th><span class="visually-hidden"><?= I18N::translate('Action') ?></span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($editor_rows as $row_index => $editor_row): ?>
+                            <tr>
+                                <?php foreach (['from_date', 'to_date', 'event', 'link', 'category'] as $column): ?>
+                                    <td>
+                                        <input class="form-control form-control-sm" name="rows[<?= $row_index ?>][<?= e($column) ?>]" type="text" value="<?= e($editor_row[$column]) ?>">
+                                    </td>
+                                <?php endforeach ?>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-danger js-remove-csv-row" type="button" title="<?= e(I18N::translate('Delete row')) ?>">
+                                        <?= view('icons/delete') ?>
+                                        <span class="visually-hidden"><?= I18N::translate('Delete row') ?></span>
+                                    </button>
+                                </td>
+                            </tr>
+                        <?php endforeach ?>
+                    </tbody>
+                </table>
+            </div>
+
+            <button class="btn btn-outline-secondary" id="add-custom-csv-row" type="button">
+                <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                <?= I18N::translate('Add row') ?>
+            </button>
+            <button class="btn btn-primary" name="action" type="submit" value="save-custom-csv">
+                <?= view('icons/save') ?>
+                <?= I18N::translate('save') ?>
+            </button>
+        </form>
+
+        <div class="d-flex flex-wrap gap-3 mb-4">
+            <form method="post" class="d-flex gap-2 align-items-end">
+                <?= csrf_field() ?>
+                <input name="filename" type="hidden" value="<?= e($selected_custom_csv['filename']) ?>">
+                <div>
+                    <label class="form-label" for="copy_filename"><?= I18N::translate('New filename') ?></label>
+                    <input class="form-control" id="copy_filename" name="copy_filename" type="text" required pattern="[A-Za-z0-9][A-Za-z0-9._-]*\.csv">
+                </div>
+                <button class="btn btn-outline-primary" name="action" type="submit" value="copy-custom-csv">
+                    <i class="fa-solid fa-copy" aria-hidden="true"></i>
+                    <?= I18N::translate('Copy file') ?>
+                </button>
+            </form>
+            <form method="post" class="align-self-end" onsubmit="return window.confirm(this.dataset.confirm)" data-confirm="<?= e(I18N::translate('Do you really want to delete this custom CSV file?')) ?>">
+                <?= csrf_field() ?>
+                <input name="filename" type="hidden" value="<?= e($selected_custom_csv['filename']) ?>">
+                <button class="btn btn-danger" name="action" type="submit" value="delete-custom-csv">
+                    <?= view('icons/delete') ?>
+                    <?= I18N::translate('Delete file') ?>
+                </button>
+            </form>
+        </div>
+
+        <template id="custom-csv-row-template">
+            <tr>
+                <?php foreach (['from_date', 'to_date', 'event', 'link', 'category'] as $column): ?>
+                    <td><input class="form-control form-control-sm" data-name="<?= e($column) ?>" type="text"></td>
+                <?php endforeach ?>
+                <td>
+                    <button class="btn btn-sm btn-outline-danger js-remove-csv-row" type="button" title="<?= e(I18N::translate('Delete row')) ?>">
+                        <?= view('icons/delete') ?>
+                        <span class="visually-hidden"><?= I18N::translate('Delete row') ?></span>
+                    </button>
+                </td>
+            </tr>
+        </template>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const tableBody = document.querySelector('#custom-csv-rows tbody');
+                const template = document.querySelector('#custom-csv-row-template');
+                const addButton = document.querySelector('#add-custom-csv-row');
+                let nextRowIndex = <?= count($editor_rows) ?>;
+                if (!tableBody || !template || !addButton) {
+                    return;
+                }
+
+                const bindRemoveButtons = () => {
+                    tableBody.querySelectorAll('.js-remove-csv-row').forEach((button) => {
+                        button.onclick = () => button.closest('tr')?.remove();
+                    });
+                };
+
+                addButton.addEventListener('click', () => {
+                    const row = template.content.cloneNode(true);
+                    row.querySelectorAll('input[data-name]').forEach((input) => {
+                        input.name = `rows[${nextRowIndex}][${input.dataset.name}]`;
+                    });
+                    nextRowIndex += 1;
+                    tableBody.appendChild(row);
+                    bindRemoveButtons();
+                });
+                bindRemoveButtons();
+            });
+        </script>
+    <?php endif ?>
+</section>
 
 <form method="post" class="mb-5">
     <?= csrf_field() ?>
@@ -262,7 +477,7 @@ use Fisharebest\Webtrees\I18N;
         </fieldset>
     <?php endforeach ?>
 
-    <button type="submit" class="btn btn-primary">
+    <button type="submit" class="btn btn-primary" name="action" value="save-preferences">
         <?= view('icons/save') ?>
         <?= I18N::translate('save') ?>
     </button>

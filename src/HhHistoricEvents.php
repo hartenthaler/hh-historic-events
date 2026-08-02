@@ -20,6 +20,7 @@ use Hartenthaler\WebtreesModules\History\HhHistoricEvents\Http\HttpGetClient;
 use Illuminate\Support\Collection;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use RuntimeException;
 
 use function array_values;
 use function dirname;
@@ -41,6 +42,8 @@ use function mkdir;
 use function redirect;
 use function realpath;
 use function rtrim;
+use function rawurlencode;
+use function str_contains;
 use function str_ends_with;
 use function substr;
 use function time;
@@ -240,6 +243,22 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
     {
         $this->layout = 'layouts/administration';
         $this->ensureCustomDataFolder();
+        $query = $request->getQueryParams();
+        $customCsvManager = $this->customCsvManager();
+        $customCsvFiles = $customCsvManager->files();
+        foreach ($customCsvFiles as &$customCsvFile) {
+            $customCsvFile['edit_url'] = $this->customCsvEditorUrl($customCsvFile['filename']);
+        }
+        unset($customCsvFile);
+        $selectedCustomCsv = null;
+        $selectedFilename = (string) ($query['csv_file'] ?? '');
+        if ($selectedFilename !== '') {
+            try {
+                $selectedCustomCsv = $customCsvManager->read($selectedFilename);
+            } catch (RuntimeException $exception) {
+                FlashMessages::addMessage(I18N::translate($exception->getMessage()), 'danger');
+            }
+        }
 
         return $this->viewResponse($this->name() . '::settings', [
             'title' => $this->title(),
@@ -250,12 +269,19 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
             'custom_csv_documentation_url' => self::CUSTOM_WEBSITE . 'blob/main/docs/custom-csv-format.md',
             'custom_csv_example_url' => self::CUSTOM_WEBSITE . 'raw/main/docs/examples/custom-family-events-de.csv',
             'active_legacy_modules' => $this->activeLegacyModules(),
+            'custom_csv_files' => $customCsvFiles,
+            'selected_custom_csv' => $selectedCustomCsv,
         ]);
     }
 
     public function postAdminAction(ServerRequestInterface $request): ResponseInterface
     {
         $params = (array) $request->getParsedBody();
+        $action = (string) ($params['action'] ?? 'save-preferences');
+
+        if ($action !== 'save-preferences') {
+            return $this->handleCustomCsvAction($action, $params);
+        }
 
         foreach ($this->providerFactory()->providers() as $provider) {
             $this->setPreference($this->providerPreferenceKey($provider->id()), isset($params[$this->providerFormKey($provider->id())]) ? '1' : '0');
@@ -275,6 +301,100 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
         FlashMessages::addMessage(I18N::translate('The preferences for the module "%s" have been updated.', $this->title()), 'success');
 
         return redirect($this->getConfigLink());
+    }
+
+    /**
+     * @param array<string,mixed> $params
+     */
+    private function handleCustomCsvAction(string $action, array $params): ResponseInterface
+    {
+        $manager = $this->customCsvManager();
+        $selectedFilename = '';
+
+        try {
+            if ($action === 'create-custom-csv') {
+                $selectedFilename = (string) ($params['new_filename'] ?? '');
+                $manager->create($selectedFilename, $this->customCsvMetadata($params));
+                FlashMessages::addMessage(I18N::translate('The custom CSV file has been created.'), 'success');
+            } elseif ($action === 'save-custom-csv') {
+                $selectedFilename = (string) ($params['filename'] ?? '');
+                $manager->save($selectedFilename, $this->customCsvMetadata($params), $this->customCsvRows($params));
+                FlashMessages::addMessage(I18N::translate('The custom CSV file has been saved.'), 'success');
+            } elseif ($action === 'copy-custom-csv') {
+                $manager->copy((string) ($params['filename'] ?? ''), (string) ($params['copy_filename'] ?? ''));
+                $selectedFilename = (string) ($params['copy_filename'] ?? '');
+                FlashMessages::addMessage(I18N::translate('The custom CSV file has been copied.'), 'success');
+            } elseif ($action === 'delete-custom-csv') {
+                $manager->delete((string) ($params['filename'] ?? ''));
+                FlashMessages::addMessage(I18N::translate('The custom CSV file has been deleted.'), 'success');
+            } else {
+                throw new RuntimeException('Unknown CSV file action.');
+            }
+
+            $this->clearEventsCache();
+        } catch (RuntimeException $exception) {
+            FlashMessages::addMessage(I18N::translate($exception->getMessage()), 'danger');
+            $selectedFilename = (string) ($params['filename'] ?? '');
+        }
+
+        return redirect($this->customCsvEditorUrl($selectedFilename));
+    }
+
+    /** @param array<string,mixed> $params
+     *  @return array<string,string>
+     */
+    private function customCsvMetadata(array $params): array
+    {
+        $metadata = [];
+        foreach (CustomCsvFileManager::METADATA_FIELDS as $field) {
+            $metadata[$field] = (string) ($params['metadata'][$field] ?? '');
+        }
+
+        return $metadata;
+    }
+
+    /** @param array<string,mixed> $params
+     *  @return list<array{from_date:string,to_date:string,event:string,link:string,category:string}>
+     */
+    private function customCsvRows(array $params): array
+    {
+        $rows = [];
+        foreach ((array) ($params['rows'] ?? []) as $row) {
+            if (!is_array($row)) {
+                continue;
+            }
+            $rows[] = [
+                'from_date' => (string) ($row['from_date'] ?? ''),
+                'to_date' => (string) ($row['to_date'] ?? ''),
+                'event' => (string) ($row['event'] ?? ''),
+                'link' => (string) ($row['link'] ?? ''),
+                'category' => (string) ($row['category'] ?? ''),
+            ];
+        }
+
+        return $rows;
+    }
+
+    private function customCsvManager(): CustomCsvFileManager
+    {
+        return new CustomCsvFileManager($this->customDataFolder());
+    }
+
+    private function customCsvEditorUrl(string $filename): string
+    {
+        if ($filename === '') {
+            return $this->getConfigLink();
+        }
+
+        return $this->getConfigLink() . (str_contains($this->getConfigLink(), '?') ? '&' : '?')
+            . 'csv_file=' . rawurlencode($filename);
+    }
+
+    private function clearEventsCache(): void
+    {
+        foreach (glob(Webtrees::DATA_DIR . 'cache/hh-historic-events/events-*.json') ?: [] as $cacheFile) {
+            @unlink($cacheFile);
+        }
     }
 
     /**
