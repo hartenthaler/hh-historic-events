@@ -29,6 +29,14 @@ The semicolon-separated columns in these files are:
 * link to event
 * category (optional)
 
+Both date columns always describe Gregorian dates. They support three levels of precision:
+
+* year only, for example `1900`
+* month and year, for example `1900-01` or `JAN 1900`
+* complete date, for example `1900-01-30` or `30 JAN 1900`
+
+The day may therefore be omitted, and when the day is omitted the month may also be omitted. A month or day cannot be specified without a year. The separate `from date` and `to date` columns define an optional period; date ranges, qualifiers such as `ABT`, and non-Gregorian calendars are outside the shared Gramps/webtrees format.
+
 Example:
 
 ```csv

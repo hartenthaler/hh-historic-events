@@ -11,6 +11,7 @@ use Illuminate\Support\Collection;
 use Psr\Http\Client\ClientExceptionInterface;
 
 use function array_values;
+use function checkdate;
 use function basename;
 use function dirname;
 use function file_exists;
@@ -550,7 +551,31 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
             return strtoupper(date('j M Y'));
         }
 
+        if (preg_match('/\A(\d{4})-(\d{2})-(\d{2})\z/', $date, $matches) === 1) {
+            $year = (int) $matches[1];
+            $month = (int) $matches[2];
+            $day = (int) $matches[3];
+
+            return checkdate($month, $day, $year)
+                ? $day . ' ' . $this->gedcomMonth($month) . ' ' . $year
+                : $date;
+        }
+
+        if (preg_match('/\A(\d{4})-(\d{2})\z/', $date, $matches) === 1) {
+            $year = (int) $matches[1];
+            $month = (int) $matches[2];
+
+            return $year > 0 && $month >= 1 && $month <= 12
+                ? $this->gedcomMonth($month) . ' ' . $year
+                : $date;
+        }
+
         return $date;
+    }
+
+    private function gedcomMonth(int $month): string
+    {
+        return [1 => 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'][$month];
     }
 
     private function sanitizeCsvValue(string $value): string

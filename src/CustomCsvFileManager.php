@@ -266,6 +266,15 @@ final class CustomCsvFileManager
 
             return $day . ' ' . $this->monthName($month) . ' ' . $year;
         }
+        if (preg_match('/\A(\d{4})-(\d{2})\z/', $value, $matches) === 1) {
+            $year = (int) $matches[1];
+            $month = (int) $matches[2];
+            if ($year === 0 || $month < 1 || $month > 12) {
+                throw new RuntimeException('Use a valid Gregorian date without a range or qualifier.');
+            }
+
+            return $this->monthName($month) . ' ' . $year;
+        }
 
         $value = strtoupper($value);
         if (preg_match('/\A[1-9]\d{0,3}\z/', $value) === 1) {

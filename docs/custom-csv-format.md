@@ -71,7 +71,7 @@ Example:
 1789-04-30;1797-03-04;George Washington;https://en.wikipedia.org/wiki/George_Washington;Politics
 ```
 
-* `start date` and `end date` use the date syntax accepted by the localized Gramps date parser.
+* `start date` and `end date` always describe a Gregorian date. The supported precision is a year (`1900`), a month and year (`1900-01` or `JAN 1900`), or a complete date (`1900-01-30` or `30 JAN 1900`). Thus the day may be omitted, and when the day is omitted the month may also be omitted. A month or day cannot be given without a year. The two columns describe the beginning and optional end; range expressions such as `FROM`, qualifiers such as `ABT`, and non-Gregorian calendars are not part of this shared format.
 * `end date` is empty for a single date.
 * `Today` is accepted in either date column, independently of capitalization, and is replaced with the current date.
 * `event text` contains the historical statement in the language declared by `LANGUAGE`.
@@ -90,6 +90,6 @@ Only administrators with access to the webtrees data directory can install or re
 
 Existing bundled files and older custom files remain readable. If `LANGUAGE` is missing, the module retains its legacy language mapping for known bundled filenames. An unknown custom file without `LANGUAGE` has no language assignment and is shown as such in the settings.
 
-The date fields follow the HistContext contract: HistContext passes their contents to the localized Gramps date parser and accepts every date that this parser considers valid. Consequently, accepted localized spellings can depend on the language environment in Gramps. This module preserves these date values for webtrees instead of defining an additional date grammar.
+The shared Gramps/webtrees contract deliberately uses only Gregorian dates at year, month, or day precision. ISO calendar notation is convenient for files exchanged with Gramps. The administration editor additionally accepts the usual localized webtrees input and stores the equivalent simple GEDCOM notation. When reading a CSV file, the module converts ISO month and day precision to GEDCOM notation before creating the historic event; year-only values need no conversion.
 
 The special file `GermanChancellorsPresidents.csv` uses its own comma-separated provider format. An override with this filename must retain that bundled structure.
