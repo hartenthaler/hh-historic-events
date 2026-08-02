@@ -203,6 +203,17 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
         };
     }
 
+    public function typeRegion(string $typeId): string
+    {
+        foreach ($this->csvFiles() as $file) {
+            if (pathinfo($file, PATHINFO_FILENAME) === $typeId) {
+                return $this->csvFileMetadata($file)['REGION'] ?? '';
+            }
+        }
+
+        return '';
+    }
+
     public function enabledByDefault(): bool
     {
         return true;

@@ -120,6 +120,11 @@ use Fisharebest\Webtrees\I18N;
                                                             </span>
                                                         <?php endif ?>
                                                         <?= e($collection['label']) ?>
+                                                        <?php if ($collection['region'] !== ''): ?>
+                                                            <span class="text-muted">
+                                                                (<?= I18N::translate('Region') ?>: <?= e($collection['region']) ?>)
+                                                            </span>
+                                                        <?php endif ?>
                                                     </li>
                                                 <?php endforeach ?>
                                             </ul>
@@ -219,6 +224,11 @@ use Fisharebest\Webtrees\I18N;
                                             <?php if ($type['language'] !== ''): ?>
                                                 <span class="text-muted">
                                                     (<?= e($type['language']) ?>)
+                                                </span>
+                                            <?php endif ?>
+                                            <?php if ($type['region'] !== ''): ?>
+                                                <span class="text-muted">
+                                                    (<?= I18N::translate('Region') ?>: <?= e($type['region']) ?>)
                                                 </span>
                                             <?php endif ?>
                                         </label>

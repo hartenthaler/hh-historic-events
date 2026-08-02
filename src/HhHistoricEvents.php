@@ -294,6 +294,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
                     'id' => $typeId,
                     'label' => $label,
                     'language' => $provider->typeLanguage($typeId),
+                    'region' => $provider->typeRegion($typeId),
                     'form_key' => $this->typeFormKey($provider->id(), $typeId),
                     'enabled' => $this->typeIsEnabled($provider, $typeId),
                     'custom' => $isCustom,
@@ -349,6 +350,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
 
                     $collections[] = [
                         'label' => $typeLabel,
+                        'region' => $provider->typeRegion($typeId),
                         'custom' => $provider instanceof GrampsCsvEventProvider
                             && $provider->typeIsCustom($typeId),
                     ];

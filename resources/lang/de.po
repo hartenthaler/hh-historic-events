@@ -346,6 +346,27 @@ msgid "The collections listed beneath each source are for orientation; select in
 msgstr "Die unter jeder Quelle aufgeführten Sammlungen dienen der Orientierung; einzelne Sammlungen werden im zweiten Abschnitt ausgewählt."
 
 #: resources/views/settings.phtml
+msgid "Region"
+msgstr "Region"
+
+#: src/TextGedcomEventProvider.php
+msgid "Worldwide"
+msgstr "Weltweit"
+
+#: src/TextGedcomEventProvider.php
+msgid "Switzerland"
+msgstr "Schweiz"
+
+#: src/GermanChancellorsPresidentsCsvProvider.php
+#: src/GermanChancellorsPresidentsWikidataProvider.php
+msgid "Germany"
+msgstr "Deutschland"
+
+#: src/GermanChancellorsPresidentsWikidataProvider.php
+msgid "Multilingual / dynamically localized"
+msgstr "Mehrsprachig / dynamisch lokalisiert"
+
+#: resources/views/settings.phtml
 msgid "How the selections work"
 msgstr "Zusammenspiel der Auswahlmöglichkeiten"
 

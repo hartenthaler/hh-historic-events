@@ -34,6 +34,7 @@ The interface exposes:
 * provider identity and translated display text
 * available event languages
 * selectable record types
+* an optional geographical region for each record type
 * default enablement
 * event loading for a given webtrees language tag and enabled-type map
 
@@ -76,10 +77,13 @@ Examples:
 * German wars and battles are German event texts and use German Wikipedia links.
 * Swiss historic events are German event texts and use German Wikipedia links.
 * Gramps CSV files include multiple event languages such as Danish, English, Swedish, and Ukrainian.
+* The Wikidata provider is multilingual and dynamically requests labels and Wikipedia links in the webtrees user language, with English as its fallback.
 
 The administration page shows all detected event languages and lets administrators choose which data sources are used for each language.
 
 For Gramps, language filtering is applied per CSV file because the provider contains multiple languages.
+
+Geographical regions are descriptive metadata rather than another filter. They are shown with collections when a provider supplies them. Static providers define known regions in code, while custom Gramps-compatible CSV files can supply free-text `REGION` metadata in the language of the file.
 
 ## Administration Settings
 

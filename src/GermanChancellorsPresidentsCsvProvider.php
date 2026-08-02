@@ -75,6 +75,11 @@ final class GermanChancellorsPresidentsCsvProvider implements EventDataProviderI
         return 'de';
     }
 
+    public function typeRegion(string $typeId): string
+    {
+        return I18N::translate('Germany');
+    }
+
     public function enabledByDefault(): bool
     {
         return true;
