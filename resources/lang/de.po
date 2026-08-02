@@ -249,8 +249,8 @@ msgid "Historic event"
 msgstr "Historisches Ereignis"
 
 #: src/HhHistoricEvents.php:52
-msgid "Historical facts from selectable data sources"
-msgstr "Historische Fakten aus wählbaren Datenquellen"
+msgid "Historical facts from selectable data collections"
+msgstr "Historische Fakten aus wählbaren Datensammlungen"
 
 #: src/HhHistoricEvents.php:144
 #, php-format
