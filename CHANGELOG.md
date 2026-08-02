@@ -2,6 +2,7 @@
 
 ## Next release
 
+- Move implementation architecture details from the README to dedicated documentation and add direct support links.
 - Document the Gramps date-parser contract for HistContext-compatible CSV files and handle `Today` like the original module.
 - Sanitize custom CSV values before generating GEDCOM and accept only valid HTTP(S) source links.
 - Warn administrators that many active sources or a single large event collection can significantly affect webtrees performance.

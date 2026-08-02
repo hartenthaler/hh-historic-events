@@ -133,6 +133,12 @@ Wikidata responses are cached separately below:
 data/cache/hh-historic-events/wikidata-<hash>.json
 ```
 
+## Compatibility Adapters
+
+Remote data sources use a small module-owned PSR-18 adapter. Under webtrees 2.3, the adapter obtains the HTTP client and request factory from the webtrees service container. Under webtrees 2.2.6, the factory uses the bundled Guzzle implementation through the same PSR interfaces.
+
+Translation catalogs are loaded through the stream API of webtrees 2.3 or the file-based localization API of webtrees 2.2.
+
 ## Translation
 
 Translations are loaded from:

@@ -22,7 +22,7 @@ This Readme contains the following main sections
 * [Data sources](#Data)
 * [Configuration](#Configuration)
 * [Usage](#Usage)
-* [Architecture](#Architecture)
+* [Architecture](docs/architecture.md)
 * [Requirements](#Requirements)
 * [Installation](#Installation)
 * [Upgrade](#Upgrade)
@@ -125,24 +125,6 @@ Links supplied by a data source are stored as Markdown notes. Markdown should be
 
 Administrators can modify the visual presentation of historical events with the CSS&JS module. The [German webtrees manual](https://wiki.genealogy.net/Webtrees_Handbuch/Entwicklungsumgebung#Beispiel_-_Farben_bei_Historischen_Fakten_anpassen) contains an example.
 
-<a name="Architecture"></a>
-## 🧭 Architecture
-
-The module is implemented as a webtrees custom historic-events module.
-The main module class `HhHistoricEvents` handles webtrees integration and administration settings.
-
-Historic data is loaded through provider classes:
-
-* `TextGedcomEventProvider`
-* `GrampsCsvEventProvider`
-* `GermanChancellorsPresidentsCsvProvider`
-* `GermanChancellorsPresidentsWikidataProvider`
-
-The `EventDataProviderFactory` creates the available providers.
-New historical topics can be added by creating another provider and registering it in the factory.
-
-Remote data sources use a small module-owned PSR-18 adapter. Under webtrees 2.3, the adapter obtains the HTTP client and request factory from the webtrees service container. Under webtrees 2.2.6, the factory uses the bundled Guzzle implementation through the same PSR interfaces. Translation catalogs are loaded through the stream API of webtrees 2.3 or the file-based localization API of webtrees 2.2.
-
 <a name="Requirements"></a>
 ## 📌 Requirements
 
@@ -196,8 +178,8 @@ Code changes should pass the shared module validation and the relevant manual we
 <a name="Support"></a>
 ## ❓ Support
 
-* <span style="font-weight: bold;">Issues: </span>You can report errors by creating an issue in this GitHub repository.
-* <span style="font-weight: bold;">Feature requests: </span>You can suggest improvements by creating an issue in this GitHub repository.
+* <span style="font-weight: bold;">Issues: </span>You can report errors in the [GitHub issue tracker](https://github.com/hartenthaler/hh-historic-events/issues).
+* <span style="font-weight: bold;">Feature requests: </span>You can suggest improvements in the [GitHub issue tracker](https://github.com/hartenthaler/hh-historic-events/issues).
 * <span style="font-weight: bold;">Forum: </span>General webtrees support can be found in the [webtrees forum](https://www.webtrees.net/).
 
 <a name="License"></a>
