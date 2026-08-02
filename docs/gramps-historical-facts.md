@@ -29,6 +29,14 @@ The semicolon-separated columns in these files are:
 * link to event
 * category (optional)
 
+Both date columns always describe Gregorian dates. They support three levels of precision:
+
+* year only, for example `1900`
+* month and year, for example `1900-01`
+* complete date, for example `1900-01-30`
+
+The CSV exchange format uses these ISO representations, with `Today` as its only special value. `Today` remains stored literally in the CSV file and is resolved to the current Gregorian date when the module reads the events. The day may otherwise be omitted, and when the day is omitted the month may also be omitted. A month or day cannot be specified without a year. The separate `from date` and `to date` columns define an optional period; date ranges, qualifiers such as `ABT`, and non-Gregorian calendars are outside the shared Gramps/webtrees format. The webtrees administration editor presents localized dates and also accepts simple GEDCOM input, but converts these values to ISO before writing the CSV file.
+
 Example:
 
 ```csv

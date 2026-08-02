@@ -12,7 +12,9 @@ The exact server path is shown in the module settings. A custom file overrides a
 
 The module settings include a file manager and a five-column table editor for these administrator-provided files. Administrators can create, edit, copy, and delete them without direct filesystem access. Saving a file clears the module's generated event cache. Bundled collections and the separate German chancellors/presidents CSV provider cannot be changed with this editor.
 
-Each language variant is stored as its own CSV file. The file manager can copy an existing collection to a new filename; the administrator then changes its `LANGUAGE` metadata and translates its event rows. The module does not synchronize the contents of separate language files.
+The editor uses the active webtrees languages for `LANGUAGE`. Date fields accept the usual input order of the current webtrees language or a simple GEDCOM date and display the date in the user's language. When saving, the editor converts the value to the ISO representation required by the shared CSV format. It does not offer calendars, date ranges, or qualifiers such as `ABT` and `CAL`.
+
+Each language variant is stored as its own CSV file. "Save current changes as a new file" writes the complete current form state to the new filename without changing the original file; the administrator can change its `LANGUAGE` metadata and translate its event rows before using this action. The module does not synchronize the contents of separate language files.
 
 A complete German example is available as [`custom-family-events-de.csv`](examples/custom-family-events-de.csv).
 
@@ -69,9 +71,9 @@ Example:
 1789-04-30;1797-03-04;George Washington;https://en.wikipedia.org/wiki/George_Washington;Politics
 ```
 
-* `start date` and `end date` use the date syntax accepted by the localized Gramps date parser.
+* `start date` and `end date` always contain a Gregorian date in ISO notation. The supported precision is a year (`1900`), a month and year (`1900-01`), or a complete date (`1900-01-30`). Thus the day may be omitted, and when the day is omitted the month may also be omitted. A month or day cannot be given without a year. The two columns describe the beginning and optional end; range expressions such as `FROM`, qualifiers such as `ABT`, and non-Gregorian calendars are not part of this shared format.
 * `end date` is empty for a single date.
-* `Today` is accepted in either date column, independently of capitalization, and is replaced with the current date.
+* `Today` is the only special value accepted in either date column, independently of capitalization. It remains stored as `Today` in the CSV file and is resolved to the current Gregorian date when the module reads the events.
 * `event text` contains the historical statement in the language declared by `LANGUAGE`.
 * `source link` contains an optional URL for the individual event. No GEDCOM `NOTE` is generated when `source link` is empty.
 * `category` is optional. If present, it becomes the GEDCOM `TYPE`; otherwise the file's `TOPIC` is used. The translated default type `Historic event` is used only when both are empty.
@@ -88,6 +90,6 @@ Only administrators with access to the webtrees data directory can install or re
 
 Existing bundled files and older custom files remain readable. If `LANGUAGE` is missing, the module retains its legacy language mapping for known bundled filenames. An unknown custom file without `LANGUAGE` has no language assignment and is shown as such in the settings.
 
-The date fields follow the HistContext contract: HistContext passes their contents to the localized Gramps date parser and accepts every date that this parser considers valid. Consequently, accepted localized spellings can depend on the language environment in Gramps. This module preserves these date values for webtrees instead of defining an additional date grammar.
+The shared Gramps/webtrees contract deliberately uses Gregorian ISO dates at year, month, or day precision, with `Today` as its only special value. The administration editor hides this exchange representation: it accepts the usual localized webtrees input or simple GEDCOM notation and displays dates in the user's language. It converts values to ISO when saving the CSV file. When reading a CSV file, the module converts ISO month and day precision to GEDCOM notation before creating the historic event and resolves `Today` to the current Gregorian date; year-only values need no conversion.
 
 The special file `GermanChancellorsPresidents.csv` uses its own comma-separated provider format. An override with this filename must retain that bundled structure.

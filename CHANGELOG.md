@@ -2,6 +2,7 @@
 
 ## Next release
 
+- Refine the custom CSV editor with webtrees language selection, localized Gregorian date entry at year, month, or day precision, explicit metadata translations, and a save-as workflow that preserves unsaved changes.
 - Add administration file management and a five-column editor for user-specific Gramps-compatible CSV collections, including create, copy, delete, and cache invalidation actions.
 - Describe collections by geographical region without adding another selection filter, and identify Wikidata events as dynamically localized.
 - Show the event collections assigned to each language and data source in the administration settings.

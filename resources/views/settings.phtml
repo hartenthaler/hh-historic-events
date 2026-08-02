@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Fisharebest\Webtrees\Http\RequestHandlers\ControlPanel;
+use Fisharebest\Webtrees\Date;
 use Fisharebest\Webtrees\I18N;
 
 /**
@@ -46,8 +47,10 @@ use Fisharebest\Webtrees\I18N;
     </div>
 <?php endif ?>
 
+<section class="mb-5">
+<h2 class="h3"><?= I18N::translate('Manage custom CSV files') ?></h2>
+
 <div class="alert alert-info">
-    <h2 class="h5"><?= I18N::translate('Custom CSV files') ?></h2>
     <p class="mb-2">
         <?= I18N::translate('Store custom CSV files in this persistent data directory. Files in this directory override bundled CSV files with the same name.') ?>
     </p>
@@ -69,10 +72,8 @@ use Fisharebest\Webtrees\I18N;
     </p>
 </div>
 
-<section class="mb-5">
-    <h2 class="h3"><?= I18N::translate('Manage custom CSV files') ?></h2>
     <p class="text-muted">
-        <?= I18N::translate('Only administrator-provided CSV files in the persistent data directory can be changed here. Bundled collections remain read-only.') ?>
+        <?= I18N::translate('Only CSV files provided by administrators or webmasters in the persistent data directory can be changed here. Bundled collections remain read-only.') ?>
     </p>
 
     <?php if ($custom_csv_files === []): ?>
@@ -83,8 +84,8 @@ use Fisharebest\Webtrees\I18N;
                 <thead>
                     <tr>
                         <th><?= I18N::translate('File') ?></th>
-                        <th><?= I18N::translate('Topic') ?></th>
                         <th><?= I18N::translate('Language') ?></th>
+                        <th><?= I18N::translate('Topic') ?></th>
                         <th><?= I18N::translate('Region') ?></th>
                         <th><span class="visually-hidden"><?= I18N::translate('Action') ?></span></th>
                     </tr>
@@ -93,8 +94,8 @@ use Fisharebest\Webtrees\I18N;
                     <?php foreach ($custom_csv_files as $custom_csv_file): ?>
                         <tr>
                             <td><code><?= e($custom_csv_file['filename']) ?></code></td>
-                            <td><?= e($custom_csv_file['topic']) ?></td>
                             <td><?= e($custom_csv_file['language']) ?></td>
+                            <td><?= e($custom_csv_file['topic']) ?></td>
                             <td><?= e($custom_csv_file['region']) ?></td>
                             <td class="text-end">
                                 <a class="btn btn-sm btn-outline-primary" href="<?= e($custom_csv_file['edit_url']) ?>">
@@ -113,17 +114,24 @@ use Fisharebest\Webtrees\I18N;
         <?= csrf_field() ?>
         <h3 class="h5"><?= I18N::translate('Create a custom CSV file') ?></h3>
         <div class="row g-3 align-items-end">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <label class="form-label" for="new_filename"><?= I18N::translate('Filename') ?></label>
                 <input class="form-control" id="new_filename" name="new_filename" type="text" required pattern="[A-Za-z0-9][A-Za-z0-9._-]*\.csv" placeholder="family-history-de.csv">
             </div>
             <div class="col-md-3">
+                <label class="form-label" for="new_language"><?= I18N::translate('Language') ?></label>
+                <select class="form-select" id="new_language" name="metadata[LANGUAGE]" required>
+                    <?php foreach (I18N::activeLocales() as $locale): ?>
+                        <option value="<?= e($locale->languageTag()) ?>" <?= $locale->languageTag() === I18N::languageTag() ? 'selected' : '' ?>>
+                            <?= e($locale->endonym()) ?> (<?= e($locale->languageTag()) ?>)
+                        </option>
+                    <?php endforeach ?>
+                </select>
+                <div class="form-text"><?= I18N::translate('The language code identifies the language of the topic, region, and event texts.') ?></div>
+            </div>
+            <div class="col-md-3">
                 <label class="form-label" for="new_topic"><?= I18N::translate('Topic') ?></label>
                 <input class="form-control" id="new_topic" name="metadata[TOPIC]" type="text" required>
-            </div>
-            <div class="col-md-2">
-                <label class="form-label" for="new_language"><?= I18N::translate('Language') ?></label>
-                <input class="form-control" id="new_language" name="metadata[LANGUAGE]" type="text" required placeholder="de">
             </div>
             <div class="col-md-3">
                 <label class="form-label" for="new_region"><?= I18N::translate('Region') ?></label>
@@ -151,6 +159,14 @@ use Fisharebest\Webtrees\I18N;
         ];
         $editor_rows = $selected_custom_csv['rows'];
         $editor_rows[] = ['from_date' => '', 'to_date' => '', 'event' => '', 'link' => '', 'category' => ''];
+        $selected_language = $selected_custom_csv['metadata']['LANGUAGE'] ?? '';
+        $language_options = [];
+        foreach (I18N::activeLocales() as $locale) {
+            $language_options[$locale->languageTag()] = $locale->endonym() . ' (' . $locale->languageTag() . ')';
+        }
+        if ($selected_language !== '' && !isset($language_options[$selected_language])) {
+            $language_options[$selected_language] = $selected_language;
+        }
         ?>
         <form method="post" class="border p-3 mb-3" id="custom-csv-editor">
             <?= csrf_field() ?>
@@ -161,17 +177,30 @@ use Fisharebest\Webtrees\I18N;
                 <?php foreach ($metadata_labels as $metadata_key => $metadata_label): ?>
                     <div class="col-md-6 col-lg-4">
                         <label class="form-label" for="metadata_<?= e(strtolower($metadata_key)) ?>"><?= e($metadata_label) ?></label>
-                        <input
-                            class="form-control"
-                            id="metadata_<?= e(strtolower($metadata_key)) ?>"
-                            name="metadata[<?= e($metadata_key) ?>]"
-                            type="text"
-                            value="<?= e($selected_custom_csv['metadata'][$metadata_key] ?? '') ?>"
-                            <?= $metadata_key === 'TOPIC' || $metadata_key === 'LANGUAGE' ? 'required' : '' ?>
-                        >
+                        <?php if ($metadata_key === 'LANGUAGE'): ?>
+                            <select class="form-select" id="metadata_language" name="metadata[LANGUAGE]" required>
+                                <?php foreach ($language_options as $language_code => $language_label): ?>
+                                    <option value="<?= e($language_code) ?>" <?= $language_code === $selected_language ? 'selected' : '' ?>><?= e($language_label) ?></option>
+                                <?php endforeach ?>
+                            </select>
+                            <div class="form-text"><?= I18N::translate('The language code identifies the language of the topic, region, and event texts.') ?></div>
+                        <?php else: ?>
+                            <input
+                                class="form-control"
+                                id="metadata_<?= e(strtolower($metadata_key)) ?>"
+                                name="metadata[<?= e($metadata_key) ?>]"
+                                type="text"
+                                value="<?= e($selected_custom_csv['metadata'][$metadata_key] ?? '') ?>"
+                                <?= $metadata_key === 'TOPIC' ? 'required' : '' ?>
+                            >
+                        <?php endif ?>
                     </div>
                 <?php endforeach ?>
             </div>
+
+            <p class="small text-muted">
+                <?= I18N::translate('Enter Gregorian dates in the usual format for the current language or as a simple GEDCOM date. Date ranges, qualifiers, and other calendars are not supported here.') ?>
+            </p>
 
             <div class="table-responsive">
                 <table class="table table-sm align-middle" id="custom-csv-rows">
@@ -190,7 +219,20 @@ use Fisharebest\Webtrees\I18N;
                             <tr>
                                 <?php foreach (['from_date', 'to_date', 'event', 'link', 'category'] as $column): ?>
                                     <td>
-                                        <input class="form-control form-control-sm" name="rows[<?= $row_index ?>][<?= e($column) ?>]" type="text" value="<?= e($editor_row[$column]) ?>">
+                                        <?php if ($column === 'from_date' || $column === 'to_date'): ?>
+                                            <input
+                                                class="form-control form-control-sm"
+                                                dir="ltr"
+                                                name="rows[<?= $row_index ?>][<?= e($column) ?>]"
+                                                type="text"
+                                                value="<?= e($editor_row[$column]) ?>"
+                                                onchange="webtrees.reformatDate(this, '<?= e(I18N::language()->dateOrder()) ?>')"
+                                                pattern="(?:[0-9]{1,2} )?(?:(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC) )?[1-9][0-9]{0,3}"
+                                            >
+                                            <div class="form-text"><?= $editor_row[$column] === '' ? '' : (new Date($editor_row[$column]))->display() ?></div>
+                                        <?php else: ?>
+                                            <input class="form-control form-control-sm" name="rows[<?= $row_index ?>][<?= e($column) ?>]" type="text" value="<?= e($editor_row[$column]) ?>">
+                                        <?php endif ?>
                                     </td>
                                 <?php endforeach ?>
                                 <td>
@@ -213,22 +255,22 @@ use Fisharebest\Webtrees\I18N;
                 <?= view('icons/save') ?>
                 <?= I18N::translate('save') ?>
             </button>
+            <div class="row g-2 align-items-end mt-3">
+                <div class="col-sm-6 col-lg-4">
+                    <label class="form-label" for="copy_filename"><?= I18N::translate('New filename') ?></label>
+                    <input class="form-control" id="copy_filename" name="copy_filename" type="text" pattern="[A-Za-z0-9][A-Za-z0-9._-]*\.csv">
+                </div>
+                <div class="col-auto">
+                <button class="btn btn-outline-primary" name="action" type="submit" value="save-custom-csv-as">
+                    <i class="fa-solid fa-copy" aria-hidden="true"></i>
+                    <?= I18N::translate('Save current changes as a new file') ?>
+                </button>
+                </div>
+            </div>
         </form>
 
-        <div class="d-flex flex-wrap gap-3 mb-4">
-            <form method="post" class="d-flex gap-2 align-items-end">
-                <?= csrf_field() ?>
-                <input name="filename" type="hidden" value="<?= e($selected_custom_csv['filename']) ?>">
-                <div>
-                    <label class="form-label" for="copy_filename"><?= I18N::translate('New filename') ?></label>
-                    <input class="form-control" id="copy_filename" name="copy_filename" type="text" required pattern="[A-Za-z0-9][A-Za-z0-9._-]*\.csv">
-                </div>
-                <button class="btn btn-outline-primary" name="action" type="submit" value="copy-custom-csv">
-                    <i class="fa-solid fa-copy" aria-hidden="true"></i>
-                    <?= I18N::translate('Copy file') ?>
-                </button>
-            </form>
-            <form method="post" class="align-self-end" onsubmit="return window.confirm(this.dataset.confirm)" data-confirm="<?= e(I18N::translate('Do you really want to delete this custom CSV file?')) ?>">
+        <div class="mb-4">
+            <form method="post" onsubmit="return window.confirm(this.dataset.confirm)" data-confirm="<?= e(I18N::translate('Do you really want to delete this custom CSV file?')) ?>">
                 <?= csrf_field() ?>
                 <input name="filename" type="hidden" value="<?= e($selected_custom_csv['filename']) ?>">
                 <button class="btn btn-danger" name="action" type="submit" value="delete-custom-csv">
@@ -241,7 +283,14 @@ use Fisharebest\Webtrees\I18N;
         <template id="custom-csv-row-template">
             <tr>
                 <?php foreach (['from_date', 'to_date', 'event', 'link', 'category'] as $column): ?>
-                    <td><input class="form-control form-control-sm" data-name="<?= e($column) ?>" type="text"></td>
+                    <td>
+                        <input
+                            class="form-control form-control-sm"
+                            data-name="<?= e($column) ?>"
+                            type="text"
+                            <?= $column === 'from_date' || $column === 'to_date' ? 'dir="ltr" onchange="webtrees.reformatDate(this, \'' . e(I18N::language()->dateOrder()) . '\')" pattern="(?:[0-9]{1,2} )?(?:(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC) )?[1-9][0-9]{0,3}"' : '' ?>
+                        >
+                    </td>
                 <?php endforeach ?>
                 <td>
                     <button class="btn btn-sm btn-outline-danger js-remove-csv-row" type="button" title="<?= e(I18N::translate('Delete row')) ?>">

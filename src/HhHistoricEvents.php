@@ -320,10 +320,14 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
                 $selectedFilename = (string) ($params['filename'] ?? '');
                 $manager->save($selectedFilename, $this->customCsvMetadata($params), $this->customCsvRows($params));
                 FlashMessages::addMessage(I18N::translate('The custom CSV file has been saved.'), 'success');
-            } elseif ($action === 'copy-custom-csv') {
-                $manager->copy((string) ($params['filename'] ?? ''), (string) ($params['copy_filename'] ?? ''));
+            } elseif ($action === 'save-custom-csv-as') {
+                $manager->saveAs(
+                    (string) ($params['copy_filename'] ?? ''),
+                    $this->customCsvMetadata($params),
+                    $this->customCsvRows($params)
+                );
                 $selectedFilename = (string) ($params['copy_filename'] ?? '');
-                FlashMessages::addMessage(I18N::translate('The custom CSV file has been copied.'), 'success');
+                FlashMessages::addMessage(I18N::translate('The custom CSV file has been saved under the new filename.'), 'success');
             } elseif ($action === 'delete-custom-csv') {
                 $manager->delete((string) ($params['filename'] ?? ''));
                 FlashMessages::addMessage(I18N::translate('The custom CSV file has been deleted.'), 'success');
