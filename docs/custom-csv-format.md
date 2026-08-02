@@ -55,7 +55,7 @@ New custom files should begin with this header:
 * `SOURCE` identifies a source shared by the complete collection.
 * `DESCRIPTION` briefly explains the scope of the collection.
 
-The filename remains the stable technical identifier of the collection. Metadata values describe its content and may therefore be changed without creating another collection.
+The filename remains the stable technical identifier of the collection. Metadata values describe its content and may therefore be changed without creating another collection. Gramps files conventionally follow `<locale>_data_v1_0.csv`, for example `de_DE_data_v1_0.csv`. In the administration editor, `.csv` is added automatically when a new filename has no extension; another explicit extension is rejected.
 
 ## Event Rows
 

@@ -117,7 +117,7 @@ use Fisharebest\Webtrees\I18N;
         <div class="row g-3 align-items-end">
             <div class="col-md-3">
                 <label class="form-label" for="new_filename"><?= I18N::translate('Filename') ?></label>
-                <input class="form-control" id="new_filename" name="new_filename" type="text" required pattern="[A-Za-z0-9][A-Za-z0-9._-]*\.csv" placeholder="family-history-de.csv">
+                <input class="form-control" id="new_filename" name="new_filename" type="text" required pattern="(?:[A-Za-z0-9][A-Za-z0-9_-]*|[A-Za-z0-9][A-Za-z0-9._-]*\.csv)" placeholder="de_DE_data_v1_0.csv">
             </div>
             <div class="col-md-3">
                 <label class="form-label" for="new_language"><?= I18N::translate('Language') ?></label>
@@ -147,8 +147,8 @@ use Fisharebest\Webtrees\I18N;
     <?php if ($selected_custom_csv !== null): ?>
         <?php
         $metadata_labels = [
-            'TOPIC' => I18N::translate('Topic'),
             'LANGUAGE' => I18N::translate('Language'),
+            'TOPIC' => I18N::translate('Topic'),
             'REGION' => I18N::translate('Region'),
             'VERSION' => I18N::translate('Version'),
             'AUTHOR' => I18N::translate('Author'),
@@ -261,7 +261,7 @@ use Fisharebest\Webtrees\I18N;
             <div class="row g-2 align-items-end mt-3">
                 <div class="col-sm-6 col-lg-4">
                     <label class="form-label" for="copy_filename"><?= I18N::translate('New filename') ?></label>
-                    <input class="form-control" id="copy_filename" name="copy_filename" type="text" pattern="[A-Za-z0-9][A-Za-z0-9._-]*\.csv">
+                    <input class="form-control" id="copy_filename" name="copy_filename" type="text" pattern="(?:[A-Za-z0-9][A-Za-z0-9_-]*|[A-Za-z0-9][A-Za-z0-9._-]*\.csv)" placeholder="de_DE_data_v1_0.csv">
                 </div>
                 <div class="col-auto">
                 <button class="btn btn-outline-primary" name="action" type="submit" value="save-custom-csv-as">

@@ -229,6 +229,9 @@ final class CustomCsvFileManager
     private function filename(string $filename): string
     {
         $filename = trim($filename);
+        if (pathinfo($filename, PATHINFO_EXTENSION) === '') {
+            $filename .= '.csv';
+        }
         if ($filename === 'GermanChancellorsPresidents.csv') {
             throw new RuntimeException('This CSV file belongs to another data provider and cannot be edited here.');
         }
