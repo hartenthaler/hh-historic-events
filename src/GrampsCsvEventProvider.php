@@ -163,18 +163,7 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
         $options = [];
         foreach ($this->csvFiles() as $file) {
             $id = pathinfo($file, PATHINFO_FILENAME);
-            $metadata = $this->csvFileMetadata($file);
-            $labelParts = [];
-
-            if (($metadata['TOPIC'] ?? '') !== '') {
-                $labelParts[] = $metadata['TOPIC'];
-            }
-            if (($metadata['REGION'] ?? '') !== '') {
-                $labelParts[] = $metadata['REGION'];
-            }
-            $labelParts[] = basename($file);
-
-            $options[$id] = implode(' - ', $labelParts);
+            $options[$id] = $this->csvFileLabel($file);
         }
 
         return $options;
@@ -237,6 +226,32 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
             && $bundledFolder !== ''
             && is_file($customFolder . $typeId . '.csv')
             && is_file($bundledFolder . $typeId . '.csv');
+    }
+
+    /**
+     * @return array<string,string>
+     */
+    public function overriddenBundledTypeOptions(): array
+    {
+        $customFolder = $this->folders[0] ?? '';
+        $bundledFolder = $this->folders[1] ?? '';
+        if ($customFolder === '' || $bundledFolder === '') {
+            return [];
+        }
+
+        $options = [];
+        foreach (glob($bundledFolder . '*.csv') ?: [] as $file) {
+            $fileName = basename($file);
+            if ($fileName === 'GermanChancellorsPresidents.csv' || !is_file($customFolder . $fileName)) {
+                continue;
+            }
+
+            $options[pathinfo($file, PATHINFO_FILENAME)] = $this->csvFileLabel($file);
+        }
+
+        ksort($options);
+
+        return $options;
     }
 
     public function hasCustomTypes(): bool
@@ -436,6 +451,22 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
         fclose($handle);
 
         return $metadata;
+    }
+
+    private function csvFileLabel(string $file): string
+    {
+        $metadata = $this->csvFileMetadata($file);
+        $labelParts = [];
+
+        if (($metadata['TOPIC'] ?? '') !== '') {
+            $labelParts[] = $metadata['TOPIC'];
+        }
+        if (($metadata['REGION'] ?? '') !== '') {
+            $labelParts[] = $metadata['REGION'];
+        }
+        $labelParts[] = basename($file);
+
+        return implode(' - ', $labelParts);
     }
 
     private function fileLanguageId(string $file): string

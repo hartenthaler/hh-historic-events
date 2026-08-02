@@ -317,6 +317,9 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
                 'form_key' => $this->providerFormKey($provider->id()),
                 'enabled' => $this->providerIsEnabled($provider),
                 'types' => $types,
+                'overridden_bundled_types' => $provider instanceof GrampsCsvEventProvider
+                    ? $provider->overriddenBundledTypeOptions()
+                    : [],
                 'has_custom_types' => $provider instanceof GrampsCsvEventProvider
                     && $provider->hasCustomTypes(),
                 'order' => $providerOrder++,
