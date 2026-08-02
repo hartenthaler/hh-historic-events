@@ -406,6 +406,122 @@ msgstr ""
 "deutlich beeinträchtigen. Aktivieren Sie nur die tatsächlich benötigten "
 "Quellen und Sammlungen."
 
+#: resources/views/settings.phtml
+msgid "Manage custom CSV files"
+msgstr "Nutzerspezifische CSV-Dateien verwalten"
+
+#: resources/views/settings.phtml
+msgid "Only administrator-provided CSV files in the persistent data directory can be changed here. Bundled collections remain read-only."
+msgstr "Hier können nur die von Administratoren im persistenten Datenverzeichnis bereitgestellten CSV-Dateien geändert werden. Mitgelieferte Sammlungen bleiben schreibgeschützt."
+
+#: resources/views/settings.phtml
+msgid "No custom CSV files are available."
+msgstr "Es sind keine nutzerspezifischen CSV-Dateien vorhanden."
+
+#: resources/views/settings.phtml
+msgid "Create a custom CSV file"
+msgstr "Nutzerspezifische CSV-Datei anlegen"
+
+#: resources/views/settings.phtml
+msgid "Create file"
+msgstr "Datei anlegen"
+
+#: resources/views/settings.phtml
+msgid "Edit custom CSV file"
+msgstr "Nutzerspezifische CSV-Datei bearbeiten"
+
+#: resources/views/settings.phtml
+msgid "Event text"
+msgstr "Ereignistext"
+
+#: resources/views/settings.phtml
+msgid "Source link"
+msgstr "Quellenlink"
+
+#: resources/views/settings.phtml
+msgid "Delete row"
+msgstr "Zeile löschen"
+
+#: resources/views/settings.phtml
+msgid "Add row"
+msgstr "Zeile hinzufügen"
+
+#: resources/views/settings.phtml
+msgid "New filename"
+msgstr "Neuer Dateiname"
+
+#: resources/views/settings.phtml
+msgid "Copy file"
+msgstr "Datei kopieren"
+
+#: resources/views/settings.phtml
+msgid "Do you really want to delete this custom CSV file?"
+msgstr "Soll diese nutzerspezifische CSV-Datei wirklich gelöscht werden?"
+
+#: resources/views/settings.phtml
+msgid "Delete file"
+msgstr "Datei löschen"
+
+#: src/HhHistoricEvents.php
+msgid "The custom CSV file has been created."
+msgstr "Die nutzerspezifische CSV-Datei wurde angelegt."
+
+#: src/HhHistoricEvents.php
+msgid "The custom CSV file has been saved."
+msgstr "Die nutzerspezifische CSV-Datei wurde gespeichert."
+
+#: src/HhHistoricEvents.php
+msgid "The custom CSV file has been copied."
+msgstr "Die nutzerspezifische CSV-Datei wurde kopiert."
+
+#: src/HhHistoricEvents.php
+msgid "The custom CSV file has been deleted."
+msgstr "Die nutzerspezifische CSV-Datei wurde gelöscht."
+
+#: src/HhHistoricEvents.php
+msgid "Unknown CSV file action."
+msgstr "Unbekannte Aktion für eine CSV-Datei."
+
+#: src/CustomCsvFileManager.php
+msgid "The selected CSV file does not exist."
+msgstr "Die ausgewählte CSV-Datei ist nicht vorhanden."
+
+#: src/CustomCsvFileManager.php
+msgid "The selected CSV file cannot be read."
+msgstr "Die ausgewählte CSV-Datei kann nicht gelesen werden."
+
+#: src/CustomCsvFileManager.php
+msgid "TOPIC and LANGUAGE are required."
+msgstr "TOPIC und LANGUAGE sind erforderlich."
+
+#: src/CustomCsvFileManager.php
+msgid "The CSV file cannot be prepared."
+msgstr "Die CSV-Datei kann nicht vorbereitet werden."
+
+#: src/CustomCsvFileManager.php
+msgid "The CSV file cannot be saved."
+msgstr "Die CSV-Datei kann nicht gespeichert werden."
+
+#: src/CustomCsvFileManager.php
+msgid "A CSV file with this name already exists."
+msgstr "Eine CSV-Datei mit diesem Namen ist bereits vorhanden."
+
+#: src/CustomCsvFileManager.php
+msgid "The selected CSV file cannot be deleted."
+msgstr "Die ausgewählte CSV-Datei kann nicht gelöscht werden."
+
+#: src/CustomCsvFileManager.php
+msgid "The custom CSV data folder cannot be created."
+msgstr "Das Datenverzeichnis für nutzerspezifische CSV-Dateien kann nicht angelegt werden."
+
+#: src/CustomCsvFileManager.php
+msgid "This CSV file belongs to another data provider and cannot be edited here."
+msgstr "Diese CSV-Datei gehört zu einer anderen Datenquelle und kann hier nicht bearbeitet werden."
+
+#: src/CustomCsvFileManager.php
+msgid "Use a simple filename ending in .csv."
+msgstr "Verwenden Sie einen einfachen Dateinamen mit der Endung .csv."
+
 #~ msgid "Use csv file"
 #~ msgstr "Verwendung der csv-Datei"
 

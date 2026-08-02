@@ -2,6 +2,7 @@
 
 ## Next release
 
+- Add administration file management and a five-column editor for user-specific Gramps-compatible CSV collections, including create, copy, delete, and cache invalidation actions.
 - Describe collections by geographical region without adding another selection filter, and identify Wikidata events as dynamically localized.
 - Show the event collections assigned to each language and data source in the administration settings.
 - Explain how language, data-source, and individual-collection selections are combined in the administration settings.
