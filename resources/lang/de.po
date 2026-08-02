@@ -355,6 +355,14 @@ msgid "Overrides a bundled file"
 msgstr "Überschreibt eine mitgelieferte Datei"
 
 #: resources/views/settings.phtml
+msgid "Overridden bundled files"
+msgstr "Überschriebene mitgelieferte Dateien"
+
+#: resources/views/settings.phtml
+msgid "Overridden by a user-specific file"
+msgstr "Wird durch eine nutzerspezifische Datei überschrieben"
+
+#: resources/views/settings.phtml
 msgid "Performance notice"
 msgstr "Hinweis zur Performance"
 
