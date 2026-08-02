@@ -12,7 +12,6 @@ use function array_slice;
 use function basename;
 use function checkdate;
 use function fclose;
-use function date;
 use function fgetcsv;
 use function file_get_contents;
 use function file_put_contents;
@@ -240,11 +239,23 @@ final class CustomCsvFileManager
 
     private function dateForEditor(string $value): string
     {
-        try {
-            return $this->canonicalDate($value);
-        } catch (RuntimeException) {
-            return $this->singleLine($value);
+        $value = $this->singleLine($value);
+        if (preg_match('/\A(\d{4})-(\d{2})-(\d{2})\z/', $value, $matches) === 1) {
+            if (!checkdate((int) $matches[2], (int) $matches[3], (int) $matches[1])) {
+                return $value;
+            }
+
+            return (int) $matches[3] . ' ' . $this->monthName((int) $matches[2]) . ' ' . (int) $matches[1];
         }
+        if (preg_match('/\A(\d{4})-(\d{2})\z/', $value, $matches) === 1) {
+            if ((int) $matches[1] === 0 || (int) $matches[2] < 1 || (int) $matches[2] > 12) {
+                return $value;
+            }
+
+            return $this->monthName((int) $matches[2]) . ' ' . (int) $matches[1];
+        }
+
+        return $value;
     }
 
     private function canonicalDate(string $value): string
@@ -254,7 +265,7 @@ final class CustomCsvFileManager
             return '';
         }
         if (strcasecmp($value, 'Today') === 0) {
-            return strtoupper(date('j M Y'));
+            return 'Today';
         }
         if (preg_match('/\A(\d{4})-(\d{2})-(\d{2})\z/', $value, $matches) === 1) {
             $year = (int) $matches[1];
@@ -264,7 +275,7 @@ final class CustomCsvFileManager
                 throw new RuntimeException('Use a valid Gregorian date without a range or qualifier.');
             }
 
-            return $day . ' ' . $this->monthName($month) . ' ' . $year;
+            return sprintf('%04d-%02d-%02d', $year, $month, $day);
         }
         if (preg_match('/\A(\d{4})-(\d{2})\z/', $value, $matches) === 1) {
             $year = (int) $matches[1];
@@ -273,7 +284,7 @@ final class CustomCsvFileManager
                 throw new RuntimeException('Use a valid Gregorian date without a range or qualifier.');
             }
 
-            return $this->monthName($month) . ' ' . $year;
+            return sprintf('%04d-%02d', $year, $month);
         }
 
         $value = strtoupper($value);
@@ -281,14 +292,16 @@ final class CustomCsvFileManager
             return $value;
         }
         if (preg_match('/\A(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC) ([1-9]\d{0,3})\z/', $value) === 1) {
-            return $value;
+            preg_match('/\A([A-Z]{3}) ([1-9]\d{0,3})\z/', $value, $matches);
+
+            return sprintf('%04d-%02d', (int) $matches[2], $this->monthNumber($matches[1]));
         }
         if (preg_match('/\A(\d{1,2}) (JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC) ([1-9]\d{0,3})\z/', $value, $matches) === 1) {
             if (!checkdate($this->monthNumber($matches[2]), (int) $matches[1], (int) $matches[3])) {
                 throw new RuntimeException('Use a valid Gregorian date without a range or qualifier.');
             }
 
-            return (int) $matches[1] . ' ' . $matches[2] . ' ' . (int) $matches[3];
+            return sprintf('%04d-%02d-%02d', (int) $matches[3], $this->monthNumber($matches[2]), (int) $matches[1]);
         }
 
         throw new RuntimeException('Use a valid Gregorian date without a range or qualifier.');

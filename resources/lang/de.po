@@ -443,8 +443,8 @@ msgid "The language code identifies the language of the topic, region, and event
 msgstr "Der Sprachcode kennzeichnet die Sprache des Themas, der Region und der Ereignistexte."
 
 #: resources/views/settings.phtml
-msgid "Enter Gregorian dates in the usual format for the current language. After leaving the field, webtrees converts them to a simple GEDCOM date such as 30 JAN 1900. Date ranges, qualifiers, and other calendars are not supported here."
-msgstr "Geben Sie gregorianische Daten im für die aktuelle Sprache üblichen Format ein. Nach dem Verlassen des Feldes wandelt webtrees sie in ein einfaches GEDCOM-Datum wie 30 JAN 1900 um. Datumsbereiche, Zusätze und andere Kalender werden hier nicht unterstützt."
+msgid "Enter Gregorian dates in the usual format for the current language or as a simple GEDCOM date. Date ranges, qualifiers, and other calendars are not supported here."
+msgstr "Geben Sie gregorianische Daten im für die aktuelle Sprache üblichen Format oder als einfaches GEDCOM-Datum ein. Datumsbereiche, Zusätze und andere Kalender werden hier nicht unterstützt."
 
 #: resources/views/settings.phtml
 msgid "No custom CSV files are available."
