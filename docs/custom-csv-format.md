@@ -71,7 +71,7 @@ Example:
 1789-04-30;1797-03-04;George Washington;https://en.wikipedia.org/wiki/George_Washington;Politics
 ```
 
-* `start date` and `end date` always contain a Gregorian date in ISO notation. The supported precision is a year (`1900`), a month and year (`1900-01`), or a complete date (`1900-01-30`). Thus the day may be omitted, and when the day is omitted the month may also be omitted. A month or day cannot be given without a year. The two columns describe the beginning and optional end; range expressions such as `FROM`, qualifiers such as `ABT`, and non-Gregorian calendars are not part of this shared format.
+* `start date` and `end date` always contain a Gregorian date in ISO notation. The supported precision is a year (`1900`), a month and year (`1900-01`), or a complete date (`1900-01-30`). Dates range from the introduction of the Gregorian calendar on 15 October 1582 up to the current date. Thus the day may be omitted, and when the day is omitted the month may also be omitted. A month or day cannot be given without a year. The two columns describe the beginning and optional end; an end date must not precede its start date. Range expressions such as `FROM`, qualifiers such as `ABT`, and non-Gregorian calendars are not part of this shared format.
 * `end date` is empty for a single date.
 * `Today` is the only special value accepted in either date column, independently of capitalization. It remains stored as `Today` in the CSV file and is resolved to the current Gregorian date when the module reads the events.
 * `event text` contains the historical statement in the language declared by `LANGUAGE`.

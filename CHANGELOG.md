@@ -2,6 +2,7 @@
 
 ## Next release
 
+- Keep submitted custom CSV editor values after validation failures, omit only invalid dates, validate date order and the supported Gregorian period, and refine the date-field presentation.
 - Refine the custom CSV editor with webtrees language selection, localized Gregorian date entry at year, month, or day precision, explicit metadata translations, and a save-as workflow that preserves unsaved changes.
 - Add administration file management and a five-column editor for user-specific Gramps-compatible CSV collections, including create, copy, delete, and cache invalidation actions.
 - Describe collections by geographical region without adding another selection filter, and identify Wikidata events as dynamically localized.

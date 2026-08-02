@@ -14,6 +14,7 @@ use Fisharebest\Webtrees\Module\ModuleCustomTrait;
 use Fisharebest\Webtrees\Module\ModuleHistoricEventsInterface;
 use Fisharebest\Webtrees\Module\ModuleHistoricEventsTrait;
 use Fisharebest\Webtrees\Services\ModuleService;
+use Fisharebest\Webtrees\Session;
 use Fisharebest\Webtrees\View;
 use Fisharebest\Webtrees\Webtrees;
 use Hartenthaler\WebtreesModules\History\HhHistoricEvents\Http\HttpGetClient;
@@ -65,6 +66,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
     public const CUSTOM_LAST = 'https://github.com/' . self::CUSTOM_GITHUB_USER . '/' .
         self::CUSTOM_MODULE . '/raw/main/latest-version.txt';
     private const EVENTS_CACHE_TTL = 86400;
+    private const CUSTOM_CSV_FORM_SESSION_KEY = 'hh-historic-events-custom-csv-form';
     private const LEGACY_MODULE_NAMES = [
         'german-wars-battles-worldwide',
         'german-chancellors-presidents',
@@ -259,6 +261,14 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
                 FlashMessages::addMessage(I18N::translate($exception->getMessage()), 'danger');
             }
         }
+        $submittedCustomCsv = Session::pull(self::CUSTOM_CSV_FORM_SESSION_KEY);
+        if (is_array($submittedCustomCsv) && ($submittedCustomCsv['filename'] ?? '') === $selectedFilename) {
+            $selectedCustomCsv = [
+                'filename' => $selectedFilename,
+                'metadata' => is_array($submittedCustomCsv['metadata'] ?? null) ? $submittedCustomCsv['metadata'] : [],
+                'rows' => is_array($submittedCustomCsv['rows'] ?? null) ? $submittedCustomCsv['rows'] : [],
+            ];
+        }
 
         return $this->viewResponse($this->name() . '::settings', [
             'title' => $this->title(),
@@ -318,16 +328,18 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
                 FlashMessages::addMessage(I18N::translate('The custom CSV file has been created.'), 'success');
             } elseif ($action === 'save-custom-csv') {
                 $selectedFilename = (string) ($params['filename'] ?? '');
-                $manager->save($selectedFilename, $this->customCsvMetadata($params), $this->customCsvRows($params));
+                $result = $manager->save($selectedFilename, $this->customCsvMetadata($params), $this->customCsvRows($params));
                 FlashMessages::addMessage(I18N::translate('The custom CSV file has been saved.'), 'success');
+                $this->addCustomCsvValidationMessages($result);
             } elseif ($action === 'save-custom-csv-as') {
-                $manager->saveAs(
+                $result = $manager->saveAs(
                     (string) ($params['copy_filename'] ?? ''),
                     $this->customCsvMetadata($params),
                     $this->customCsvRows($params)
                 );
                 $selectedFilename = (string) ($params['copy_filename'] ?? '');
                 FlashMessages::addMessage(I18N::translate('The custom CSV file has been saved under the new filename.'), 'success');
+                $this->addCustomCsvValidationMessages($result);
             } elseif ($action === 'delete-custom-csv') {
                 $manager->delete((string) ($params['filename'] ?? ''));
                 FlashMessages::addMessage(I18N::translate('The custom CSV file has been deleted.'), 'success');
@@ -339,9 +351,37 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
         } catch (RuntimeException $exception) {
             FlashMessages::addMessage(I18N::translate($exception->getMessage()), 'danger');
             $selectedFilename = (string) ($params['filename'] ?? '');
+            if ($selectedFilename !== '') {
+                Session::put(self::CUSTOM_CSV_FORM_SESSION_KEY, [
+                    'filename' => $selectedFilename,
+                    'metadata' => $this->customCsvMetadata($params),
+                    'rows' => $this->customCsvRows($params),
+                ]);
+            }
         }
 
         return redirect($this->customCsvEditorUrl($selectedFilename));
+    }
+
+    /** @param array{invalid_dates:int,invalid_periods:int} $result */
+    private function addCustomCsvValidationMessages(array $result): void
+    {
+        if ($result['invalid_dates'] > 0) {
+            FlashMessages::addMessage(I18N::plural(
+                'One invalid date value was omitted.',
+                '%s invalid date values were omitted.',
+                $result['invalid_dates'],
+                I18N::number($result['invalid_dates'])
+            ), 'warning');
+        }
+        if ($result['invalid_periods'] > 0) {
+            FlashMessages::addMessage(I18N::plural(
+                'One end date before its start date was omitted.',
+                '%s end dates before their start dates were omitted.',
+                $result['invalid_periods'],
+                I18N::number($result['invalid_periods'])
+            ), 'warning');
+        }
     }
 
     /** @param array<string,mixed> $params

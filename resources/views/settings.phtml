@@ -74,6 +74,7 @@ use Fisharebest\Webtrees\I18N;
 
     <p class="text-muted">
         <?= I18N::translate('Only CSV files provided by administrators or webmasters in the persistent data directory can be changed here. Bundled collections remain read-only.') ?>
+        <?= I18N::translate('The language code identifies the language of the topic, region, and event texts.') ?>
     </p>
 
     <?php if ($custom_csv_files === []): ?>
@@ -127,7 +128,6 @@ use Fisharebest\Webtrees\I18N;
                         </option>
                     <?php endforeach ?>
                 </select>
-                <div class="form-text"><?= I18N::translate('The language code identifies the language of the topic, region, and event texts.') ?></div>
             </div>
             <div class="col-md-3">
                 <label class="form-label" for="new_topic"><?= I18N::translate('Topic') ?></label>
@@ -168,7 +168,7 @@ use Fisharebest\Webtrees\I18N;
             $language_options[$selected_language] = $selected_language;
         }
         ?>
-        <form method="post" class="border p-3 mb-3" id="custom-csv-editor">
+        <form method="post" class="border p-3 mb-3" id="custom-csv-editor" autocomplete="off">
             <?= csrf_field() ?>
             <input name="filename" type="hidden" value="<?= e($selected_custom_csv['filename']) ?>">
             <h3 class="h4"><?= I18N::translate('Edit custom CSV file') ?>: <code><?= e($selected_custom_csv['filename']) ?></code></h3>
@@ -183,7 +183,6 @@ use Fisharebest\Webtrees\I18N;
                                     <option value="<?= e($language_code) ?>" <?= $language_code === $selected_language ? 'selected' : '' ?>><?= e($language_label) ?></option>
                                 <?php endforeach ?>
                             </select>
-                            <div class="form-text"><?= I18N::translate('The language code identifies the language of the topic, region, and event texts.') ?></div>
                         <?php else: ?>
                             <input
                                 class="form-control"
@@ -199,7 +198,7 @@ use Fisharebest\Webtrees\I18N;
             </div>
 
             <p class="small text-muted">
-                <?= I18N::translate('Enter Gregorian dates in the usual format for the current language or as a simple GEDCOM date. Date ranges, qualifiers, and other calendars are not supported here.') ?>
+                <?= I18N::translate('Enter Gregorian dates from 15 October 1582 up to today in the usual format for the current language or as a simple GEDCOM date. Date ranges, qualifiers, and other calendars are not supported here.') ?>
             </p>
 
             <div class="table-responsive">
@@ -225,11 +224,15 @@ use Fisharebest\Webtrees\I18N;
                                                 dir="ltr"
                                                 name="rows[<?= $row_index ?>][<?= e($column) ?>]"
                                                 type="text"
+                                                autocomplete="off"
+                                                data-1p-ignore
+                                                data-lpignore="true"
+                                                data-form-type="other"
                                                 value="<?= e($editor_row[$column]) ?>"
                                                 onchange="webtrees.reformatDate(this, '<?= e(I18N::language()->dateOrder()) ?>')"
-                                                pattern="(?:[0-9]{1,2} )?(?:(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC) )?[1-9][0-9]{0,3}"
+                                                pattern="(?:[Tt][Oo][Dd][Aa][Yy]|(?:[0-9]{1,2} )?(?:(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC) )?[1-9][0-9]{0,3})"
                                             >
-                                            <div class="form-text"><?= $editor_row[$column] === '' ? '' : (new Date($editor_row[$column]))->display() ?></div>
+                                            <div class="text-muted" style="font-size: .75rem"><?= $editor_row[$column] === '' ? '' : (new Date($editor_row[$column]))->display() ?></div>
                                         <?php else: ?>
                                             <input class="form-control form-control-sm" name="rows[<?= $row_index ?>][<?= e($column) ?>]" type="text" value="<?= e($editor_row[$column]) ?>">
                                         <?php endif ?>
@@ -288,7 +291,7 @@ use Fisharebest\Webtrees\I18N;
                             class="form-control form-control-sm"
                             data-name="<?= e($column) ?>"
                             type="text"
-                            <?= $column === 'from_date' || $column === 'to_date' ? 'dir="ltr" onchange="webtrees.reformatDate(this, \'' . e(I18N::language()->dateOrder()) . '\')" pattern="(?:[0-9]{1,2} )?(?:(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC) )?[1-9][0-9]{0,3}"' : '' ?>
+                            <?= $column === 'from_date' || $column === 'to_date' ? 'dir="ltr" autocomplete="off" data-1p-ignore data-lpignore="true" data-form-type="other" onchange="webtrees.reformatDate(this, \'' . e(I18N::language()->dateOrder()) . '\')" pattern="(?:[Tt][Oo][Dd][Aa][Yy]|(?:[0-9]{1,2} )?(?:(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC) )?[1-9][0-9]{0,3})"' : '' ?>
                         >
                     </td>
                 <?php endforeach ?>
