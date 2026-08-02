@@ -92,7 +92,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
 
     public function description(): string
     {
-        return I18N::translate('Historical facts from selectable data sources');
+        return I18N::translate('Historical facts from selectable data collections');
     }
 
     public function customModuleAuthorName(): string

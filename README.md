@@ -36,7 +36,7 @@ This Readme contains the following main sections
 ## 🎯 Purpose
 
 The standard webtrees timeline can display historical events that are provided by custom modules.
-This module brings several historic-event data collections together in a single module and lets administrators decide which sources and record types should be used.
+This module brings several historic-event data collections together in a single module and lets administrators decide which collections and record types should be used.
 
 The module currently combines data from
 

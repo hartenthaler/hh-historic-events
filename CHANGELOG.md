@@ -2,6 +2,7 @@
 
 ## Next release
 
+- Describe the module as providing historical facts from selectable data collections, distinguishing collections from their underlying sources.
 - Keep submitted custom CSV editor values after validation failures, omit only invalid dates, validate date order and the supported Gregorian period, and refine the date-field presentation.
 - Complete extensionless custom filenames with `.csv`, show the Gramps filename convention as the example, and present language before topic and region in the metadata editor.
 - Distinguish administrators from webmasters when describing who can provide custom CSV files.
