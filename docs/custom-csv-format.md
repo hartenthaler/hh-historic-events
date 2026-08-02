@@ -63,8 +63,8 @@ Example:
 1789;1797;George Washington;https://en.wikipedia.org/wiki/George_Washington;Politics
 ```
 
-* `start date` contains the year or GEDCOM-compatible start date.
-* `end date` is empty for a single date. `Today` is accepted for compatibility and treated as an open end.
+* `start date` and `end date` use the date syntax accepted by the localized Gramps date parser. HistContext deliberately does not define a separate date syntax for its files.
+* `end date` is empty for a single date. `Today` is accepted in either date column, independently of capitalization, and is replaced with the current date as in HistContext.
 * `event text` contains the historical statement in the language declared by `LANGUAGE`.
 * `source link` contains an optional URL for the individual event.
 * `category` is optional. If present, it becomes the GEDCOM `TYPE`; otherwise the file's `TOPIC` is used. The translated default type `Historic event` is used only when both are empty.
@@ -76,5 +76,7 @@ Lines beginning with `#` and empty lines are ignored. A column-title row beginni
 ## Compatibility
 
 Existing bundled files and older custom files remain readable. If `LANGUAGE` is missing, the module retains its legacy language mapping for known bundled filenames. An unknown custom file without `LANGUAGE` has no language assignment and is shown as such in the settings.
+
+The date fields follow the HistContext contract: HistContext passes their contents to the localized Gramps date parser and accepts every date that this parser considers valid. Consequently, accepted localized spellings can depend on the language environment in Gramps. This module preserves these date values for webtrees instead of defining an additional date grammar.
 
 The special file `GermanChancellorsPresidents.csv` uses its own comma-separated provider format. An override with this filename must retain that bundled structure.

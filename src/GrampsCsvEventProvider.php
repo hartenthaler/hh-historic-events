@@ -514,8 +514,8 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
             }
 
             $events[] = [
-                'fromDate' => $row[0] ?? '',
-                'toDate' => str_replace('Today', '', $row[1] ?? ''),
+                'fromDate' => $this->normalizeCsvDate($row[0] ?? ''),
+                'toDate' => $this->normalizeCsvDate($row[1] ?? ''),
                 'event' => $row[2] ?? '',
                 'link' => trim($row[3] ?? ''),
                 'category' => trim($row[4] ?? ''),
@@ -525,5 +525,16 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
         fclose($handle);
 
         return $events;
+    }
+
+    private function normalizeCsvDate(string $date): string
+    {
+        $date = trim($date);
+
+        if (strcasecmp($date, 'Today') === 0) {
+            return strtoupper(date('j M Y'));
+        }
+
+        return $date;
     }
 }

@@ -2,6 +2,7 @@
 
 ## Next release
 
+- Document the Gramps date-parser contract for HistContext-compatible CSV files and handle `Today` like the original module.
 - Warn administrators that many active sources or a single large event collection can significantly affect webtrees performance.
 - Mark user-specific CSV collections that override a bundled file with an explanatory icon.
 - Keep overridden bundled CSV files visible as non-selectable entries with their own explanatory icon.
