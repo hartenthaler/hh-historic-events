@@ -1,5 +1,7 @@
 # Custom CSV File Format
 
+The purpose of this specification is to define a shared format for historical event collections. The same file should be usable without modification in both [Gramps](https://gramps-project.org/) and [webtrees](https://webtrees.net/).
+
 Administrators can provide website-specific historical events without changing the module. Custom files are stored in the persistent webtrees data directory:
 
 ```text
@@ -63,13 +65,12 @@ Example:
 1789-04-30;1797-03-04;George Washington;https://en.wikipedia.org/wiki/George_Washington;Politics
 ```
 
-* `start date` and `end date` use the date syntax accepted by the localized Gramps date parser. HistContext deliberately does not define a separate date syntax for its files.
-* `end date` is empty for a single date. `Today` is accepted in either date column, independently of capitalization, and is replaced with the current date as in HistContext.
+* `start date` and `end date` use the date syntax accepted by the localized Gramps date parser.
+* `end date` is empty for a single date.
+* `Today` is accepted in either date column, independently of capitalization, and is replaced with the current date.
 * `event text` contains the historical statement in the language declared by `LANGUAGE`.
-* `source link` contains an optional URL for the individual event.
+* `source link` contains an optional URL for the individual event. No GEDCOM `NOTE` is generated when `source link` is empty.
 * `category` is optional. If present, it becomes the GEDCOM `TYPE`; otherwise the file's `TOPIC` is used. The translated default type `Historic event` is used only when both are empty.
-
-No GEDCOM `NOTE` is generated when `source link` is empty.
 
 Lines beginning with `#` and empty lines are ignored. A column-title row beginning with `From date;To date` is optional and ignored by the parser.
 
