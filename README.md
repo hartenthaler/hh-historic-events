@@ -28,6 +28,7 @@ This Readme contains the following main sections
 * [Upgrade](#Upgrade)
 * [Translation](#Translation)
 * [Contributing and testing](#Contributing)
+* [Credits](#Credits)
 * [Support](#Support)
 * [License](#License)
 
@@ -174,6 +175,18 @@ They will be included in a future release of the module.
 Contributions can add or improve historical data, translations, documentation, or module code. Before changing a data source, review its provider documentation and file format. Changes should be tested in webtrees and submitted with a reference to an existing issue; create a focused issue first when none exists.
 
 Code changes should pass the shared module validation and the relevant manual webtrees workflow. Functional testing is currently primarily manual, so reproducible test steps and sample data are especially useful in bug reports and pull requests.
+
+<a name="Credits"></a>
+## 👏 Credits
+
+This module combines four earlier historic-event modules and preserves their data sources and acknowledgements:
+
+* **Gramps Historical Facts:** Thanks to [Kaj Mikkelsen](https://github.com/kajmikkelsen) and the other contributors to the [HistContext gramplet](https://github.com/kajmikkelsen/HistContext) for the Gramps module and its multilingual historical-event collections.
+* **Historic Events: Switzerland:** Thanks to Peter Jehli-Kamm of [baum.jehli.ch](https://baum.jehli.ch/) for the original collection of events from Swiss history.
+* **Wars and Battles Worldwide:** [Wikipedia](https://www.wikipedia.org/) is the principal reference source for the worldwide wars and battles collection; individual records link to the relevant articles.
+* **German Chancellors and Presidents:** The bundled CSV collection uses the [German Wikipedia](https://de.wikipedia.org/) for biographical references and [Wikimedia Commons](https://commons.wikimedia.org/) for images and attribution. The optional online provider obtains structured data from [Wikidata](https://www.wikidata.org/).
+
+Thanks also to the [webtrees development team](https://github.com/fisharebest/webtrees) for webtrees and its historic-events module interface.
 
 <a name="Support"></a>
 ## ❓ Support
