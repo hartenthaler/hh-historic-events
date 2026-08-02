@@ -74,7 +74,7 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
 
     public function description(): string
     {
-        return I18N::translate('Historical facts from the Gramps HistContext collection and CSV files provided by website administrators.');
+        return I18N::translate('Historical facts from the Gramps HistContext collection and CSV files provided by administrators or webmasters.');
     }
 
     public function sourceTitle(): string
