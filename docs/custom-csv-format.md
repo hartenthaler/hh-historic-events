@@ -60,7 +60,7 @@ start date;end date;event text;source link;category
 Example:
 
 ```csv
-1789;1797;George Washington;https://en.wikipedia.org/wiki/George_Washington;Politics
+1789-04-30;1797-03-04;George Washington;https://en.wikipedia.org/wiki/George_Washington;Politics
 ```
 
 * `start date` and `end date` use the date syntax accepted by the localized Gramps date parser. HistContext deliberately does not define a separate date syntax for its files.
