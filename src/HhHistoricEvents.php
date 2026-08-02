@@ -294,6 +294,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
                     'id' => $typeId,
                     'label' => $label,
                     'language' => $provider->typeLanguage($typeId),
+                    'region' => $provider->typeRegion($typeId),
                     'form_key' => $this->typeFormKey($provider->id(), $typeId),
                     'enabled' => $this->typeIsEnabled($provider, $typeId),
                     'custom' => $isCustom,
@@ -341,6 +342,20 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
 
         foreach ($this->providerFactory()->providers() as $provider) {
             foreach ($provider->eventLanguageOptions() as $languageId => $languageLabel) {
+                $collections = [];
+                foreach ($provider->typeOptions() as $typeId => $typeLabel) {
+                    if ($provider->typeLanguageId($typeId) !== $languageId) {
+                        continue;
+                    }
+
+                    $collections[] = [
+                        'label' => $typeLabel,
+                        'region' => $provider->typeRegion($typeId),
+                        'custom' => $provider instanceof GrampsCsvEventProvider
+                            && $provider->typeIsCustom($typeId),
+                    ];
+                }
+
                 $languages[$languageId]['id'] = $languageId;
                 $languages[$languageId]['label'] = $languageLabel;
                 $languages[$languageId]['sources'][] = [
@@ -348,6 +363,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
                     'provider_title' => $provider->title(),
                     'form_key' => $this->providerLanguageFormKey($provider->id(), $languageId),
                     'enabled' => $this->providerLanguageIsEnabled($provider, $languageId),
+                    'collections' => $collections,
                 ];
             }
         }

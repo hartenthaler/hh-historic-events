@@ -65,7 +65,7 @@ final class GermanChancellorsPresidentsWikidataProvider implements EventDataProv
 
     public function eventLanguageOptions(): array
     {
-        return ['de' => I18N::translate('German')];
+        return ['mul' => I18N::translate('Multilingual / dynamically localized')];
     }
 
     public function typeOptions(): array
@@ -79,12 +79,17 @@ final class GermanChancellorsPresidentsWikidataProvider implements EventDataProv
 
     public function typeLanguage(string $typeId): string
     {
-        return '';
+        return I18N::translate('Multilingual / dynamically localized');
     }
 
     public function typeLanguageId(string $typeId): string
     {
-        return 'de';
+        return 'mul';
+    }
+
+    public function typeRegion(string $typeId): string
+    {
+        return I18N::translate('Germany');
     }
 
     public function enabledByDefault(): bool

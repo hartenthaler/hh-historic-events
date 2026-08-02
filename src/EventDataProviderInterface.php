@@ -34,6 +34,8 @@ interface EventDataProviderInterface
 
     public function typeLanguageId(string $typeId): string;
 
+    public function typeRegion(string $typeId): string;
+
     public function enabledByDefault(): bool;
 
     public function typeEnabledByDefault(string $typeId): bool;

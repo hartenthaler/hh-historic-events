@@ -25,6 +25,7 @@ final class TextGedcomEventProvider implements EventDataProviderInterface
         private readonly string $description,
         private readonly string $file,
         private readonly string $language,
+        private readonly string $region,
         private readonly string $sourceTitle,
         private readonly string $sourceUrl,
         private readonly array $typeOptions
@@ -96,6 +97,15 @@ final class TextGedcomEventProvider implements EventDataProviderInterface
     public function typeLanguageId(string $typeId): string
     {
         return $this->language;
+    }
+
+    public function typeRegion(string $typeId): string
+    {
+        return match ($this->region) {
+            'Worldwide' => I18N::translate('Worldwide'),
+            'Switzerland' => I18N::translate('Switzerland'),
+            default => $this->region,
+        };
     }
 
     public function enabledByDefault(): bool

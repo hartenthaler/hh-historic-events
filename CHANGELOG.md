@@ -2,6 +2,8 @@
 
 ## Next release
 
+- Describe collections by geographical region without adding another selection filter, and identify Wikidata events as dynamically localized.
+- Show the event collections assigned to each language and data source in the administration settings.
 - Explain how language, data-source, and individual-collection selections are combined in the administration settings.
 - Distinguish bundled Gramps HistContext data from administrator-provided CSV collections in the settings and add Dutch historical events from HistContext PR #13.
 - Update the COVID-19 end year to 2023 in the general and pandemic HistContext collections.

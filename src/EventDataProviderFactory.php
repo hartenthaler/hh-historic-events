@@ -30,6 +30,7 @@ final class EventDataProviderFactory
                 'Historical facts - Wars and Battles Worldwide (since 900)',
                 $dataFolder . 'gedcom/german-wars-battles-worldwide.ged',
                 'de',
+                'Worldwide',
                 'Wikipedia',
                 'https://de.wikipedia.org/wiki/Liste_von_Kriegen',
                 [
@@ -64,6 +65,7 @@ final class EventDataProviderFactory
                 'Historical facts - events in Switzerland',
                 $dataFolder . 'gedcom/swiss-historic-events.ged',
                 'de',
+                'Switzerland',
                 'Peter Jehli-Kamm, baum.jehli.ch',
                 'http://baum.jehli.ch/',
                 ['historic-event-switzerland' => 'Historic event: Switzerland']
