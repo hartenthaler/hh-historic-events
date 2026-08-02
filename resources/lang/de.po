@@ -342,6 +342,10 @@ msgid "1. Selection by language"
 msgstr "1. Auswahl nach Sprache"
 
 #: resources/views/settings.phtml
+msgid "The collections listed beneath each source are for orientation; select individual collections in the second section."
+msgstr "Die unter jeder Quelle aufgeführten Sammlungen dienen der Orientierung; einzelne Sammlungen werden im zweiten Abschnitt ausgewählt."
+
+#: resources/views/settings.phtml
 msgid "How the selections work"
 msgstr "Zusammenspiel der Auswahlmöglichkeiten"
 
