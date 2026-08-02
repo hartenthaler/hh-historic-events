@@ -73,7 +73,7 @@ Example:
 
 * `start date` and `end date` always contain a Gregorian date in ISO notation. The supported precision is a year (`1900`), a month and year (`1900-01`), or a complete date (`1900-01-30`). Thus the day may be omitted, and when the day is omitted the month may also be omitted. A month or day cannot be given without a year. The two columns describe the beginning and optional end; range expressions such as `FROM`, qualifiers such as `ABT`, and non-Gregorian calendars are not part of this shared format.
 * `end date` is empty for a single date.
-* `Today` is accepted in either date column, independently of capitalization, and is replaced with the current date.
+* `Today` is the only special value accepted in either date column, independently of capitalization. It remains stored as `Today` in the CSV file and is resolved to the current Gregorian date when the module reads the events.
 * `event text` contains the historical statement in the language declared by `LANGUAGE`.
 * `source link` contains an optional URL for the individual event. No GEDCOM `NOTE` is generated when `source link` is empty.
 * `category` is optional. If present, it becomes the GEDCOM `TYPE`; otherwise the file's `TOPIC` is used. The translated default type `Historic event` is used only when both are empty.
@@ -90,6 +90,6 @@ Only administrators with access to the webtrees data directory can install or re
 
 Existing bundled files and older custom files remain readable. If `LANGUAGE` is missing, the module retains its legacy language mapping for known bundled filenames. An unknown custom file without `LANGUAGE` has no language assignment and is shown as such in the settings.
 
-The shared Gramps/webtrees contract deliberately uses only Gregorian ISO dates at year, month, or day precision. The administration editor hides this exchange representation: it accepts the usual localized webtrees input or simple GEDCOM notation and displays dates in the user's language. It converts values to ISO when saving the CSV file. When reading a CSV file, the module converts ISO month and day precision to GEDCOM notation before creating the historic event; year-only values need no conversion.
+The shared Gramps/webtrees contract deliberately uses Gregorian ISO dates at year, month, or day precision, with `Today` as its only special value. The administration editor hides this exchange representation: it accepts the usual localized webtrees input or simple GEDCOM notation and displays dates in the user's language. It converts values to ISO when saving the CSV file. When reading a CSV file, the module converts ISO month and day precision to GEDCOM notation before creating the historic event and resolves `Today` to the current Gregorian date; year-only values need no conversion.
 
 The special file `GermanChancellorsPresidents.csv` uses its own comma-separated provider format. An override with this filename must retain that bundled structure.
