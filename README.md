@@ -22,12 +22,13 @@ This Readme contains the following main sections
 * [Data sources](#Data)
 * [Configuration](#Configuration)
 * [Usage](#Usage)
-* [Architecture](#Architecture)
+* [Architecture](docs/architecture.md)
 * [Requirements](#Requirements)
 * [Installation](#Installation)
 * [Upgrade](#Upgrade)
 * [Translation](#Translation)
 * [Contributing and testing](#Contributing)
+* [Credits](#Credits)
 * [Support](#Support)
 * [License](#License)
 
@@ -125,24 +126,6 @@ Links supplied by a data source are stored as Markdown notes. Markdown should be
 
 Administrators can modify the visual presentation of historical events with the CSS&JS module. The [German webtrees manual](https://wiki.genealogy.net/Webtrees_Handbuch/Entwicklungsumgebung#Beispiel_-_Farben_bei_Historischen_Fakten_anpassen) contains an example.
 
-<a name="Architecture"></a>
-## 🧭 Architecture
-
-The module is implemented as a webtrees custom historic-events module.
-The main module class `HhHistoricEvents` handles webtrees integration and administration settings.
-
-Historic data is loaded through provider classes:
-
-* `TextGedcomEventProvider`
-* `GrampsCsvEventProvider`
-* `GermanChancellorsPresidentsCsvProvider`
-* `GermanChancellorsPresidentsWikidataProvider`
-
-The `EventDataProviderFactory` creates the available providers.
-New historical topics can be added by creating another provider and registering it in the factory.
-
-Remote data sources use a small module-owned PSR-18 adapter. Under webtrees 2.3, the adapter obtains the HTTP client and request factory from the webtrees service container. Under webtrees 2.2.6, the factory uses the bundled Guzzle implementation through the same PSR interfaces. Translation catalogs are loaded through the stream API of webtrees 2.3 or the file-based localization API of webtrees 2.2.
-
 <a name="Requirements"></a>
 ## 📌 Requirements
 
@@ -193,11 +176,23 @@ Contributions can add or improve historical data, translations, documentation, o
 
 Code changes should pass the shared module validation and the relevant manual webtrees workflow. Functional testing is currently primarily manual, so reproducible test steps and sample data are especially useful in bug reports and pull requests.
 
+<a name="Credits"></a>
+## 👏 Credits
+
+This module combines four earlier historic-event modules and preserves their data sources and acknowledgements:
+
+* **Gramps Historical Facts:** Thanks to [Kaj Mikkelsen](https://github.com/kajmikkelsen) and the other contributors to the [HistContext gramplet](https://github.com/kajmikkelsen/HistContext) for the Gramps module and its multilingual historical-event collections.
+* **Historic Events: Switzerland:** Thanks to Peter Jehli-Kamm of [baum.jehli.ch](https://baum.jehli.ch/) for the original collection of events from Swiss history.
+* **Wars and Battles Worldwide:** [Wikipedia](https://www.wikipedia.org/) is the principal reference source for the worldwide wars and battles collection; individual records link to the relevant articles.
+* **German Chancellors and Presidents:** The bundled CSV collection uses the [German Wikipedia](https://de.wikipedia.org/) for biographical references and [Wikimedia Commons](https://commons.wikimedia.org/) for images and attribution. The optional online provider obtains structured data from [Wikidata](https://www.wikidata.org/).
+
+Thanks also to the [webtrees development team](https://github.com/fisharebest/webtrees) for webtrees and its historic-events module interface.
+
 <a name="Support"></a>
 ## ❓ Support
 
-* <span style="font-weight: bold;">Issues: </span>You can report errors by creating an issue in this GitHub repository.
-* <span style="font-weight: bold;">Feature requests: </span>You can suggest improvements by creating an issue in this GitHub repository.
+* <span style="font-weight: bold;">Issues: </span>You can report errors in the [GitHub issue tracker](https://github.com/hartenthaler/hh-historic-events/issues).
+* <span style="font-weight: bold;">Feature requests: </span>You can suggest improvements in the [GitHub issue tracker](https://github.com/hartenthaler/hh-historic-events/issues).
 * <span style="font-weight: bold;">Forum: </span>General webtrees support can be found in the [webtrees forum](https://www.webtrees.net/).
 
 <a name="License"></a>
