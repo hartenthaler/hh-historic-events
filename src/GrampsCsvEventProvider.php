@@ -68,17 +68,17 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
 
     public function title(): string
     {
-        return I18N::translate('Gramps Historical Facts');
+        return I18N::translate('Gramps-compatible CSV historical facts');
     }
 
     public function description(): string
     {
-        return I18N::translate('Historical facts (in several languages) - provided by Gramps');
+        return I18N::translate('Historical facts from the Gramps HistContext collection and CSV files provided by website administrators.');
     }
 
     public function sourceTitle(): string
     {
-        return I18N::translate('Gramps Historical Context gramplet');
+        return I18N::translate('Gramps HistContext repository (bundled files)');
     }
 
     public function sourceUrl(): string
@@ -90,7 +90,7 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
     {
         $remoteVersions = $this->remoteFileVersions();
         if ($remoteVersions === []) {
-            return I18N::translate('The Gramps source version could not be checked.');
+            return '';
         }
 
         $updates = [];
@@ -487,6 +487,7 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
             'uk' => I18N::translate('Ukrainian'),
             'en' => I18N::translate('English'),
             'de' => I18N::translate('German'),
+            'nl' => I18N::translate('Dutch'),
             '' => '',
             default => $languageId,
         };
