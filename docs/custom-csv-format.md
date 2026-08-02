@@ -1,5 +1,7 @@
 # Custom CSV File Format
 
+The purpose of this specification is to define a shared format for historical event collections. The same file should be usable without modification in both [Gramps](https://gramps-project.org/) and [webtrees](https://webtrees.net/).
+
 Administrators can provide website-specific historical events without changing the module. Custom files are stored in the persistent webtrees data directory:
 
 ```text
@@ -60,21 +62,28 @@ start date;end date;event text;source link;category
 Example:
 
 ```csv
-1789;1797;George Washington;https://en.wikipedia.org/wiki/George_Washington;Politics
+1789-04-30;1797-03-04;George Washington;https://en.wikipedia.org/wiki/George_Washington;Politics
 ```
 
-* `start date` contains the year or GEDCOM-compatible start date.
-* `end date` is empty for a single date. `Today` is accepted for compatibility and treated as an open end.
+* `start date` and `end date` use the date syntax accepted by the localized Gramps date parser.
+* `end date` is empty for a single date.
+* `Today` is accepted in either date column, independently of capitalization, and is replaced with the current date.
 * `event text` contains the historical statement in the language declared by `LANGUAGE`.
-* `source link` contains an optional URL for the individual event.
+* `source link` contains an optional URL for the individual event. No GEDCOM `NOTE` is generated when `source link` is empty.
 * `category` is optional. If present, it becomes the GEDCOM `TYPE`; otherwise the file's `TOPIC` is used. The translated default type `Historic event` is used only when both are empty.
 
-No GEDCOM `NOTE` is generated when `source link` is empty.
-
 Lines beginning with `#` and empty lines are ignored. A column-title row beginning with `From date;To date` is optional and ignored by the parser.
+
+## Security
+
+Custom CSV files are treated as untrusted input. Control characters and line breaks are removed from data fields before GEDCOM records are generated, preventing CSV values from injecting additional GEDCOM lines. Source links are used only when they are valid `http` or `https` URLs. All displayed values remain subject to webtrees' normal output escaping.
+
+Only administrators with access to the webtrees data directory can install or replace custom collections. Files should nevertheless be obtained from a trusted source and reviewed before installation.
 
 ## Compatibility
 
 Existing bundled files and older custom files remain readable. If `LANGUAGE` is missing, the module retains its legacy language mapping for known bundled filenames. An unknown custom file without `LANGUAGE` has no language assignment and is shown as such in the settings.
+
+The date fields follow the HistContext contract: HistContext passes their contents to the localized Gramps date parser and accepts every date that this parser considers valid. Consequently, accepted localized spellings can depend on the language environment in Gramps. This module preserves these date values for webtrees instead of defining an additional date grammar.
 
 The special file `GermanChancellorsPresidents.csv` uses its own comma-separated provider format. An override with this filename must retain that bundled structure.

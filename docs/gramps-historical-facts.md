@@ -1,5 +1,7 @@
 # Gramps Historical Facts
 
+The purpose of this data format is to provide a shared structure for historical event collections. The same files should be usable without modification in both [Gramps](https://gramps-project.org/) and [webtrees](https://webtrees.net/).
+
 This provider shows historical facts in several languages that are based on the [Gramps HistContext gramplet](https://github.com/kajmikkelsen/HistContext).
 
 ## Usage
@@ -10,14 +12,14 @@ The structure of historic events provided by this provider is oriented on GEDCOM
 
 ```gedcom
 1 EVEN <event>
-2 TYPE <TOPIC>
+2 TYPE <event type>
 2 DATE <date period>
 2 NOTE [link](<link>)
 ```
 
-TOPIC is an element in the head of the CSV file. 
+The event type is taken from the optional `category` column of the event row. If that column is empty, the file-level `TOPIC` metadata value is used. Only when both are empty does the module use the translated standard type `Historic event`.
 
-The basic information contains historical events with the year they happened and optionally the year they ended. It is stored as CSV files in `resources/data/csv` and can be edited easily.
+The basic information contains historical events with the date they happened and optionally the date they ended. It is stored as CSV files in `resources/data/csv` and can be edited easily.
 
 The semicolon-separated columns in these files are:
 
@@ -30,10 +32,8 @@ The semicolon-separated columns in these files are:
 Example:
 
 ```csv
-1789;1797;George Washington;https://wikipedia.org/wiki/George_Washington;Politics
+1789-04-30;1797-03-04;George Washington;https://wikipedia.org/wiki/George_Washington;Politics
 ```
-
-If the optional category is present, it is used as the GEDCOM `TYPE` of the historical event. Otherwise the file's `TOPIC` is used. Only files without either value fall back to the translated standard type `Historic event`.
 
 Administrators can add or override CSV files in the persistent directory `data/modules/hh-historic-events/data/`. A custom file takes precedence over a bundled file with the same name. The exact server path is shown on the module settings page.
 
