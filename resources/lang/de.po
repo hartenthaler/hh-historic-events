@@ -233,8 +233,8 @@ msgid "Head of former state GDR"
 msgstr "Staatsoberhaupt der DDR"
 
 #: src/GrampsCsvEventProvider.php
-msgid "Historical facts from the Gramps HistContext collection and CSV files provided by website administrators."
-msgstr "Historische Fakten aus der Gramps-HistContext-Sammlung und aus CSV-Dateien, die von Website-Administratoren bereitgestellt werden."
+msgid "Historical facts from the Gramps HistContext collection and CSV files provided by administrators or webmasters."
+msgstr "Historische Fakten aus der Gramps-HistContext-Sammlung und aus CSV-Dateien, die von Administratoren bzw. Webmastern bereitgestellt werden."
 
 #: src/GrampsCsvEventProvider.php
 msgid "Gramps HistContext repository (bundled files)"
@@ -443,8 +443,8 @@ msgid "The language code identifies the language of the topic, region, and event
 msgstr "Der Sprachcode kennzeichnet die Sprache des Themas, der Region und der Ereignistexte."
 
 #: resources/views/settings.phtml
-msgid "Enter Gregorian dates in the usual format for the current language or as a simple GEDCOM date. Date ranges, qualifiers, and other calendars are not supported here."
-msgstr "Geben Sie gregorianische Daten im für die aktuelle Sprache üblichen Format oder als einfaches GEDCOM-Datum ein. Datumsbereiche, Zusätze und andere Kalender werden hier nicht unterstützt."
+msgid "Enter Gregorian dates from 15 October 1582 up to today in the usual format for the current language or as a simple GEDCOM date. Date ranges, qualifiers, and other calendars are not supported here."
+msgstr "Geben Sie gregorianische Daten vom 15. Oktober 1582 bis heute im für die aktuelle Sprache üblichen Format oder als einfaches GEDCOM-Datum ein. Datumsbereiche, Zusätze und andere Kalender werden hier nicht unterstützt."
 
 #: resources/views/settings.phtml
 msgid "No custom CSV files are available."
@@ -557,6 +557,18 @@ msgstr "Verwenden Sie einen einfachen Dateinamen mit der Endung .csv."
 #: src/CustomCsvFileManager.php
 msgid "Use a valid Gregorian date without a range or qualifier."
 msgstr "Verwenden Sie ein gültiges gregorianisches Datum ohne Bereich oder Zusatz."
+
+#: src/HhHistoricEvents.php
+msgid "One invalid date value was omitted."
+msgid_plural "%s invalid date values were omitted."
+msgstr[0] "Ein ungültiger Datumswert wurde weggelassen."
+msgstr[1] "%s ungültige Datumswerte wurden weggelassen."
+
+#: src/HhHistoricEvents.php
+msgid "One end date before its start date was omitted."
+msgid_plural "%s end dates before their start dates were omitted."
+msgstr[0] "Ein Enddatum vor dem zugehörigen Anfangsdatum wurde weggelassen."
+msgstr[1] "%s Enddaten vor den zugehörigen Anfangsdaten wurden weggelassen."
 
 #~ msgid "Use csv file"
 #~ msgstr "Verwendung der csv-Datei"

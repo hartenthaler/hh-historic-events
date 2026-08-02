@@ -11,6 +11,7 @@ use function array_search;
 use function array_slice;
 use function basename;
 use function checkdate;
+use function date;
 use function fclose;
 use function fgetcsv;
 use function file_get_contents;
@@ -28,6 +29,7 @@ use function pathinfo;
 use function preg_match;
 use function str_starts_with;
 use function strcasecmp;
+use function strtotime;
 use function strtoupper;
 use function stream_get_contents;
 use function trim;
@@ -123,8 +125,9 @@ final class CustomCsvFileManager
     /**
      * @param array<string,string> $metadata
      * @param list<array{from_date:string,to_date:string,event:string,link:string,category:string}> $rows
+     * @return array{invalid_dates:int,invalid_periods:int}
      */
-    public function save(string $filename, array $metadata, array $rows): void
+    public function save(string $filename, array $metadata, array $rows): array
     {
         $filename = $this->filename($filename);
         $existing = is_file($this->path($filename)) ? $this->read($filename)['metadata'] : [];
@@ -150,10 +153,18 @@ final class CustomCsvFileManager
         fwrite($stream, "########################################################\n");
         fputcsv($stream, ['From date', 'To date', 'Event', 'Source link', 'Category'], ';', '"', '\\');
 
+        $invalidDates = 0;
+        $invalidPeriods = 0;
         foreach ($rows as $row) {
+            $fromDate = $this->validatedDate($row['from_date'] ?? '', $invalidDates);
+            $toDate = $this->validatedDate($row['to_date'] ?? '', $invalidDates);
+            if ($fromDate !== '' && $toDate !== '' && !$this->datesInSequence($fromDate, $toDate)) {
+                $toDate = '';
+                ++$invalidPeriods;
+            }
             $values = [
-                $this->canonicalDate($row['from_date'] ?? ''),
-                $this->canonicalDate($row['to_date'] ?? ''),
+                $fromDate,
+                $toDate,
                 $this->singleLine($row['event'] ?? ''),
                 $this->singleLine($row['link'] ?? ''),
                 $this->singleLine($row['category'] ?? ''),
@@ -171,6 +182,8 @@ final class CustomCsvFileManager
         if ($contents === false || file_put_contents($this->path($filename), $contents, LOCK_EX) === false) {
             throw new RuntimeException('The CSV file cannot be saved.');
         }
+
+        return ['invalid_dates' => $invalidDates, 'invalid_periods' => $invalidPeriods];
     }
 
     /** @param array<string,string> $metadata */
@@ -182,8 +195,9 @@ final class CustomCsvFileManager
     /**
      * @param array<string,string> $metadata
      * @param list<array{from_date:string,to_date:string,event:string,link:string,category:string}> $rows
+     * @return array{invalid_dates:int,invalid_periods:int}
      */
-    public function saveAs(string $filename, array $metadata, array $rows): void
+    public function saveAs(string $filename, array $metadata, array $rows): array
     {
         $filename = $this->filename($filename);
         if (is_file($this->path($filename))) {
@@ -191,7 +205,7 @@ final class CustomCsvFileManager
         }
 
         $this->ensureFolder();
-        $this->save($filename, $metadata, $rows);
+        return $this->save($filename, $metadata, $rows);
     }
 
     public function delete(string $filename): void
@@ -215,6 +229,9 @@ final class CustomCsvFileManager
     private function filename(string $filename): string
     {
         $filename = trim($filename);
+        if (pathinfo($filename, PATHINFO_EXTENSION) === '') {
+            $filename .= '.csv';
+        }
         if ($filename === 'GermanChancellorsPresidents.csv') {
             throw new RuntimeException('This CSV file belongs to another data provider and cannot be edited here.');
         }
@@ -289,7 +306,7 @@ final class CustomCsvFileManager
 
         $value = strtoupper($value);
         if (preg_match('/\A[1-9]\d{0,3}\z/', $value) === 1) {
-            return $value;
+            return sprintf('%04d', (int) $value);
         }
         if (preg_match('/\A(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC) ([1-9]\d{0,3})\z/', $value) === 1) {
             preg_match('/\A([A-Z]{3}) ([1-9]\d{0,3})\z/', $value, $matches);
@@ -305,6 +322,57 @@ final class CustomCsvFileManager
         }
 
         throw new RuntimeException('Use a valid Gregorian date without a range or qualifier.');
+    }
+
+    private function validatedDate(string $value, int &$invalidDates): string
+    {
+        try {
+            $date = $this->canonicalDate($value);
+            if ($date !== '' && !$this->dateIsInSupportedRange($date)) {
+                throw new RuntimeException('Use a date from the beginning of the Gregorian calendar up to today.');
+            }
+
+            return $date;
+        } catch (RuntimeException) {
+            ++$invalidDates;
+
+            return '';
+        }
+    }
+
+    private function dateIsInSupportedRange(string $date): bool
+    {
+        [$earliest, $latest] = $this->dateBounds($date);
+
+        return $latest >= '1582-10-15' && $earliest <= date('Y-m-d');
+    }
+
+    private function datesInSequence(string $fromDate, string $toDate): bool
+    {
+        [$fromEarliest] = $this->dateBounds($fromDate);
+        [, $toLatest] = $this->dateBounds($toDate);
+
+        return $fromEarliest <= $toLatest;
+    }
+
+    /** @return array{string,string} */
+    private function dateBounds(string $date): array
+    {
+        if (strcasecmp($date, 'Today') === 0) {
+            $today = date('Y-m-d');
+
+            return [$today, $today];
+        }
+        if (preg_match('/\A(\d{4})\z/', $date, $matches) === 1) {
+            return [$matches[1] . '-01-01', $matches[1] . '-12-31'];
+        }
+        if (preg_match('/\A(\d{4})-(\d{2})\z/', $date, $matches) === 1) {
+            $lastDay = date('t', strtotime($date . '-01'));
+
+            return [$date . '-01', $date . '-' . $lastDay];
+        }
+
+        return [$date, $date];
     }
 
     private function monthName(int $month): string

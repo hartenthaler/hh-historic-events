@@ -35,7 +35,7 @@ Both date columns always describe Gregorian dates. They support three levels of 
 * month and year, for example `1900-01`
 * complete date, for example `1900-01-30`
 
-The CSV exchange format uses these ISO representations, with `Today` as its only special value. `Today` remains stored literally in the CSV file and is resolved to the current Gregorian date when the module reads the events. The day may otherwise be omitted, and when the day is omitted the month may also be omitted. A month or day cannot be specified without a year. The separate `from date` and `to date` columns define an optional period; date ranges, qualifiers such as `ABT`, and non-Gregorian calendars are outside the shared Gramps/webtrees format. The webtrees administration editor presents localized dates and also accepts simple GEDCOM input, but converts these values to ISO before writing the CSV file.
+The CSV exchange format uses these ISO representations, with `Today` as its only special value. `Today` remains stored literally in the CSV file and is resolved to the current Gregorian date when the module reads the events. Dates range from the introduction of the Gregorian calendar on 15 October 1582 up to the current date. The day may otherwise be omitted, and when the day is omitted the month may also be omitted. A month or day cannot be specified without a year. The separate `from date` and `to date` columns define an optional period whose end must not precede its start; date ranges, qualifiers such as `ABT`, and non-Gregorian calendars are outside the shared Gramps/webtrees format. The webtrees administration editor presents localized dates and also accepts simple GEDCOM input, but converts these values to ISO before writing the CSV file.
 
 Example:
 
