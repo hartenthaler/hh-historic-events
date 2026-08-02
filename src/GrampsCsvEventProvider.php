@@ -22,6 +22,7 @@ use function fgetcsv;
 use function fopen;
 use function glob;
 use function implode;
+use function in_array;
 use function is_array;
 use function is_dir;
 use function is_file;
@@ -30,6 +31,7 @@ use function json_encode;
 use function ksort;
 use function mkdir;
 use function pathinfo;
+use function parse_url;
 use function preg_match;
 use function preg_replace;
 use function strtolower;
@@ -42,6 +44,7 @@ use function trim;
 use function version_compare;
 
 use const PATHINFO_FILENAME;
+use const PHP_URL_SCHEME;
 
 final class GrampsCsvEventProvider implements EventDataProviderInterface
 {
@@ -276,7 +279,7 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
                 continue;
             }
 
-            $topic = $this->csvFileMetadata($file)['TOPIC'] ?? '';
+            $topic = $this->sanitizeCsvValue($this->csvFileMetadata($file)['TOPIC'] ?? '');
 
             foreach ($this->loadCsvFile($file) as $event) {
                 $date = $event['toDate'] === ''
@@ -516,9 +519,9 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
             $events[] = [
                 'fromDate' => $this->normalizeCsvDate($row[0] ?? ''),
                 'toDate' => $this->normalizeCsvDate($row[1] ?? ''),
-                'event' => $row[2] ?? '',
-                'link' => trim($row[3] ?? ''),
-                'category' => trim($row[4] ?? ''),
+                'event' => $this->sanitizeCsvValue($row[2] ?? ''),
+                'link' => $this->sanitizeCsvUrl($row[3] ?? ''),
+                'category' => $this->sanitizeCsvValue($row[4] ?? ''),
             ];
         }
 
@@ -529,12 +532,29 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
 
     private function normalizeCsvDate(string $date): string
     {
-        $date = trim($date);
+        $date = $this->sanitizeCsvValue($date);
 
         if (strcasecmp($date, 'Today') === 0) {
             return strtoupper(date('j M Y'));
         }
 
         return $date;
+    }
+
+    private function sanitizeCsvValue(string $value): string
+    {
+        return trim((string) preg_replace('/[\x00-\x1F\x7F]+/u', ' ', $value));
+    }
+
+    private function sanitizeCsvUrl(string $url): string
+    {
+        $url = $this->sanitizeCsvValue($url);
+        if ($url === '' || filter_var($url, FILTER_VALIDATE_URL) === false) {
+            return '';
+        }
+
+        $scheme = strtolower((string) parse_url($url, PHP_URL_SCHEME));
+
+        return in_array($scheme, ['http', 'https'], true) ? $url : '';
     }
 }

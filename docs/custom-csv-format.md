@@ -74,6 +74,12 @@ Example:
 
 Lines beginning with `#` and empty lines are ignored. A column-title row beginning with `From date;To date` is optional and ignored by the parser.
 
+## Security
+
+Custom CSV files are treated as untrusted input. Control characters and line breaks are removed from data fields before GEDCOM records are generated, preventing CSV values from injecting additional GEDCOM lines. Source links are used only when they are valid `http` or `https` URLs. All displayed values remain subject to webtrees' normal output escaping.
+
+Only administrators with access to the webtrees data directory can install or replace custom collections. Files should nevertheless be obtained from a trusted source and reviewed before installation.
+
 ## Compatibility
 
 Existing bundled files and older custom files remain readable. If `LANGUAGE` is missing, the module retains its legacy language mapping for known bundled filenames. An unknown custom file without `LANGUAGE` has no language assignment and is shown as such in the settings.
