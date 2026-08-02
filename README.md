@@ -181,7 +181,7 @@ Code changes should pass the shared module validation and the relevant manual we
 
 This module combines four earlier historic-event modules and preserves their data sources and acknowledgements:
 
-* **Gramps Historical Facts:** Thanks to [Kaj Mikkelsen](https://github.com/kajmikkelsen) and the other contributors to the [HistContext gramplet](https://github.com/kajmikkelsen/HistContext) for the Gramps module and its multilingual historical-event collections.
+* **Gramps Historical Facts:** Thanks to [Kaj Mikkelsen](https://github.com/kajmikkelsen) and the other contributors to the [HistContext gramplet](https://github.com/kajmikkelsen/HistContext) for the Gramps module and its multilingual historical-event collections. Thanks to [Tazio de Bruin](https://github.com/Tazi0) for the Dutch event collection contributed in [HistContext PR #13](https://github.com/kajmikkelsen/HistContext/pull/13).
 * **Historic Events: Switzerland:** Thanks to Peter Jehli-Kamm of [baum.jehli.ch](https://baum.jehli.ch/) for the original collection of events from Swiss history.
 * **Wars and Battles Worldwide:** [Wikipedia](https://www.wikipedia.org/) is the principal reference source for the worldwide wars and battles collection; individual records link to the relevant articles.
 * **German Chancellors and Presidents:** The bundled CSV collection uses the [German Wikipedia](https://de.wikipedia.org/) for biographical references and [Wikimedia Commons](https://commons.wikimedia.org/) for images and attribution. The optional online provider obtains structured data from [Wikidata](https://www.wikidata.org/).

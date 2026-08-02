@@ -26,8 +26,8 @@ msgid "Wars and Battles Worldwide"
 msgstr "Kriege und Schlachten weltweit"
 
 #: src/GrampsCsvEventProvider.php
-msgid "Gramps Historical Facts"
-msgstr "Gramps Historische Fakten"
+msgid "Gramps-compatible CSV historical facts"
+msgstr "Historische Fakten im Gramps-kompatiblen CSV-Format"
 
 #: src/GermanChancellorsPresidentsCsvProvider.php
 msgid "German Chancellors Presidents (CSV)"
@@ -80,14 +80,6 @@ msgstr "Wikipedia und Wikimedia Commons"
 #: src/GermanChancellorsPresidentsWikidataProvider.php
 msgid "Wikidata"
 msgstr "Wikidata"
-
-#: src/GrampsCsvEventProvider.php
-msgid "Gramps Historical Context gramplet"
-msgstr "Gramps Historical Context Gramplet"
-
-#: src/GrampsCsvEventProvider.php
-msgid "The Gramps source version could not be checked."
-msgstr "Die Gramps-Quellversion konnte nicht geprüft werden."
 
 #: src/GrampsCsvEventProvider.php
 #, php-format
@@ -240,10 +232,17 @@ msgstr "Mitglied der Partei %s"
 msgid "Head of former state GDR"
 msgstr "Staatsoberhaupt der DDR"
 
-#: src/GrampsCsvEventProvider.php:41
-msgid "Historical facts (in several languages) - provided by Gramps"
-msgstr ""
-"Historische Fakten (in verschiedenen Sprachen) - bereitgestellt von Gramps"
+#: src/GrampsCsvEventProvider.php
+msgid "Historical facts from the Gramps HistContext collection and CSV files provided by website administrators."
+msgstr "Historische Fakten aus der Gramps-HistContext-Sammlung und aus CSV-Dateien, die von Website-Administratoren bereitgestellt werden."
+
+#: src/GrampsCsvEventProvider.php
+msgid "Gramps HistContext repository (bundled files)"
+msgstr "Gramps-HistContext-Repository (mitgelieferte Dateien)"
+
+#: src/GrampsCsvEventProvider.php
+msgid "Dutch"
+msgstr "Niederländisch"
 
 #: src/GrampsCsvEventProvider.php:68
 msgid "Historic event"
