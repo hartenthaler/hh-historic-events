@@ -342,8 +342,16 @@ msgid "1. Selection by language"
 msgstr "1. Auswahl nach Sprache"
 
 #: resources/views/settings.phtml
-msgid "2. Selection by individual data sources"
-msgstr "2. Auswahl nach einzelnen Datenquellen"
+msgid "How the selections work"
+msgstr "Zusammenspiel der Auswahlmöglichkeiten"
+
+#: resources/views/settings.phtml
+msgid "The selections are combined. An event collection is used only when its data source is enabled, its event language is selected for that source, and the individual collection is selected. Clearing any one of these checkboxes disables the collection; the other selections are retained."
+msgstr "Die Auswahlen werden miteinander kombiniert. Eine Ereignissammlung wird nur verwendet, wenn ihre Datenquelle aktiviert, ihre Ereignissprache für diese Quelle ausgewählt und die einzelne Sammlung ausgewählt ist. Wird eines dieser Häkchen entfernt, wird die Sammlung nicht verwendet; die übrigen Einstellungen bleiben erhalten."
+
+#: resources/views/settings.phtml
+msgid "2. Data sources and individual collections"
+msgstr "2. Datenquellen und einzelne Sammlungen"
 
 #: resources/views/settings.phtml
 msgid "User-specific"

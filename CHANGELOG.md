@@ -2,6 +2,7 @@
 
 ## Next release
 
+- Explain how language, data-source, and individual-collection selections are combined in the administration settings.
 - Distinguish bundled Gramps HistContext data from administrator-provided CSV collections in the settings and add Dutch historical events from HistContext PR #13.
 - Update the COVID-19 end year to 2023 in the general and pandemic HistContext collections.
 - Move implementation architecture details from the README to dedicated documentation and add direct support links.
