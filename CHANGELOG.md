@@ -2,6 +2,8 @@
 
 ## Next release
 
+- Document how Potts Historical Facts CSV files can be copied to the persistent data directory and converted with the administration editor.
+
 ## 2.2.6.0 - 2026-08-03
 
 - Describe the module as providing historical facts from selectable data collections, distinguishing collections from their underlying sources.
