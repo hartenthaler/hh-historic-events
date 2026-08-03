@@ -1,8 +1,8 @@
 # 📜 **webtrees** module for Historic Events (hh-historic-events)
 
 ![Latest Release](https://img.shields.io/github/v/release/hartenthaler/hh-historic-events)
-![Downloads](https://img.shields.io/github/downloads/hartenthaler/hh-historic-events/total)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
+![Downloads](https://img.shields.io/github/downloads/hartenthaler/hh-historic-events/total)
 
 ![webtrees major version](https://img.shields.io/badge/webtrees-v2.1.x-green)
 ![webtrees major version](https://img.shields.io/badge/webtrees-v2.2.x-green)
@@ -14,7 +14,7 @@ It combines several earlier historic-event modules into one configurable module,
 <a name="Contents"></a>
 ## 📚 Contents
 
-This Readme contains the following main sections
+This README contains the following main sections:
 
 * [Purpose](#Purpose)
 * [Scope](#Scope)
@@ -53,11 +53,11 @@ The module provides GEDCOM-style historical event records through the webtrees h
 It does not create GEDCOM records in family trees and it does not store historical events in a database table.
 
 Static data is stored in files below `resources/data`.
-Large legacy PHP event arrays were moved to GEDCOM text files first, so the data can be maintained outside PHP code.
+
+Former large legacy PHP event arrays were moved to GEDCOM text files first, so the data can be maintained outside PHP code.
 A later conversion of these text files to CSV is planned.
 
 Wikidata support for German chancellors and presidents is available as a separate optional data source.
-It is disabled by default because it performs external requests.
 
 <a name="Features"></a>
 ## 💡 Main features
@@ -69,10 +69,8 @@ The module supports
 * selectable record types inside each data source
 * GEDCOM text files for large legacy event lists
 * CSV files for structured historic-event data
-* individual CSV files for user-specific family events
-* optional Wikidata source for German chancellors and presidents
-* local file cache for Wikidata responses
-* gettext translations reused from the earlier modules where available
+* individual CSV files for user-specific event lists
+* optional Wikidata source for German chancellors and presidents (using local file cache for Wikidata responses)
 
 <a name="Data"></a>
 ## 🗂 Data sources
@@ -95,12 +93,12 @@ The module currently includes the following data sources.
   See [provider documentation](docs/swiss-historic-events.md).
 
 * **Gramps Historical Facts**  
-  Stored as CSV files in `resources/data/csv/*_data_v1_0.csv` and related Gramps CSV files.
+  Gramps CSV files are stored in `resources/data/csv/`.
   See [provider documentation](docs/gramps-historical-facts.md).
 
-* **User-specific family events:** Administrators can create and manage individual semicolon-separated CSV files in the module settings or webmasters can place them in `data/modules/hh-historic-events/data/`. The built-in five-column editor supports creating, editing, saving the current form state under a new filename, and deleting these persistent files, and it clears the generated event cache after changes. It offers the active webtrees languages and localized input for simple Gregorian dates. Each file is offered as a separately selectable record type by the Gramps CSV provider. The supported columns are the start date, end date, event text, source link, and an optional category. New custom files identify their topic and content language in the metadata header; an optional geographical region is written in the language of the file. Files in this persistent directory survive module upgrades and override bundled CSV files with the same name. See the [custom CSV format specification](docs/custom-csv-format.md) and the [German example file](docs/examples/custom-family-events-de.csv).
+* **User-specific event lists:** Administrators can create and manage individual semicolon-separated CSV files in the module settings or webmasters can place them in `data/modules/hh-historic-events/data/`. The built-in five-column editor supports creating, editing, saving the current form state under a new filename, and deleting these persistent files. The supported columns are the start date, end date, event text, source link, and an optional category. New custom files identify their content language, the topic, and the geographical region in the metadata header. Files in this persistent directory survive module upgrades and override bundled CSV files with the same name. See the [custom CSV format specification](docs/custom-csv-format.md) and the [German example file](docs/examples/custom-family-events-de.csv).
 
-  Data files from [Potts Historical Facts](https://github.com/PottsNet/potts-historical-facts) can be converted for use by this module. A webmaster, or an administrator with filesystem access, copies the Potts CSV file to `data/modules/hh-historic-events/data/`. The administrator then opens the file under **Control panel / Historic Events / Manage custom CSV files**, completes the language, topic, and optional region metadata, reviews the event rows, and saves the file. Saving rewrites the dates in the Gramps-compatible ISO representation and adds the metadata header used by this module. Make a copy first when the original Potts file must be retained unchanged.
+  Data files from [Potts Historical Facts](https://github.com/PottsNet/potts-historical-facts) can be converted for use by this module. A webmaster copies a Potts CSV file to `data/modules/hh-historic-events/data/`. The administrator then opens the file under **Control panel / Historic Events / Manage custom CSV files**, completes the language, topic, and optional region metadata, reviews the event rows, and saves the file. Saving rewrites the dates in the Gramps-compatible ISO representation and adds the metadata header used by this module.
 
 <a name="Configuration"></a>
 ## ⚙️ Configuration
@@ -114,10 +112,7 @@ The most important settings are
 * whether the Wikidata source is used
 
 For good performance, enable only the data sources and collections that are actually needed. Processing many sources, or a single large collection such as Wars and Battles Worldwide, can noticeably slow down webtrees.
-
-The Wikidata source should only be enabled if the web server may perform outbound HTTPS requests to Wikidata.
 The module caches Wikidata responses for 24 hours.
-If the cache directory is not writable, the module still works, but Wikidata responses are not stored locally.
 
 <a name="Usage"></a>
 ## 👤 Usage
@@ -126,15 +121,15 @@ Users can view the enabled historical events in the `Facts and events` tab by se
 
 Links supplied by a data source are stored as Markdown notes. Markdown should be enabled for the tree under `Control panel / Manage family trees / Preferences / Text`. Without Markdown, the link remains available but its presentation is less readable.
 
-Administrators can modify the visual presentation of historical events with the CSS&JS module. The [German webtrees manual](https://wiki.genealogy.net/Webtrees_Handbuch/Entwicklungsumgebung#Beispiel_-_Farben_bei_Historischen_Fakten_anpassen) contains an example.
+Administrators can modify the visual presentation of historical events with the CSS and JS module. The [German webtrees manual](https://wiki.genealogy.net/Webtrees_Handbuch/Entwicklungsumgebung#Beispiel_-_Farben_bei_Historischen_Fakten_anpassen) contains an example.
 
 <a name="Requirements"></a>
 ## 📌 Requirements
 
-This module requires **webtrees** version 2.1 or later.
+This module requires **webtrees** version 2.2 or later.
 It has the same system requirements as [webtrees](https://github.com/fisharebest/webtrees#system-requirements).
 
-The current development version targets **webtrees** 2.2.6 and 2.3 with one shared codebase. Compatibility with the final webtrees 2.3 APIs will be checked again when a beta release is available.
+The current development version targets **webtrees** 2.2.6 and 2.3 with one shared codebase. Compatibility with the final webtrees 2.3 APIs will be checked again when a beta release of webtrees 2.3 is available.
 
 The optional Wikidata source requires outbound HTTPS access from the web server.
 
@@ -149,10 +144,11 @@ for an easy and convenient installation of **webtrees** custom modules when this
 1. Download the latest release.
 1. Unzip the package into the `webtrees/modules_v4` directory of your web server.
 1. Rename the folder to `hh-historic-events`.
-1. Login to **webtrees** as administrator.
+1. Log in to **webtrees** as an administrator.
 1. Go to <span class="pointer">Control Panel / Modules / Historic events</span>.
 1. Enable the module named **Historic Events**.
-1. Open the module settings and select the desired data sources and record types.
+
+Open the module settings and select the desired data sources and record types.
 
 <a name="Upgrade"></a>
 ## ⬆️ Upgrade
@@ -168,23 +164,28 @@ This combined module replaces `german-wars-battles-worldwide`, `german-chancello
 
 Translation files are stored in `resources/lang`.
 
-Updated translations can be contributed by pull request or by e-mail.
+Updated translations can be contributed via a pull request or by email.
 They will be included in a future release of the module.
+
+The content of the historical data files cannot be translated. The Wikidata collection "German Chancellors Presidents" is multilingual.
 
 <a name="Contributing"></a>
 ## 🤝 Contributing and testing
 
-Contributions can add or improve historical data, translations, documentation, or module code. Before changing a data source, review its provider documentation and file format. Changes should be tested in webtrees and submitted with a reference to an existing issue; create a focused issue first when none exists.
+Contributions can add or improve historical data, translations, documentation, or module code.
 
-Code changes should pass the shared module validation and the relevant manual webtrees workflow. Functional testing is currently primarily manual, so reproducible test steps and sample data are especially useful in bug reports and pull requests.
+Before changing a data collection, review its provider documentation and file format. Changes to existing collections and proposals for new collections should be tested in webtrees and submitted through a new issue.
+
+Functional testing is currently primarily manual, so reproducible test steps and sample data are especially useful in bug reports and pull requests.
 
 <a name="Credits"></a>
 ## 👏 Credits
 
-This module combines four earlier historic-event modules and preserves their data sources and acknowledgements:
-
+This module combines four earlier historic-event modules and preserves their data sources and acknowledgements.
 * **Gramps Historical Facts:** Thanks to [Kaj Mikkelsen](https://github.com/kajmikkelsen) and the other contributors to the [HistContext gramplet](https://github.com/kajmikkelsen/HistContext) for the Gramps module and its multilingual historical-event collections. Thanks to [Tazio de Bruin](https://github.com/Tazi0) for the Dutch event collection contributed in [HistContext PR #13](https://github.com/kajmikkelsen/HistContext/pull/13).
 * **Historic Events: Switzerland:** Thanks to Peter Jehli-Kamm of [baum.jehli.ch](https://baum.jehli.ch/) for the original collection of events from Swiss history.
+
+The following data collections were prepared by Hermann Hartenthaler.
 * **Wars and Battles Worldwide:** [Wikipedia](https://www.wikipedia.org/) is the principal reference source for the worldwide wars and battles collection; individual records link to the relevant articles.
 * **German Chancellors and Presidents:** The bundled CSV collection uses the [German Wikipedia](https://de.wikipedia.org/) for biographical references and [Wikimedia Commons](https://commons.wikimedia.org/) for images and attribution. The optional online provider obtains structured data from [Wikidata](https://www.wikidata.org/).
 
@@ -200,7 +201,7 @@ Thanks also to the [webtrees development team](https://github.com/fisharebest/we
 <a name="License"></a>
 ## 📄 License
 
-This module uses GPL-3.0-or-later as a license.
+This module is licensed under GPL-3.0-or-later.
 
 * Copyright (C) 2026 Hermann Hartenthaler
 * Derived from **webtrees** - Copyright 2026 webtrees development team.
