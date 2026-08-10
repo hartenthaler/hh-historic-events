@@ -125,6 +125,10 @@ final class GermanChancellorsPresidentsWikidataProvider implements EventDataProv
                 $birthDate = !empty($person->birthDate) ? new DateTime($person->birthDate) : null;
                 $deathDate = !empty($person->deathDate) ? new DateTime($person->deathDate) : null;
                 $startPartyDate = !empty($person->startPartyDate) ? new DateTime($person->startPartyDate) : null;
+                $startActingDateForParty = !empty($person->startActingDate) ? new DateTime($person->startActingDate) : null;
+                $endPartyDate = !empty($person->endPartyDate) ? new DateTime($person->endPartyDate) : null;
+                $showParty = $endPartyDate === null || $startActingDateForParty === null || $endPartyDate > $startActingDateForParty;
+                $hasPartyDetails = $showParty && ($startPartyDate !== null || isset($person->partyShortLabel));
 
                 $collection->push(
                     sprintf(
@@ -134,10 +138,10 @@ final class GermanChancellorsPresidentsWikidataProvider implements EventDataProv
                         isset($person->birthDate) ? '*' . $birthDate->format('d.m.Y') : '',
                         isset($person->deathDate) ? ', +' . $deathDate->format('d.m.Y') : '',
                         isset($person->birthDate) || isset($person->deathDate) ? ')' : '',
-                        isset($person->startPartyDate) || isset($person->partyShortLabel) ? ' (' : '',
-                        isset($person->startPartyDate) ? I18N::translate('from') . ' ' . $startPartyDate->format('d.m.Y') . ' ' : '',
-                        isset($person->partyShortLabel) ? I18N::translate('member of party %s', $person->partyShortLabel) : '',
-                        isset($person->startPartyDate) || isset($person->partyShortLabel) ? ')' : '',
+                        $hasPartyDetails ? ' (' : '',
+                        $hasPartyDetails && $startPartyDate !== null ? I18N::translate('from') . ' ' . $startPartyDate->format('d.m.Y') . ' ' : '',
+                        $hasPartyDetails && isset($person->partyShortLabel) ? I18N::translate('member of party %s', $person->partyShortLabel) : '',
+                        $hasPartyDetails ? ')' : '',
                         $wikidataObject[2],
                         $startActingDate,
                         $endActingDate !== '' ? ' TO ' . $endActingDate : '',
