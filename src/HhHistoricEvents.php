@@ -78,11 +78,27 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
     private const SHOW_EVENT_AGES_PREFERENCE = 'show_event_ages';
     private const EVENT_AGE_MARKER = '__HH_HISTORIC_EVENT_AGE__';
     private const CUSTOM_CSV_FORM_SESSION_KEY = 'hh-historic-events-custom-csv-form';
-    private const LEGACY_MODULE_NAMES = [
-        'german-wars-battles-worldwide',
-        'german-chancellors-presidents',
-        'swiss-historic-events',
-        'gramps-historical-facts',
+    /**
+     * @var array<string, list<string>>
+     */
+    private const LEGACY_MODULE_NAME_ALIASES = [
+        'german-wars-battles-worldwide' => [
+            'german-wars-battles-worldwide',
+            'german_wars_battles_worldwide',
+        ],
+        'german-chancellors-presidents' => [
+            'german-chancellors-presidents',
+            'german-chancellors-and-presidents',
+            'german_chancellors_and_presidents',
+        ],
+        'swiss-historic-events' => [
+            'swiss-historic-events',
+            'swiss_historic_events',
+        ],
+        'gramps-historical-facts' => [
+            'gramps-historical-facts',
+            'gramps_historical_facts',
+        ],
     ];
 
     public function __construct(
@@ -643,16 +659,18 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
     {
         $activeModules = [];
 
-        foreach (self::LEGACY_MODULE_NAMES as $moduleName) {
-            $module = $this->moduleService->findByName($moduleName, true);
-            if ($module === null || !$module->isEnabled()) {
-                continue;
-            }
+        foreach (self::LEGACY_MODULE_NAME_ALIASES as $moduleNames) {
+            foreach ($moduleNames as $moduleName) {
+                $module = $this->moduleService->findByName($moduleName, true);
+                if ($module === null || !$module->isEnabled()) {
+                    continue;
+                }
 
-            $activeModules[] = [
-                'name' => $moduleName,
-                'title' => $module->title(),
-            ];
+                $activeModules[] = [
+                    'name' => $moduleName,
+                    'title' => $module->title(),
+                ];
+            }
         }
 
         return $activeModules;
