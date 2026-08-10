@@ -7,6 +7,7 @@ namespace Hartenthaler\WebtreesModules\History\HhHistoricEvents;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Webtrees;
 use Hartenthaler\WebtreesModules\History\HhHistoricEvents\Http\HttpGetClient;
+use Hartenthaler\WebtreesModules\History\HhHistoricEvents\Internationalization\MoreI18N;
 use Illuminate\Support\Collection;
 use Psr\Http\Client\ClientExceptionInterface;
 
@@ -144,10 +145,10 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
     public function eventLanguageOptions(): array
     {
         $languages = [
-            'da' => I18N::translate('Danish'),
-            'en' => I18N::translate('English'),
-            'sv' => I18N::translate('Swedish'),
-            'uk' => I18N::translate('Ukrainian'),
+            'da' => MoreI18N::xlate('Danish'),
+            'en' => MoreI18N::xlate('English'),
+            'sv' => MoreI18N::xlate('Swedish'),
+            'uk' => MoreI18N::xlate('Ukrainian'),
         ];
 
         foreach ($this->csvFiles() as $file) {
@@ -494,12 +495,12 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
     private function languageLabel(string $languageId): string
     {
         return match ($languageId) {
-            'da' => I18N::translate('Danish'),
-            'sv' => I18N::translate('Swedish'),
-            'uk' => I18N::translate('Ukrainian'),
-            'en' => I18N::translate('English'),
-            'de' => I18N::translate('German'),
-            'nl' => I18N::translate('Dutch'),
+            'da' => MoreI18N::xlate('Danish'),
+            'sv' => MoreI18N::xlate('Swedish'),
+            'uk' => MoreI18N::xlate('Ukrainian'),
+            'en' => MoreI18N::xlate('English'),
+            'de' => MoreI18N::xlate('German'),
+            'nl' => MoreI18N::xlate('Dutch'),
             '' => '',
             default => $languageId,
         };
