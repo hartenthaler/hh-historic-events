@@ -19,6 +19,11 @@ use Fisharebest\Webtrees\I18N;
  * @var list<array{filename:string,topic:string,language:string,region:string,edit_url:string}> $custom_csv_files
  * @var array{filename:string,metadata:array<string,string>,rows:list<array<string,string>>}|null $selected_custom_csv
  */
+
+$custom_csv_language_options = ['en' => I18N::translate('English') . ' (en)'];
+foreach (I18N::activeLocales() as $locale) {
+    $custom_csv_language_options[$locale->languageTag()] = $locale->endonym() . ' (' . $locale->languageTag() . ')';
+}
 ?>
 
 <?= view('components/breadcrumbs', [
@@ -123,10 +128,8 @@ use Fisharebest\Webtrees\I18N;
             <div class="col-md-3">
                 <label class="form-label" for="new_language"><?= I18N::translate('Language') ?></label>
                 <select class="form-select" id="new_language" name="metadata[LANGUAGE]" required>
-                    <?php foreach (I18N::activeLocales() as $locale): ?>
-                        <option value="<?= e($locale->languageTag()) ?>" <?= $locale->languageTag() === I18N::languageTag() ? 'selected' : '' ?>>
-                            <?= e($locale->endonym()) ?> (<?= e($locale->languageTag()) ?>)
-                        </option>
+                    <?php foreach ($custom_csv_language_options as $language_code => $language_label): ?>
+                        <option value="<?= e($language_code) ?>" <?= $language_code === I18N::languageTag() ? 'selected' : '' ?>><?= e($language_label) ?></option>
                     <?php endforeach ?>
                 </select>
             </div>
@@ -161,10 +164,7 @@ use Fisharebest\Webtrees\I18N;
         $editor_rows = $selected_custom_csv['rows'];
         $editor_rows[] = ['from_date' => '', 'to_date' => '', 'event' => '', 'link' => '', 'category' => ''];
         $selected_language = $selected_custom_csv['metadata']['LANGUAGE'] ?? '';
-        $language_options = [];
-        foreach (I18N::activeLocales() as $locale) {
-            $language_options[$locale->languageTag()] = $locale->endonym() . ' (' . $locale->languageTag() . ')';
-        }
+        $language_options = $custom_csv_language_options;
         if ($selected_language !== '' && !isset($language_options[$selected_language])) {
             $language_options[$selected_language] = $selected_language;
         }
