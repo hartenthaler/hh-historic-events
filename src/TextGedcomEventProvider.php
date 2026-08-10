@@ -18,6 +18,7 @@ use function pathinfo;
 use function preg_match_all;
 use function preg_split;
 use function str_replace;
+use function str_starts_with;
 use function trim;
 
 use const PATHINFO_EXTENSION;
@@ -99,7 +100,7 @@ final class TextGedcomEventProvider implements EventDataProviderInterface
 
     public function typeLanguage(string $typeId): string
     {
-        return '';
+        return $this->translateLanguageId($this->language);
     }
 
     public function typeLanguageId(string $typeId): string
@@ -168,7 +169,7 @@ final class TextGedcomEventProvider implements EventDataProviderInterface
         }
 
         while (($row = fgetcsv($handle, 0, ';', '"', '\\')) !== false) {
-            if (($row[0] ?? '') === 'date') {
+            if (($row[0] ?? '') === 'date' || str_starts_with($row[0] ?? '', '#')) {
                 continue;
             }
 

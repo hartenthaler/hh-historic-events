@@ -1,4 +1,13 @@
 date;event;note;type
+########################################################
+## FORMAT: webtrees historic-events
+## TOPIC: Historische Ereignisse: Schweiz
+## LANGUAGE: de
+## REGION: Schweiz
+## VERSION: 1.0
+## AUTHOR: Peter Jehli-Kamm, baum.jehli.ch
+## CONTACT: http://baum.jehli.ch/
+########################################################
 AUG 1291;Gründung der Alten Eidgenossenschaft;Uri, Schwyz und Unterwalden (Obwalden und Nidwalden) begründen die Eidgenossenschaft.;Historic event: Switzerland
 @#DJULIAN@ 15 NOV 1315;Schlacht am Morgarten;"Eidgenossen besiegen Habsburger; siehe [wikipedia {{wikipedia}}](https://{{wikipedia}}.wikipedia.org/wiki/Schlacht_am_Morgarten ).";Historic event: Switzerland
 1332;Luzern tritt Eidgenossenschaft bei;Stadt Luzern tritt der Eidgenossenschaft bei.;Historic event: Switzerland

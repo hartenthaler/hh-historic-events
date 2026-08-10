@@ -104,7 +104,10 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
         ],
     ];
     private const LEGACY_MODULE_TITLES = [
+        'Wars and Battles Worldwide 🇩🇪',
         'German Chancellors Presidents',
+        'Historic Events: Switzerland 🇨🇭',
+        'Gramps Historical Facts',
     ];
 
     public function __construct(

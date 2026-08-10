@@ -473,8 +473,8 @@ msgstr ""
 msgid "Show ages at historical events"
 msgstr ""
 
-#: resources/views/settings.phtml:367
-msgid "Show the person's age after the date of each historical event."
+#: resources/views/settings.phtml:368
+msgid "Show the person's age at each historical event."
 msgstr ""
 
 #: resources/views/settings.phtml:373
