@@ -7899,3 +7899,43 @@
 2 TYPE {{type:war}}
 2 DATE FROM 2014
 2 NOTE siehe [wikipedia {{wikipedia}}](https://{{wikipedia}}.wikipedia.org/wiki/Krieg_in_der_Ukraine_seit_2014 )
+
+1 EVEN Drogenkrieg auf den Philippinen
+2 TYPE {{type:war}}
+2 DATE FROM 2016
+2 NOTE siehe [wikipedia {{wikipedia}}](https://{{wikipedia}}.wikipedia.org/wiki/Drogenkrieg_auf_den_Philippinen )
+
+1 EVEN Bürgerkrieg in Äthiopien
+2 TYPE {{type:civil war}}
+2 DATE FROM 2020
+2 NOTE siehe [wikipedia {{wikipedia}}](https://{{wikipedia}}.wikipedia.org/wiki/Bürgerkrieg_in_Äthiopien )
+
+1 EVEN Krieg um Bergkarabach
+2 TYPE {{type:war}}
+2 DATE FROM 2020 TO 2023
+2 NOTE siehe [wikipedia {{wikipedia}}](https://{{wikipedia}}.wikipedia.org/wiki/Krieg_um_Bergkarabach )
+
+1 EVEN Bürgerkrieg in Myanmar
+2 TYPE {{type:civil war}}
+2 DATE FROM 2021
+2 NOTE siehe [wikipedia {{wikipedia}}](https://{{wikipedia}}.wikipedia.org/wiki/Bürgerkrieg_in_Myanmar_seit_2021 )
+
+1 EVEN Krieg im Sudan
+2 TYPE {{type:war}}
+2 DATE FROM 2023
+2 NOTE siehe [wikipedia {{wikipedia}}](https://{{wikipedia}}.wikipedia.org/wiki/Krieg_im_Sudan_2023 )
+
+1 EVEN Krieg in Israel und Gaza
+2 TYPE {{type:war}}
+2 DATE FROM 2023
+2 NOTE siehe [wikipedia {{wikipedia}}](https://{{wikipedia}}.wikipedia.org/wiki/Krieg_in_Israel_und_Gaza_seit_2023 )
+
+1 EVEN Israelisch-iranischer Krieg
+2 TYPE {{type:war}}
+2 DATE FROM 13 JUN 2025 TO 24 JUN 2025
+2 NOTE siehe [wikipedia {{wikipedia}}](https://{{wikipedia}}.wikipedia.org/wiki/Israelisch-iranischer_Krieg_2025 )
+
+1 EVEN Irankrieg
+2 TYPE {{type:war}}
+2 DATE FROM FEB 2026
+2 NOTE siehe [wikipedia {{wikipedia}}](https://{{wikipedia}}.wikipedia.org/wiki/Irankrieg_2026 )
