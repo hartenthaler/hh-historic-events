@@ -17,6 +17,7 @@ use function file_exists;
 use function file_get_contents;
 use function file_put_contents;
 use function filemtime;
+use function implode;
 use function is_dir;
 use function json_decode;
 use function md5;
@@ -40,12 +41,12 @@ final class GermanChancellorsPresidentsWikidataProvider implements EventDataProv
 
     public function title(): string
     {
-        return I18N::translate('German Chancellors Presidents (Wikidata)');
+        return I18N::translate('Chancellors and Presidents (Wikidata)');
     }
 
     public function description(): string
     {
-        return I18N::translate('Historical facts - Chancellors and Presidents of Germany (since 1949)');
+        return I18N::translate('Historical facts - Chancellors and Presidents of Germany, Austria and Switzerland');
     }
 
     public function sourceTitle(): string
@@ -70,11 +71,12 @@ final class GermanChancellorsPresidentsWikidataProvider implements EventDataProv
 
     public function typeOptions(): array
     {
-        return [
-            'chancellor' => I18N::translate('Chancellor of Germany'),
-            'president' => I18N::translate('President of Germany'),
-            'gdr-head' => I18N::translate('Head of former state GDR'),
-        ];
+        $types = [];
+        foreach ($this->wikidataObjects() as $typeId => $wikidataObject) {
+            $types[$typeId] = $wikidataObject[2];
+        }
+
+        return $types;
     }
 
     public function typeLanguage(string $typeId): string
@@ -89,7 +91,7 @@ final class GermanChancellorsPresidentsWikidataProvider implements EventDataProv
 
     public function typeRegion(string $typeId): string
     {
-        return I18N::translate('Germany');
+        return $this->wikidataObjects()[$typeId][3] ?? '';
     }
 
     public function enabledByDefault(): bool
@@ -156,19 +158,22 @@ final class GermanChancellorsPresidentsWikidataProvider implements EventDataProv
     }
 
     /**
-     * @return array<string,array{0:string,1:string,2:string}>
+     * @return array<string,array{0:string,1:string,2:string,3:string}>
      */
     private function wikidataObjects(): array
     {
         return [
-            'chancellor' => ['Q4970706', 'P1308', I18N::translate('Chancellor of Germany')],
-            'president' => ['Q25223', 'P1308', I18N::translate('President of Germany')],
-            'gdr-head' => ['Q16957', 'P35', I18N::translate('Head of former state GDR')],
+            'chancellor' => ['Q4970706', 'P1308', I18N::translate('Chancellor of Germany'), I18N::translate('Germany')],
+            'president' => ['Q25223', 'P1308', I18N::translate('President of Germany'), I18N::translate('Germany')],
+            'gdr-head' => ['Q16957', 'P35', I18N::translate('Head of former state GDR'), I18N::translate('Germany')],
+            'austrian-chancellor' => ['Q1006398', 'P1308', I18N::translate('Chancellor of Austria'), I18N::translate('Austria')],
+            'austrian-president' => ['Q475658', 'P1308', I18N::translate('President of Austria'), I18N::translate('Austria')],
+            'swiss-president' => ['Q688230', 'P1308', I18N::translate('President of the Swiss Confederation'), I18N::translate('Switzerland')],
         ];
     }
 
     /**
-     * @param array{0:string,1:string,2:string} $wikidataObject
+     * @param array{0:string,1:string,2:string,3:string} $wikidataObject
      *
      * @return object[]
      * @throws ClientExceptionInterface
@@ -191,7 +196,7 @@ final class GermanChancellorsPresidentsWikidataProvider implements EventDataProv
     }
 
     /**
-     * @param array{0:string,1:string,2:string} $wikidataObject
+     * @param array{0:string,1:string,2:string,3:string} $wikidataObject
      */
     private function buildQuery(array $wikidataObject, string $wikipediaLanguage): string
     {
@@ -199,8 +204,15 @@ final class GermanChancellorsPresidentsWikidataProvider implements EventDataProv
 
         return "
             SELECT ?officeHolderLabel ?startActingDate ?endActingDate ?birthDate ?deathDate ?partyShortLabel ?startPartyDate ?endPartyDate ?article WHERE {
-                wd:$wikidataId p:$property ?statement.
-                ?statement ps:$property ?officeHolder.
+                {
+                    wd:$wikidataId p:$property ?statement.
+                    ?statement ps:$property ?officeHolder.
+                }
+                UNION
+                {
+                    ?officeHolder p:P39 ?statement.
+                    ?statement ps:P39 wd:$wikidataId.
+                }
                 OPTIONAL { ?statement pq:P580 ?startActingDate. }
                 OPTIONAL { ?statement pq:P582 ?endActingDate. }
                 OPTIONAL { ?officeHolder wdt:P569 ?birthDate. }
@@ -272,10 +284,15 @@ final class GermanChancellorsPresidentsWikidataProvider implements EventDataProv
      */
     private function removeDuplicates(array $records): array
     {
-        $byLabel = [];
+        $byOfficeTerm = [];
         foreach ($records as $record) {
             $wikiType = $this->extractWikiType($record->article ?? '');
-            $byLabel[$record->officeHolderLabel][] = [
+            $officeTerm = implode('|', [
+                $record->officeHolderLabel ?? '',
+                $record->startActingDate ?? '',
+                $record->endActingDate ?? '',
+            ]);
+            $byOfficeTerm[$officeTerm][] = [
                 'record' => $record,
                 'wikiType' => 'wiki' . $wikiType,
                 'priority' => $this->getPriority($wikiType, $record->startPartyDate ?? null, $record->endActingDate ?? null),
@@ -283,7 +300,7 @@ final class GermanChancellorsPresidentsWikidataProvider implements EventDataProv
         }
 
         $uniqueRecords = [];
-        foreach ($byLabel as $recordsForLabel) {
+        foreach ($byOfficeTerm as $recordsForLabel) {
             $best = $recordsForLabel[0];
             foreach ($recordsForLabel as $candidate) {
                 if ($candidate['priority'] > $best['priority']) {
