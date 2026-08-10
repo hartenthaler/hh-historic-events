@@ -204,7 +204,7 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
             'en_US_data_v1_0',
             'en_US_involuntary_v1_0',
             'en_US_prejudice_v1_0',
-            'pandemi_v1_0' => 'en',
+            'pandemi_v1_1' => 'en',
             default => '',
         };
     }
