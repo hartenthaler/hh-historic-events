@@ -107,8 +107,9 @@ final class GermanChancellorsPresidentsCsvProvider implements EventDataProviderI
                 "\n2 DATE " . $event['date'] .
                 "\n2 NOTE " . ($event['image'] === ''
                     ? '[wikipedia ' . $wikipedia . '](https://' . $wikipedia . '.wikipedia.org/wiki/' . $event['article'] . ' )'
-                    : '[![wikipedia ' . $wikipedia . '](https://' . $event['image'] . ' )]' .
-                        '(https://' . $wikipedia . '.wikipedia.org/wiki/' . $event['article'] . ' )' .
+                    : '[![wikipedia ' . $wikipedia . '](https://' . $event['image'] .
+                        ($event['imageTitle'] === '' ? '' : ' "' . $this->escapeMarkdownTitle($event['imageTitle']) . '"') .
+                        ')](https://' . $wikipedia . '.wikipedia.org/wiki/' . $event['article'] . ' )' .
                         ($event['attribution'] === '' ? '' : "\n3 CONT " . $source . ': ' . $event['attribution']))
             );
         }
@@ -144,6 +145,7 @@ final class GermanChancellorsPresidentsCsvProvider implements EventDataProviderI
                 'article' => $row[3] ?? '',
                 'image' => $row[4] ?? '',
                 'attribution' => $row[5] ?? '',
+                'imageTitle' => $row[6] ?? '',
             ];
         }
 
@@ -169,5 +171,10 @@ final class GermanChancellorsPresidentsCsvProvider implements EventDataProviderI
             [I18N::translate('Chancellor of Germany'), I18N::translate('President of Germany'), I18N::translate('acting')],
             $typeCode
         );
+    }
+
+    private function escapeMarkdownTitle(string $title): string
+    {
+        return str_replace('"', '\\"', $title);
     }
 }

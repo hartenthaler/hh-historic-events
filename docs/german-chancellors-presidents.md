@@ -31,6 +31,7 @@ The comma-separated columns are:
 * Wikipedia article name
 * image link, based on Wikimedia Commons, without leading `https://`
 * image attribution from the Wikimedia Commons image license
+* optional image title, displayed as the Markdown image title
 
 At the moment only the German Wikipedia is supported for this CSV provider.
 

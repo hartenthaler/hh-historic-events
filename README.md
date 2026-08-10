@@ -17,7 +17,6 @@ It combines several earlier historic-event modules into one configurable module,
 This README contains the following main sections:
 
 * [Purpose](#Purpose)
-* [Scope](#Scope)
 * [Main features](#Features)
 * [Data sources](#Data)
 * [Configuration](#Configuration)
@@ -46,19 +45,6 @@ The module currently combines data from
 * `swiss-historic-events`
 * `gramps-historical-facts`
 * user-specific family events from individual CSV files
-
-<a name="Scope"></a>
-## 🔎 Scope
-
-The module provides GEDCOM-style historical event records through the webtrees historic-events module interface.
-It does not create GEDCOM records in family trees and it does not store historical events in a database table.
-
-Static data is stored in files below `resources/data`.
-
-Former large legacy PHP event arrays were moved to GEDCOM text files first, so the data can be maintained outside PHP code.
-A later conversion of these text files to CSV is planned.
-
-Wikidata support for German chancellors and presidents is available as a separate optional data source.
 
 <a name="Features"></a>
 ## 💡 Main features
