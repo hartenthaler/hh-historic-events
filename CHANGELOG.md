@@ -4,6 +4,12 @@
 
 _No changes yet._
 
+## 2.2.6.2 - 2026-08-10
+
+- Keep the Swiss CSV collection separate from Gramps-compatible collections and label it as CSV.
+- Extend the Wikidata provider with Austrian and Swiss office holders, and use a Wikidata link when no Wikipedia article is available.
+- Add categories for the bundled Pandemics and epidemics data collection.
+
 ## 2.2.6.1 - 2026-08-10
 
 - Document how Potts Historical Facts CSV files can be copied to the persistent data directory and converted with the administration editor.
