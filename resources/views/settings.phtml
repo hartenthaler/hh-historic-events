@@ -11,6 +11,7 @@ use Fisharebest\Webtrees\I18N;
  * @var string $description
  * @var array<int,array<string,mixed>> $languages
  * @var array<int,array<string,mixed>> $providers
+ * @var bool $show_event_ages
  * @var string $custom_data_folder
  * @var string $custom_csv_documentation_url
  * @var string $custom_csv_example_url
@@ -343,6 +344,30 @@ use Fisharebest\Webtrees\I18N;
             <?= I18N::translate('The selections are combined. An event collection is used only when its data source is enabled, its event language is selected for that source, and the individual collection is selected. Clearing any one of these checkboxes disables the collection; the other selections are retained.') ?>
         </p>
     </div>
+
+    <fieldset class="form-group mb-4">
+        <legend class="col-form-label col-sm-3 wt-page-options-label">
+            <?= I18N::translate('Historical event ages') ?>
+        </legend>
+        <div class="col-sm-9 wt-page-options-value">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="show_event_ages"
+                    id="show_event_ages"
+                    value="1"
+                    <?= $show_event_ages ? 'checked' : '' ?>
+                >
+                <label class="form-check-label" for="show_event_ages">
+                    <?= I18N::translate('Show ages at historical events') ?>
+                </label>
+                <div class="form-text">
+                    <?= I18N::translate('Show the person\'s age after the date of each historical event.') ?>
+                </div>
+            </div>
+        </div>
+    </fieldset>
 
     <h2 class="h3 mt-4"><?= I18N::translate('1. Selection by language') ?></h2>
 
