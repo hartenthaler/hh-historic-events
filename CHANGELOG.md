@@ -2,7 +2,17 @@
 
 ## Next release
 
+_No changes yet._
+
+## 2.2.6.1 - 2026-08-10
+
 - Document how Potts Historical Facts CSV files can be copied to the persistent data directory and converted with the administration editor.
+- Add optional image titles for German chancellors and presidents.
+- Add an administrator option to show ages for historical events.
+- Warn when one of the four predecessor modules is still enabled, including older namespace-derived folder names.
+- Add recent wars and conflicts to the worldwide data collection.
+- Convert the Swiss historical-events collection from GEDCOM records to CSV data.
+- Hide Wikidata party affiliations that ended on or before the corresponding office term started.
 
 ## 2.2.6.0 - 2026-08-03
 
