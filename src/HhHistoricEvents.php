@@ -38,6 +38,7 @@ use function filemtime;
 use function fclose;
 use function fopen;
 use function implode;
+use function in_array;
 use function is_array;
 use function is_dir;
 use function is_file;
@@ -55,6 +56,7 @@ use function str_ends_with;
 use function substr;
 use function time;
 use function usort;
+use function uksort;
 
 final class HhHistoricEvents extends AbstractModule implements ModuleCustomInterface, ModuleHistoricEventsInterface, ModuleConfigInterface, ModuleGlobalInterface
 {
@@ -76,7 +78,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
         self::CUSTOM_MODULE . '/raw/main/latest-version.txt';
     private const EVENTS_CACHE_TTL = 86400;
     private const SHOW_EVENT_AGES_PREFERENCE = 'show_event_ages';
-    private const EVENT_AGE_MARKER = '__HH_HISTORIC_EVENT_AGE__';
+    private const EVENT_AGE_MARKER = "\u{2063}\u{2063}\u{2063}";
     private const CUSTOM_CSV_FORM_SESSION_KEY = 'hh-historic-events-custom-csv-form';
     /**
      * @var array<string, list<string>>
@@ -99,6 +101,9 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
             'gramps-historical-facts',
             'gramps_historical_facts',
         ],
+    ];
+    private const LEGACY_MODULE_TITLES = [
+        'German Chancellors Presidents',
     ];
 
     public function __construct(
@@ -310,18 +315,21 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
 
         return '<script>(function () {' .
             'const marker = ' . json_encode(self::EVENT_AGE_MARKER) . ';' .
-            'const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);' .
-            'const nodes = [];' .
-            'let node;' .
-            'while ((node = walker.nextNode())) { if (node.nodeValue.includes(marker)) { nodes.push(node); } }' .
-            'nodes.forEach((textNode) => {' .
-                'const parts = textNode.nodeValue.split(marker);' .
-                'const age = (parts[1] || "").trim();' .
-                'textNode.nodeValue = parts[0].trim();' .
-                'const row = textNode.parentElement.closest("tr");' .
-                'const date = row ? row.querySelector(".wt-fact-date-age") : null;' .
-                'if (date && age !== "") { date.append(document.createTextNode(" " + age)); }' .
-            '});' .
+            'const moveAges = () => {' .
+                'const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);' .
+                'const nodes = [];' .
+                'let node;' .
+                'while ((node = walker.nextNode())) { if (node.nodeValue.includes(marker)) { nodes.push(node); } }' .
+                'nodes.forEach((textNode) => {' .
+                    'const parts = textNode.nodeValue.split(marker);' .
+                    'const age = (parts[1] || "").trim();' .
+                    'textNode.nodeValue = parts[0].trim();' .
+                    'const row = textNode.parentElement.closest("tr");' .
+                    'const date = row ? row.querySelector(".wt-fact-date-age") : null;' .
+                    'if (date && age !== "") { date.append(document.createTextNode(" " + age)); }' .
+                '});' .
+            '};' .
+            'if (document.readyState === "loading") { document.addEventListener("DOMContentLoaded", moveAges); } else { moveAges(); }' .
         '}());</script>';
     }
 
@@ -619,6 +627,13 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
             }
         }
 
+        uksort($languages, static function (string $first, string $second): int {
+            $priority = ['mul' => 0, 'de' => 1];
+
+            return ($priority[$first] ?? 2) <=> ($priority[$second] ?? 2)
+                ?: $first <=> $second;
+        });
+
         return array_values($languages);
     }
 
@@ -658,19 +673,25 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
     private function activeLegacyModules(): array
     {
         $activeModules = [];
+        $legacyModuleNames = [];
 
         foreach (self::LEGACY_MODULE_NAME_ALIASES as $moduleNames) {
             foreach ($moduleNames as $moduleName) {
-                $module = $this->moduleService->findByName($moduleName, true);
-                if ($module === null || !$module->isEnabled()) {
-                    continue;
-                }
-
-                $activeModules[] = [
-                    'name' => $moduleName,
-                    'title' => $module->title(),
-                ];
+                $legacyModuleNames[] = $moduleName;
             }
+        }
+
+        foreach ($this->moduleService->all(true) as $module) {
+            if (!$module->isEnabled()
+                || (!in_array($module->name(), $legacyModuleNames, true)
+                    && !in_array($module->title(), self::LEGACY_MODULE_TITLES, true))) {
+                continue;
+            }
+
+            $activeModules[] = [
+                'name' => $module->name(),
+                'title' => $module->title(),
+            ];
         }
 
         return $activeModules;
