@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hartenthaler\WebtreesModules\History\HhHistoricEvents;
 
+use Fisharebest\Webtrees\I18N;
 use Illuminate\Support\Collection;
 use Hartenthaler\WebtreesModules\History\HhHistoricEvents\Internationalization\MoreI18N;
 
