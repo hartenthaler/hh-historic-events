@@ -508,11 +508,9 @@ msgstr "Alter bei historischen Ereignissen"
 msgid "Show ages at historical events"
 msgstr "Alter bei historischen Ereignissen anzeigen"
 
-#: resources/views/settings.phtml:367
-msgid "Show the person's age after the date of each historical event."
-msgstr ""
-"Zeigt das Alter der Person hinter dem Datum jedes historischen Ereignisses "
-"an."
+#: resources/views/settings.phtml:368
+msgid "Show the person's age at each historical event."
+msgstr "Zeigt das Alter der Person zu jedem historischen Ereignis an."
 
 #: resources/views/settings.phtml:373
 msgid "Selection by language"

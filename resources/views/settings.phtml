@@ -21,10 +21,11 @@ use Hartenthaler\WebtreesModules\History\HhHistoricEvents\Internationalization\M
  * @var array{filename:string,metadata:array<string,string>,rows:list<array<string,string>>}|null $selected_custom_csv
  */
 
-$custom_csv_language_options = ['en' => MoreI18N::xlate('English') . ' (en)'];
+$custom_csv_language_options = ['en' => 'English (en)'];
 foreach (I18N::activeLocales() as $locale) {
     $custom_csv_language_options[$locale->languageTag()] = $locale->endonym() . ' (' . $locale->languageTag() . ')';
 }
+ksort($custom_csv_language_options);
 ?>
 
 <?= view('components/breadcrumbs', [
@@ -364,7 +365,7 @@ foreach (I18N::activeLocales() as $locale) {
                     <?= I18N::translate('Show ages at historical events') ?>
                 </label>
                 <div class="form-text">
-                    <?= I18N::translate('Show the person\'s age after the date of each historical event.') ?>
+                    <?= I18N::translate('Show the person\'s age at each historical event.') ?>
                 </div>
             </div>
         </div>
