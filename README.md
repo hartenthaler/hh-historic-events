@@ -1,14 +1,14 @@
 # 📜 **webtrees** module for Historic Events (hh-historic-events)
 
-![Latest Release](https://img.shields.io/github/v/release/hartenthaler/hh-historic-events)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
+![Latest Release](https://img.shields.io/github/v/release/hartenthaler/hh-historic-events)
 ![Downloads](https://img.shields.io/github/downloads/hartenthaler/hh-historic-events/total)
 
 ![webtrees major version](https://img.shields.io/badge/webtrees-v2.1.x-green)
 ![webtrees major version](https://img.shields.io/badge/webtrees-v2.2.x-green)
 ![webtrees major version](https://img.shields.io/badge/webtrees-v2.3.x-green)
 
-This [webtrees](https://www.webtrees.net) custom module provides selectable historical events for the webtrees timeline.
+This [webtrees](https://www.webtrees.net) custom module provides selectable historical events for the webtrees timeline of a person.
 It combines several earlier historic-event modules into one configurable module, so shared improvements can be maintained in one place.
 
 <a name="Contents"></a>
@@ -35,8 +35,9 @@ This README contains the following main sections:
 <a name="Purpose"></a>
 ## 🎯 Purpose
 
-The standard webtrees timeline can display historical events that are provided by custom modules.
-This module brings several historic-event data collections together in a single module and lets administrators decide which collections and record types should be used.
+The standard webtrees timeline can display historical events that are provided by core and custom modules
+(see the [German webtrees manual](https://wiki.genealogy.net/Webtrees_Handbuch/Anleitung_f%C3%BCr_Besucher#Historische_Ereignisse).
+This module brings several historical event data collections together in a single module and lets administrators decide which collections and record types should be used.
 
 The module currently combines data from
 
@@ -65,10 +66,9 @@ Wikidata support for German chancellors and presidents is available as a separat
 The module supports
 
 * one combined historic-events module instead of several separate modules
-* selectable data sources in the webtrees control panel
+* selectable data sources in the webtrees control panel of this module
 * selectable record types inside each data source
-* GEDCOM text files for large legacy event lists
-* CSV files for structured historic-event data
+* CSV and GEDCOM files for structured historic-event data
 * individual CSV files for user-specific event lists
 * optional Wikidata source for German chancellors and presidents (using local file cache for Wikidata responses)
 
@@ -98,7 +98,7 @@ The module currently includes the following data sources.
 
 * **User-specific event lists:** Administrators can create and manage individual semicolon-separated CSV files in the module settings or webmasters can place them in `data/modules/hh-historic-events/data/`. The built-in five-column editor supports creating, editing, saving the current form state under a new filename, and deleting these persistent files. The supported columns are the start date, end date, event text, source link, and an optional category. New custom files identify their content language, the topic, and the geographical region in the metadata header. Files in this persistent directory survive module upgrades and override bundled CSV files with the same name. See the [custom CSV format specification](docs/custom-csv-format.md) and the [German example file](docs/examples/custom-family-events-de.csv).
 
-  Data files from [Potts Historical Facts](https://github.com/PottsNet/potts-historical-facts) can be converted for use by this module. A webmaster copies a Potts CSV file to `data/modules/hh-historic-events/data/`. The administrator then opens the file under **Control panel / Historic Events / Manage custom CSV files**, completes the language, topic, and optional region metadata, reviews the event rows, and saves the file. Saving rewrites the dates in the Gramps-compatible ISO representation and adds the metadata header used by this module.
+  Data files from [Potts Historical Facts](https://github.com/PottsNet/potts-historical-facts) can be converted for use by this module. A webmaster copies a Potts CSV file to `data/modules/hh-historic-events/data/`. The administrator then opens the file under **Control panel / Historic Events / Manage custom CSV files**, completes the language, topic, and optional region metadata, reviews the event rows, and saves the file. Saving rewrites the dates in the Gramps-compatible ISO date representation and adds the metadata header used by this module.
 
 <a name="Configuration"></a>
 ## ⚙️ Configuration
@@ -119,7 +119,7 @@ The module caches Wikidata responses for 24 hours.
 
 Users can view the enabled historical events in the `Facts and events` tab by selecting `Historic events`. webtrees places matching events into the timeline and applies its own date and lifetime filtering.
 
-Links supplied by a data source are stored as Markdown notes. Markdown should be enabled for the tree under `Control panel / Manage family trees / Preferences / Text`. Without Markdown, the link remains available but its presentation is less readable.
+Links supplied by a data source are stored as Markdown notes. Markdown should be enabled for the tree under `Control panel / Manage family trees / Preferences / Text`. Without Markdown, the link remains available, but its presentation is less readable.
 
 Administrators can modify the visual presentation of historical events with the CSS and JS module. The [German webtrees manual](https://wiki.genealogy.net/Webtrees_Handbuch/Entwicklungsumgebung#Beispiel_-_Farben_bei_Historischen_Fakten_anpassen) contains an example.
 
@@ -157,7 +157,9 @@ To update the module, replace the `hh-historic-events` files with the files from
 
 If new data sources or record types are added, review the module settings after the upgrade.
 
-This combined module replaces `german-wars-battles-worldwide`, `german-chancellors-presidents`, `swiss-historic-events`, and `gramps-historical-facts`. Do not operate these older modules in parallel. Disable them and delete their folders from `modules_v4`; the administration page displays a prominent warning while any of them remains active.
+This combined module replaces `german-wars-battles-worldwide`, `german-chancellors-presidents`, `swiss-historic-events`, and `gramps-historical-facts`.
+Do not operate these older modules in parallel.
+Disable them and delete their folders from `modules_v4`; the administration page displays a prominent warning while any of them remains active.
 
 <a name="Translation"></a>
 ## 🌍 Translation
@@ -175,8 +177,6 @@ The content of the historical data files cannot be translated. The Wikidata coll
 Contributions can add or improve historical data, translations, documentation, or module code.
 
 Before changing a data collection, review its provider documentation and file format. Changes to existing collections and proposals for new collections should be tested in webtrees and submitted through a new issue.
-
-Functional testing is currently primarily manual, so reproducible test steps and sample data are especially useful in bug reports and pull requests.
 
 <a name="Credits"></a>
 ## 👏 Credits
