@@ -61,7 +61,7 @@ final class EventDataProviderFactory
             new GermanChancellorsPresidentsWikidataProvider($this->httpClient),
             new TextGedcomEventProvider(
                 'swiss-historic-events',
-                'Historic Events: Switzerland',
+                'Historic Events: Switzerland (CSV)',
                 'Historical facts - events in Switzerland',
                 $dataFolder . 'csv/swiss-historic-events.csv',
                 'de',

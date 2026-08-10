@@ -49,7 +49,7 @@ final class TextGedcomEventProvider implements EventDataProviderInterface
     public function title(): string
     {
         return match ($this->title) {
-            'Historic Events: Switzerland' => I18N::translate('Historic Events: Switzerland'),
+            'Historic Events: Switzerland (CSV)' => I18N::translate('Historic Events: Switzerland (CSV)'),
             'Wars and Battles Worldwide' => I18N::translate('Wars and Battles Worldwide'),
             default => $this->title,
         };

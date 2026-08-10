@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hh-historic-events 2.2.6.1\n"
 "Report-Msgid-Bugs-To: Hermann Hartenthaler <hermann@hartenthaler.de>\n"
-"POT-Creation-Date: 2026-08-10 20:05+0200\n"
+"POT-Creation-Date: 2026-08-10 20:25+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,13 +32,13 @@ msgstr ""
 
 #: src\GermanChancellorsPresidentsCsvProvider.php:63
 #: src\GermanChancellorsPresidentsCsvProvider.php:172
-#: src\GermanChancellorsPresidentsWikidataProvider.php:165
+#: src\GermanChancellorsPresidentsWikidataProvider.php:166
 msgid "Chancellor of Germany"
 msgstr ""
 
 #: src\GermanChancellorsPresidentsCsvProvider.php:64
 #: src\GermanChancellorsPresidentsCsvProvider.php:172
-#: src\GermanChancellorsPresidentsWikidataProvider.php:166
+#: src\GermanChancellorsPresidentsWikidataProvider.php:167
 msgid "President of Germany"
 msgstr ""
 
@@ -48,9 +48,9 @@ msgid "acting"
 msgstr ""
 
 #: src\GermanChancellorsPresidentsCsvProvider.php:81
-#: src\GermanChancellorsPresidentsWikidataProvider.php:165
 #: src\GermanChancellorsPresidentsWikidataProvider.php:166
 #: src\GermanChancellorsPresidentsWikidataProvider.php:167
+#: src\GermanChancellorsPresidentsWikidataProvider.php:168
 msgid "Germany"
 msgstr ""
 
@@ -58,92 +58,92 @@ msgstr ""
 msgid "source"
 msgstr ""
 
-#: src\GermanChancellorsPresidentsWikidataProvider.php:43
+#: src\GermanChancellorsPresidentsWikidataProvider.php:44
 msgid "Chancellors and Presidents (Wikidata)"
 msgstr ""
 
-#: src\GermanChancellorsPresidentsWikidataProvider.php:48
+#: src\GermanChancellorsPresidentsWikidataProvider.php:49
 msgid ""
 "Historical facts - Chancellors and Presidents of Germany, Austria and "
 "Switzerland"
 msgstr ""
 
-#: src\GermanChancellorsPresidentsWikidataProvider.php:53
+#: src\GermanChancellorsPresidentsWikidataProvider.php:54
 msgid "Wikidata"
 msgstr ""
 
-#: src\GermanChancellorsPresidentsWikidataProvider.php:68
-#: src\GermanChancellorsPresidentsWikidataProvider.php:83
+#: src\GermanChancellorsPresidentsWikidataProvider.php:69
+#: src\GermanChancellorsPresidentsWikidataProvider.php:84
 msgid "Multilingual / dynamically localized"
 msgstr ""
 
-#: src\GermanChancellorsPresidentsWikidataProvider.php:143
+#: src\GermanChancellorsPresidentsWikidataProvider.php:144
 msgid "from"
 msgstr ""
 
-#: src\GermanChancellorsPresidentsWikidataProvider.php:144
+#: src\GermanChancellorsPresidentsWikidataProvider.php:145
 #, php-format
 msgid "member of party %s"
 msgstr ""
 
-#: src\GermanChancellorsPresidentsWikidataProvider.php:167
+#: src\GermanChancellorsPresidentsWikidataProvider.php:168
 msgid "Head of former state GDR"
 msgstr ""
 
-#: src\GermanChancellorsPresidentsWikidataProvider.php:168
+#: src\GermanChancellorsPresidentsWikidataProvider.php:169
 msgid "Chancellor of Austria"
 msgstr ""
 
-#: src\GermanChancellorsPresidentsWikidataProvider.php:168
 #: src\GermanChancellorsPresidentsWikidataProvider.php:169
+#: src\GermanChancellorsPresidentsWikidataProvider.php:170
 msgid "Austria"
 msgstr ""
 
-#: src\GermanChancellorsPresidentsWikidataProvider.php:169
+#: src\GermanChancellorsPresidentsWikidataProvider.php:170
 msgid "President of Austria"
 msgstr ""
 
-#: src\GermanChancellorsPresidentsWikidataProvider.php:170
+#: src\GermanChancellorsPresidentsWikidataProvider.php:171
 msgid "President of the Swiss Confederation"
 msgstr ""
 
-#: src\GermanChancellorsPresidentsWikidataProvider.php:170
+#: src\GermanChancellorsPresidentsWikidataProvider.php:171
 #: src\TextGedcomEventProvider.php:115
 msgid "Switzerland"
 msgstr ""
 
-#: src\GrampsCsvEventProvider.php:73
+#: src\GrampsCsvEventProvider.php:77
 msgid "Gramps-compatible CSV historical facts"
 msgstr ""
 
-#: src\GrampsCsvEventProvider.php:78
+#: src\GrampsCsvEventProvider.php:82
 msgid ""
 "Historical facts from the Gramps HistContext collection and CSV files "
 "provided by administrators or webmasters."
 msgstr ""
 
-#: src\GrampsCsvEventProvider.php:83
+#: src\GrampsCsvEventProvider.php:87
 msgid "Gramps HistContext repository (bundled files)"
-msgstr ""
-
-#: src\GrampsCsvEventProvider.php:127
-#, php-format
-msgid "Newer Gramps data files are available: %s"
 msgstr ""
 
 #: src\GrampsCsvEventProvider.php:131
 #, php-format
+msgid "Newer Gramps data files are available: %s"
+msgstr ""
+
+#: src\GrampsCsvEventProvider.php:135
+#, php-format
 msgid "Additional Gramps data files are available: %s"
 msgstr ""
 
-#: src\GrampsCsvEventProvider.php:139
+#: src\GrampsCsvEventProvider.php:143
 #, php-format
 msgid ""
 "Included Gramps data files are current. Local version: %s. Latest source "
 "version found: %s."
 msgstr ""
 
-#: src\GrampsCsvEventProvider.php:287
+#: src\GrampsCsvEventProvider.php:291
 msgid "Historic event"
 msgstr ""
 
@@ -206,7 +206,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src\TextGedcomEventProvider.php:52
-msgid "Historic Events: Switzerland"
+msgid "Historic Events: Switzerland (CSV)"
 msgstr ""
 
 #: src\TextGedcomEventProvider.php:53
