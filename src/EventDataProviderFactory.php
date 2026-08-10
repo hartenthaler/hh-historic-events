@@ -63,7 +63,7 @@ final class EventDataProviderFactory
                 'swiss-historic-events',
                 'Historic Events: Switzerland',
                 'Historical facts - events in Switzerland',
-                $dataFolder . 'gedcom/swiss-historic-events.ged',
+                $dataFolder . 'csv/swiss-historic-events.csv',
                 'de',
                 'Switzerland',
                 'Peter Jehli-Kamm, baum.jehli.ch',

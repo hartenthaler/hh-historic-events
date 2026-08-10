@@ -49,7 +49,7 @@ The factory `EventDataProviderFactory` creates the providers in the order used b
 
 Current providers:
 
-* `TextGedcomEventProvider`
+* `TextGedcomEventProvider` for static GEDCOM and CSV records
 * `GrampsCsvEventProvider`
 * `GermanChancellorsPresidentsCsvProvider`
 * `GermanChancellorsPresidentsWikidataProvider`
@@ -63,14 +63,13 @@ Static data is stored below `resources/data`.
 GEDCOM text files:
 
 * `resources/data/gedcom/german-wars-battles-worldwide.ged`
-* `resources/data/gedcom/swiss-historic-events.ged`
 
-These files replaced large legacy PHP event arrays so the data can be maintained outside PHP code.
-A later conversion of these text files to CSV is planned.
+This file replaced a large legacy PHP event array so the data can be maintained outside PHP code.
 
 CSV files:
 
 * `resources/data/csv/GermanChancellorsPresidents.csv`
+* `resources/data/csv/swiss-historic-events.csv`
 * Gramps CSV files in `resources/data/csv/*.csv`
 
 Wikidata:

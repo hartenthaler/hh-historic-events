@@ -2,7 +2,7 @@
 
 This provider supplies historical facts for the webtrees timeline: events in Switzerland or events with significance for the Swiss since 1291.
 
-The event text is in German. The data contains about 120 events and is based on data from Peter Jehli-Kamm, `baum.jehli.ch`.
+The event text is in German. The data contains about 120 events and is based on data from Peter Jehli-Kamm, `baum.jehli.ch`. It is stored as semicolon-separated CSV data in `resources/data/csv/swiss-historic-events.csv`.
 
 ## Usage
 

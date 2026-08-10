@@ -75,7 +75,7 @@ The module currently includes the following data sources.
   Loaded from Wikidata when enabled. Responses are cached below `data/cache/hh-historic-events/`.
 
 * **Historic Events: Switzerland**  
-  Stored as GEDCOM text records in `resources/data/gedcom/swiss-historic-events.ged`.
+  Stored as CSV data in `resources/data/csv/swiss-historic-events.csv`.
   See [provider documentation](docs/swiss-historic-events.md).
 
 * **Gramps Historical Facts**  
