@@ -36,7 +36,7 @@ This README contains the following main sections:
 
 The standard webtrees timeline can display historical events that are provided by core and custom modules
 (see the [German webtrees manual](https://wiki.genealogy.net/Webtrees_Handbuch/Anleitung_f%C3%BCr_Besucher#Historische_Ereignisse).
-This module brings several historical event data collections together in a single module and lets administrators decide which collections and record types should be used.
+This module brings several historical event data collections together in a single module and lets administrators decide which collections and record categories should be used.
 
 The module currently combines data from
 
@@ -52,11 +52,11 @@ The module currently combines data from
 The module supports
 
 * one combined historic-events module instead of several separate modules
-* selectable data sources in the webtrees control panel of this module
-* selectable record types inside each data source
+* selectable data collections in the webtrees control panel of this module
+* selectable record categories inside each collection
 * CSV and GEDCOM files for structured historic-event data
 * individual CSV files for user-specific event lists
-* optional Wikidata source for German chancellors and presidents (using local file cache for Wikidata responses)
+* optional Wikidata source for chancellors and presidents from Germany, Austria, and Switzerland (using a local file cache for Wikidata responses)
 
 <a name="Data"></a>
 ## 🗂 Data sources
@@ -71,7 +71,7 @@ The module currently includes the following data sources.
   Stored as CSV data in `resources/data/csv/GermanChancellorsPresidents.csv`.
   See [provider documentation](docs/german-chancellors-presidents.md).
 
-* **German Chancellors Presidents (Wikidata)**  
+* **Chancellors and Presidents from Germany, Austria and Switzerland (Wikidata)**
   Loaded from Wikidata when enabled. Responses are cached below `data/cache/hh-historic-events/`.
 
 * **Historic Events: Switzerland**  
@@ -91,11 +91,10 @@ The module currently includes the following data sources.
 
 Administrators can configure the module in the webtrees control panel.
 
-The most important settings are
+The settings page has two selection steps:
 
-* which data sources are enabled
-* which record types are enabled inside a data source
-* whether the Wikidata source is used
+1. Under **Selection by language**, choose the event languages to use. A language controls which collections are available for its historical event texts.
+1. Under **Data sources and individual collections**, choose the required collections and, where available, the record categories within each collection. This also controls whether the optional Wikidata collection is used.
 
 For good performance, enable only the data sources and collections that are actually needed. Processing many sources, or a single large collection such as Wars and Battles Worldwide, can noticeably slow down webtrees.
 The module caches Wikidata responses for 24 hours.
@@ -134,14 +133,14 @@ for an easy and convenient installation of **webtrees** custom modules when this
 1. Go to <span class="pointer">Control Panel / Modules / Historic events</span>.
 1. Enable the module named **Historic Events**.
 
-Open the module settings and select the desired data sources and record types.
+Open the module settings, select the desired event languages, and then select the required data collections and record categories.
 
 <a name="Upgrade"></a>
 ## ⬆️ Upgrade
 
 To update the module, replace the `hh-historic-events` files with the files from the latest release.
 
-If new data sources or record types are added, review the module settings after the upgrade.
+If new data collections or record categories are added, review the module settings after the upgrade.
 
 This combined module replaces `german-wars-battles-worldwide`, `german-chancellors-presidents`, `swiss-historic-events`, and `gramps-historical-facts`.
 Do not operate these older modules in parallel.
@@ -150,12 +149,12 @@ Disable them and delete their folders from `modules_v4`; the administration page
 <a name="Translation"></a>
 ## 🌍 Translation
 
-Translation files are stored in `resources/lang`.
+The user-interface translations use GNU gettext catalogs in `resources/lang`: edit the `.po` file, for example with Poedit, and compile the matching `.mo` file. `default.pot` is the template for new or updated translations.
 
 Updated translations can be contributed via a pull request or by email.
 They will be included in a future release of the module.
 
-The content of the historical data files cannot be translated. The Wikidata collection "German Chancellors Presidents" is multilingual.
+The content of the historical data files cannot be translated. The Wikidata collection **Chancellors and Presidents from Germany, Austria and Switzerland** is multilingual.
 
 <a name="Contributing"></a>
 ## 🤝 Contributing and testing
@@ -173,7 +172,7 @@ This module combines four earlier historic-event modules and preserves their dat
 
 The following data collections were prepared by Hermann Hartenthaler.
 * **Wars and Battles Worldwide:** [Wikipedia](https://www.wikipedia.org/) is the principal reference source for the worldwide wars and battles collection; individual records link to the relevant articles.
-* **German Chancellors and Presidents:** The bundled CSV collection uses the [German Wikipedia](https://de.wikipedia.org/) for biographical references and [Wikimedia Commons](https://commons.wikimedia.org/) for images and attribution. The optional online provider obtains structured data from [Wikidata](https://www.wikidata.org/).
+* **German Chancellors and Presidents:** The bundled CSV collection uses the [German Wikipedia](https://de.wikipedia.org/) for biographical references and [Wikimedia Commons](https://commons.wikimedia.org/) for images and attribution. The optional online provider obtains structured data for Germany, Austria, and Switzerland from [Wikidata](https://www.wikidata.org/).
 
 Thanks also to the [webtrees development team](https://github.com/fisharebest/webtrees) for webtrees and its historic-events module interface.
 
