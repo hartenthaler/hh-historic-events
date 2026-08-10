@@ -53,6 +53,10 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
     private const SOURCE_API_URL = 'https://api.github.com/repos/kajmikkelsen/HistContext/contents';
     private const SOURCE_URL = 'https://github.com/kajmikkelsen/HistContext';
     private const SOURCE_CACHE_TTL = 86400;
+    private const EXCLUDED_CSV_FILE_NAMES = [
+        'GermanChancellorsPresidents.csv',
+        'swiss-historic-events.csv',
+    ];
 
     /**
      * @param list<string> $folders Folders in descending priority order
@@ -258,7 +262,7 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
         $options = [];
         foreach (glob($bundledFolder . '*.csv') ?: [] as $file) {
             $fileName = basename($file);
-            if ($fileName === 'GermanChancellorsPresidents.csv' || !is_file($customFolder . $fileName)) {
+            if (in_array($fileName, self::EXCLUDED_CSV_FILE_NAMES, true) || !is_file($customFolder . $fileName)) {
                 continue;
             }
 
@@ -329,7 +333,7 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
             foreach (glob($folder . '*.csv') ?: [] as $file) {
                 $fileName = basename($file);
 
-                if ($fileName === 'GermanChancellorsPresidents.csv' || isset($filesByName[$fileName])) {
+                if (in_array($fileName, self::EXCLUDED_CSV_FILE_NAMES, true) || isset($filesByName[$fileName])) {
                     continue;
                 }
 
