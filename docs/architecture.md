@@ -3,6 +3,13 @@
 `hh-historic-events` is a webtrees custom module that implements the historic-events module interface.
 It combines several formerly separate historic-event modules into one configurable provider-based module.
 
+## Scope
+
+The module provides GEDCOM-style historical event records for the webtrees timeline.
+It neither creates GEDCOM records in family trees nor stores historical events in a database table.
+
+Static data is stored below `resources/data`.
+
 ## Main Module
 
 The main integration class is `HhHistoricEvents`.
@@ -57,6 +64,9 @@ GEDCOM text files:
 
 * `resources/data/gedcom/german-wars-battles-worldwide.ged`
 * `resources/data/gedcom/swiss-historic-events.ged`
+
+These files replaced large legacy PHP event arrays so the data can be maintained outside PHP code.
+A later conversion of these text files to CSV is planned.
 
 CSV files:
 
