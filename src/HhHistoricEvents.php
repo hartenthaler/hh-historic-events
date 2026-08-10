@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace Hartenthaler\WebtreesModules\History\HhHistoricEvents;
 
+use Fisharebest\Webtrees\Age;
+use Fisharebest\Webtrees\Fact;
 use Fisharebest\Webtrees\FlashMessages;
 use Fisharebest\Webtrees\I18N;
+use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Module\AbstractModule;
 use Fisharebest\Webtrees\Module\ModuleConfigInterface;
 use Fisharebest\Webtrees\Module\ModuleConfigTrait;
 use Fisharebest\Webtrees\Module\ModuleCustomInterface;
 use Fisharebest\Webtrees\Module\ModuleCustomTrait;
+use Fisharebest\Webtrees\Module\ModuleGlobalInterface;
+use Fisharebest\Webtrees\Module\ModuleGlobalTrait;
 use Fisharebest\Webtrees\Module\ModuleHistoricEventsInterface;
 use Fisharebest\Webtrees\Module\ModuleHistoricEventsTrait;
 use Fisharebest\Webtrees\Services\ModuleService;
@@ -40,6 +45,7 @@ use function json_decode;
 use function json_encode;
 use function md5;
 use function mkdir;
+use function preg_replace;
 use function redirect;
 use function realpath;
 use function rtrim;
@@ -50,10 +56,13 @@ use function substr;
 use function time;
 use function usort;
 
-final class HhHistoricEvents extends AbstractModule implements ModuleCustomInterface, ModuleHistoricEventsInterface, ModuleConfigInterface
+final class HhHistoricEvents extends AbstractModule implements ModuleCustomInterface, ModuleHistoricEventsInterface, ModuleConfigInterface, ModuleGlobalInterface
 {
     use ModuleCustomTrait;
-    use ModuleHistoricEventsTrait;
+    use ModuleHistoricEventsTrait {
+        historicEventsForIndividual as private coreHistoricEventsForIndividual;
+    }
+    use ModuleGlobalTrait;
     use ModuleConfigTrait;
 
     public const CUSTOM_TITLE = 'Historic Events';
@@ -66,6 +75,8 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
     public const CUSTOM_LAST = 'https://github.com/' . self::CUSTOM_GITHUB_USER . '/' .
         self::CUSTOM_MODULE . '/raw/main/latest-version.txt';
     private const EVENTS_CACHE_TTL = 86400;
+    private const SHOW_EVENT_AGES_PREFERENCE = 'show_event_ages';
+    private const EVENT_AGE_MARKER = '__HH_HISTORIC_EVENT_AGE__';
     private const CUSTOM_CSV_FORM_SESSION_KEY = 'hh-historic-events-custom-csv-form';
     private const LEGACY_MODULE_NAMES = [
         'german-wars-battles-worldwide',
@@ -241,6 +252,63 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
         return new Collection($events);
     }
 
+    /**
+     * Keep webtrees' standard lifetime filtering and add display metadata only
+     * for historical facts that remain after that filtering.
+     *
+     * @return Collection<int,Fact>
+     */
+    public function historicEventsForIndividual(Individual $individual): Collection
+    {
+        $facts = $this->coreHistoricEventsForIndividual($individual);
+
+        if (!$this->showEventAges()) {
+            return $facts;
+        }
+
+        $birthDate = $individual->getBirthDate();
+
+        return $facts->map(function (Fact $fact) use ($birthDate, $individual): Fact {
+            $age = (string) new Age($birthDate, $fact->date());
+
+            if ($age === '') {
+                return $fact;
+            }
+
+            $gedcom = preg_replace(
+                '/\\n2 TYPE ([^\\n]*)/',
+                "\n2 TYPE $1 " . self::EVENT_AGE_MARKER . ' ' . I18N::translate('(aged %s)', $age),
+                $fact->gedcom(),
+                1
+            );
+
+            return new Fact($gedcom ?? $fact->gedcom(), $individual, $fact->id());
+        });
+    }
+
+    public function bodyContent(): string
+    {
+        if (!$this->showEventAges()) {
+            return '';
+        }
+
+        return '<script>(function () {' .
+            'const marker = ' . json_encode(self::EVENT_AGE_MARKER) . ';' .
+            'const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);' .
+            'const nodes = [];' .
+            'let node;' .
+            'while ((node = walker.nextNode())) { if (node.nodeValue.includes(marker)) { nodes.push(node); } }' .
+            'nodes.forEach((textNode) => {' .
+                'const parts = textNode.nodeValue.split(marker);' .
+                'const age = (parts[1] || "").trim();' .
+                'textNode.nodeValue = parts[0].trim();' .
+                'const row = textNode.parentElement.closest("tr");' .
+                'const date = row ? row.querySelector(".wt-fact-date-age") : null;' .
+                'if (date && age !== "") { date.append(document.createTextNode(" " + age)); }' .
+            '});' .
+        '}());</script>';
+    }
+
     public function getAdminAction(ServerRequestInterface $request): ResponseInterface
     {
         $this->layout = 'layouts/administration';
@@ -275,6 +343,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
             'description' => $this->description(),
             'languages' => $this->adminLanguages(),
             'providers' => $this->adminProviders(),
+            'show_event_ages' => $this->showEventAges(),
             'custom_data_folder' => $this->customDataFolderDisplay(),
             'custom_csv_documentation_url' => self::CUSTOM_WEBSITE . 'blob/main/docs/custom-csv-format.md',
             'custom_csv_example_url' => self::CUSTOM_WEBSITE . 'raw/main/docs/examples/custom-family-events-de.csv',
@@ -292,6 +361,8 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
         if ($action !== 'save-preferences') {
             return $this->handleCustomCsvAction($action, $params);
         }
+
+        $this->setPreference(self::SHOW_EVENT_AGES_PREFERENCE, isset($params['show_event_ages']) ? '1' : '0');
 
         foreach ($this->providerFactory()->providers() as $provider) {
             $this->setPreference($this->providerPreferenceKey($provider->id()), isset($params[$this->providerFormKey($provider->id())]) ? '1' : '0');
@@ -621,6 +692,11 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
         }
 
         return $enabledTypes;
+    }
+
+    private function showEventAges(): bool
+    {
+        return $this->getPreference(self::SHOW_EVENT_AGES_PREFERENCE, '0') === '1';
     }
 
     private function typeIsEnabled(EventDataProviderInterface $provider, string $typeId): bool
