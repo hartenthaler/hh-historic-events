@@ -7,12 +7,19 @@ namespace Hartenthaler\WebtreesModules\History\HhHistoricEvents;
 use Fisharebest\Webtrees\I18N;
 use Illuminate\Support\Collection;
 
+use function array_pad;
 use function file_get_contents;
+use function fclose;
+use function fgetcsv;
+use function fopen;
 use function is_file;
+use function pathinfo;
 use function preg_match_all;
 use function preg_split;
 use function str_replace;
 use function trim;
+
+use const PATHINFO_EXTENSION;
 
 final class TextGedcomEventProvider implements EventDataProviderInterface
 {
@@ -126,6 +133,10 @@ final class TextGedcomEventProvider implements EventDataProviderInterface
             return $collection;
         }
 
+        if (pathinfo($this->file, PATHINFO_EXTENSION) === 'csv') {
+            return $this->csvHistoricEvents($enabledTypes);
+        }
+
         $content = trim((string) file_get_contents($this->file));
         if ($content === '') {
             return $collection;
@@ -139,6 +150,43 @@ final class TextGedcomEventProvider implements EventDataProviderInterface
 
             $collection->push($this->replacePlaceholders($record));
         }
+
+        return $collection;
+    }
+
+    /**
+     * @param array<string,bool> $enabledTypes
+     */
+    private function csvHistoricEvents(array $enabledTypes): Collection
+    {
+        $collection = new Collection();
+        $handle = fopen($this->file, 'rb');
+
+        if ($handle === false) {
+            return $collection;
+        }
+
+        while (($row = fgetcsv($handle, 0, ';', '"', '\\')) !== false) {
+            if (($row[0] ?? '') === 'date') {
+                continue;
+            }
+
+            [$date, $event, $note, $type] = array_pad($row, 4, '');
+            if ($event === '' || $type === '' || $date === '') {
+                continue;
+            }
+
+            $record = '1 EVEN ' . $event . "\n" .
+                '2 TYPE {{type:' . $type . "}}\n" .
+                '2 DATE ' . $date . "\n" .
+                '2 NOTE ' . $note;
+
+            if ($this->recordTypeIsEnabled($record, $enabledTypes)) {
+                $collection->push($this->replacePlaceholders($record));
+            }
+        }
+
+        fclose($handle);
 
         return $collection;
     }
