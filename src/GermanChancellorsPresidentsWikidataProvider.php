@@ -131,6 +131,8 @@ final class GermanChancellorsPresidentsWikidataProvider implements EventDataProv
                 $endPartyDate = !empty($person->endPartyDate) ? new DateTime($person->endPartyDate) : null;
                 $showParty = $endPartyDate === null || $startActingDateForParty === null || $endPartyDate > $startActingDateForParty;
                 $hasPartyDetails = $showParty && ($startPartyDate !== null || isset($person->partyShortLabel));
+                $article = $person->article ?? $person->officeHolder ?? '';
+                $articleLabel = isset($person->article) ? ($person->wikiType ?? 'wiki') : I18N::translate('Wikidata');
 
                 $collection->push(
                     sprintf(
@@ -147,8 +149,8 @@ final class GermanChancellorsPresidentsWikidataProvider implements EventDataProv
                         $wikidataObject[2],
                         $startActingDate,
                         $endActingDate !== '' ? ' TO ' . $endActingDate : '',
-                        $person->wikiType,
-                        $person->article
+                        $articleLabel,
+                        $article
                     )
                 );
             }
@@ -203,7 +205,7 @@ final class GermanChancellorsPresidentsWikidataProvider implements EventDataProv
         [$wikidataId, $property] = $wikidataObject;
 
         return "
-            SELECT ?officeHolderLabel ?startActingDate ?endActingDate ?birthDate ?deathDate ?partyShortLabel ?startPartyDate ?endPartyDate ?article WHERE {
+            SELECT ?officeHolder ?officeHolderLabel ?startActingDate ?endActingDate ?birthDate ?deathDate ?partyShortLabel ?startPartyDate ?endPartyDate ?article WHERE {
                 {
                     wd:$wikidataId p:$property ?statement.
                     ?statement ps:$property ?officeHolder.
