@@ -1,0 +1,25 @@
+From date;To date;Event;Link;Category
+########################################################
+## FORMAT: webtrees gramps-historical-facts
+## TOPIC: Pandemics and epidemics
+## VERSION: 1.1
+## AUTHOR: Kaj Mikkelsen / HistContext contributors
+## CONTACT: https://github.com/kajmikkelsen/HistContext
+########################################################
+1520;1527;Smallpox (New World);https://wikipedia.org/wiki/Smallpox;Epidemic
+1629;1631;Great Bubonic Plague of Milan (Italy);https://wikipedia.org/wiki/Italian_plague_of_1629%E2%80%931631;Epidemic
+1665;1666;Great Bubonic Plague of London (England);https://wikipedia.org/wiki/Great_Plague_of_London;Epidemic
+1720;1722;Great Bubonic Plague of Marseille (France);https://wikipedia.org/wiki/Great_Plague_of_Marseille;Epidemic
+1793;1793;Yellow Fever Epidemic (Philadelphia);https://wikipedia.org/wiki/Yellow_Fever_Epidemic_of_1793;Epidemic
+1817;1824;First Cholera Pandemic (Asia, Europe);https://wikipedia.org/wiki/Cholera_outbreaks_and_pandemics;Pandemic
+1855;1860;Third Bubonic Plague Pandemic (China, India, worldwide);https://wikipedia.org/wiki/Third_plague_pandemic;Pandemic
+1889;1890;Russian Flu (Worldwide);https://wikipedia.org/wiki/1889%E2%80%931890_pandemic;Pandemic
+1918;1920;Spanish Flu (Worldwide);https://wikipedia.org/wiki/Spanish_flu;Pandemic
+1957;1958;Asian Flu (Worldwide);https://wikipedia.org/wiki/Asian_flu;Pandemic
+1968;1969;Hong Kong Flu (Worldwide);https://wikipedia.org/wiki/Hong_Kong_flu;Pandemic
+1981;;HIV/AIDS (Worldwide);https://wikipedia.org/wiki/HIV/AIDS;Epidemic
+2002;2003;SARS (Asia, worldwide);https://wikipedia.org/wiki/SARS;Epidemic
+2009;2010;Swine Flu (Worldwide);https://wikipedia.org/wiki/2009_flu_pandemic;Pandemic
+2014;2016;Ebola (West Africa);https://wikipedia.org/wiki/Ebola_virus_disease;Epidemic
+2015;2016;Zika Virus (Americas);https://wikipedia.org/wiki/Zika_virus;Epidemic
+2019;2023;COVID-19 (Worldwide);https://wikipedia.org/wiki/COVID-19_pandemic;Pandemic
