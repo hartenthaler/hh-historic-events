@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Hartenthaler\WebtreesModules\History\HhHistoricEvents;
 
-use Fisharebest\Webtrees\I18N;
+use Hartenthaler\WebtreesModules\History\HhHistoricEvents\Internationalization\MoreI18N;
 use Illuminate\Support\Collection;
 
 use function fclose;
@@ -53,7 +53,7 @@ final class GermanChancellorsPresidentsCsvProvider implements EventDataProviderI
 
     public function eventLanguageOptions(): array
     {
-        return ['de' => I18N::translate('German')];
+        return ['de' => MoreI18N::xlate('German')];
     }
 
     public function typeOptions(): array

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Hartenthaler\WebtreesModules\History\HhHistoricEvents;
 
-use Fisharebest\Webtrees\I18N;
 use Illuminate\Support\Collection;
+use Hartenthaler\WebtreesModules\History\HhHistoricEvents\Internationalization\MoreI18N;
 
 use function array_pad;
 use function file_get_contents;
@@ -259,7 +259,7 @@ final class TextGedcomEventProvider implements EventDataProviderInterface
     private function translateLanguageId(string $languageId): string
     {
         return match ($languageId) {
-            'de' => I18N::translate('German'),
+            'de' => MoreI18N::xlate('German'),
             default => $languageId,
         };
     }

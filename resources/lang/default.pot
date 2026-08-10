@@ -1,118 +1,114 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Hermann Hartenthaler
+# This file is distributed under the same license as the hh-historic-events package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: hh-historic-events\n"
+"Project-Id-Version: hh-historic-events 2.2.6.1\n"
 "Report-Msgid-Bugs-To: Hermann Hartenthaler <hermann@hartenthaler.de>\n"
 "POT-Creation-Date: 2026-08-10 18:20+0200\n"
-"PO-Revision-Date: \n"
-"Last-Translator: Hermann Hartenthaler <hermann@hartenthaler.de>\n"
-"Language-Team: \n"
-"Language: de\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.9\n"
-"X-Poedit-Basepath: ../..\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: translate;noop;plural:1,2;translateContext:2,1c\n"
-"X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPathExcluded-0: .git\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: src\GermanChancellorsPresidentsCsvProvider.php:31
 msgid "German Chancellors Presidents (CSV)"
-msgstr "Deutsche Kanzler und Präsidenten (CSV)"
+msgstr ""
 
 #: src\GermanChancellorsPresidentsCsvProvider.php:36
 #: src\GermanChancellorsPresidentsWikidataProvider.php:48
 msgid "Historical facts - Chancellors and Presidents of Germany (since 1949)"
 msgstr ""
-"Historische Fakten - Bundeskanzler und Bundespräsidenten in Deutschland, "
-"sowie Staatsoberhäupter der DDR (seit 1949)"
 
 #: src\GermanChancellorsPresidentsCsvProvider.php:41
 msgid "Wikipedia and Wikimedia Commons"
-msgstr "Wikipedia und Wikimedia Commons"
+msgstr ""
 
 #: src\GermanChancellorsPresidentsCsvProvider.php:62
 #: src\GermanChancellorsPresidentsCsvProvider.php:171
 #: src\GermanChancellorsPresidentsWikidataProvider.php:74
 #: src\GermanChancellorsPresidentsWikidataProvider.php:164
 msgid "Chancellor of Germany"
-msgstr "Bundeskanzler von Deutschland"
+msgstr ""
 
 #: src\GermanChancellorsPresidentsCsvProvider.php:63
 #: src\GermanChancellorsPresidentsCsvProvider.php:171
 #: src\GermanChancellorsPresidentsWikidataProvider.php:75
 #: src\GermanChancellorsPresidentsWikidataProvider.php:165
 msgid "President of Germany"
-msgstr "Bundespräsident von Deutschland"
+msgstr ""
 
 #: src\GermanChancellorsPresidentsCsvProvider.php:64
 #: src\GermanChancellorsPresidentsCsvProvider.php:171
 msgid "acting"
-msgstr "geschäftsführend"
+msgstr ""
 
 #: src\GermanChancellorsPresidentsCsvProvider.php:80
 #: src\GermanChancellorsPresidentsWikidataProvider.php:92
 msgid "Germany"
-msgstr "Deutschland"
+msgstr ""
 
 #: src\GermanChancellorsPresidentsCsvProvider.php:96
 msgid "source"
-msgstr "Quelle"
+msgstr ""
 
 #: src\GermanChancellorsPresidentsWikidataProvider.php:43
 msgid "German Chancellors Presidents (Wikidata)"
-msgstr "Deutsche Kanzler und Präsidenten (Wikidata)"
+msgstr ""
 
 #: src\GermanChancellorsPresidentsWikidataProvider.php:53
 msgid "Wikidata"
-msgstr "Wikidata"
+msgstr ""
 
 #: src\GermanChancellorsPresidentsWikidataProvider.php:68
 #: src\GermanChancellorsPresidentsWikidataProvider.php:82
 msgid "Multilingual / dynamically localized"
-msgstr "Mehrsprachig / dynamisch lokalisiert"
+msgstr ""
 
 #: src\GermanChancellorsPresidentsWikidataProvider.php:76
 #: src\GermanChancellorsPresidentsWikidataProvider.php:166
 msgid "Head of former state GDR"
-msgstr "Staatsoberhaupt der DDR"
+msgstr ""
 
 #: src\GermanChancellorsPresidentsWikidataProvider.php:142
 msgid "from"
-msgstr "ab"
+msgstr ""
 
 #: src\GermanChancellorsPresidentsWikidataProvider.php:143
 #, php-format
 msgid "member of party %s"
-msgstr "Mitglied der Partei %s"
+msgstr ""
 
 #: src\GrampsCsvEventProvider.php:73
 msgid "Gramps-compatible CSV historical facts"
-msgstr "Historische Fakten im Gramps-kompatiblen CSV-Format"
+msgstr ""
 
 #: src\GrampsCsvEventProvider.php:78
 msgid ""
 "Historical facts from the Gramps HistContext collection and CSV files "
 "provided by administrators or webmasters."
 msgstr ""
-"Historische Fakten aus der Gramps-HistContext-Sammlung und aus CSV-Dateien, "
-"die von Administratoren bzw. Webmastern bereitgestellt werden."
 
 #: src\GrampsCsvEventProvider.php:83
 msgid "Gramps HistContext repository (bundled files)"
-msgstr "Gramps-HistContext-Repository (mitgelieferte Dateien)"
+msgstr ""
 
 #: src\GrampsCsvEventProvider.php:127
 #, php-format
 msgid "Newer Gramps data files are available: %s"
-msgstr "Neuere Gramps-Datendateien sind verfügbar: %s"
+msgstr ""
 
 #: src\GrampsCsvEventProvider.php:131
 #, php-format
 msgid "Additional Gramps data files are available: %s"
-msgstr "Zusätzliche Gramps-Datendateien sind verfügbar: %s"
+msgstr ""
 
 #: src\GrampsCsvEventProvider.php:139
 #, php-format
@@ -120,317 +116,293 @@ msgid ""
 "Included Gramps data files are current. Local version: %s. Latest source "
 "version found: %s."
 msgstr ""
-"Die enthaltenen Gramps-Datendateien sind aktuell. Lokale Version: %s. "
-"Neueste gefundene Quellversion: %s."
 
 #: src\GrampsCsvEventProvider.php:287
 msgid "Historic event"
-msgstr "Historisches Ereignis"
+msgstr ""
 
 #: src\HhHistoricEvents.php:123
 msgid "Historic Events"
-msgstr "Historische Ereignisse"
+msgstr ""
 
 #: src\HhHistoricEvents.php:128
 msgid "Historical facts from selectable data collections"
-msgstr "Historische Fakten aus wählbaren Datensammlungen"
+msgstr ""
 
 #: src\HhHistoricEvents.php:178
 msgid ""
 "The Historic Events module can query Wikidata for selected historical event "
 "data. Responses are cached locally for 24 hours to reduce external requests."
 msgstr ""
-"Das Modul \"Historische Ereignisse\" kann Wikidata nach ausgewählten "
-"historischen Ereignisdaten abfragen. Antworten werden 24 Stunden lokal "
-"zwischengespeichert, um externe Anfragen zu reduzieren."
 
 #: src\HhHistoricEvents.php:180
 msgid "Server IP address and technical request metadata."
-msgstr "IP-Adresse des Servers und technische Metadaten der Anfrage."
+msgstr ""
 
 #: src\HhHistoricEvents.php:181
 msgid "Requested Wikidata entities for the enabled historical event provider."
-msgstr "Abgefragte Wikidata-Entitäten für den aktivierten Ereignis-Anbieter."
+msgstr ""
 
 #: src\HhHistoricEvents.php:186
 msgid ""
 "Wikidata responses are cached locally for 24 hours to reduce external "
 "requests."
 msgstr ""
-"Wikidata-Antworten werden 24 Stunden lokal zwischengespeichert, um externe "
-"Anfragen zu reduzieren."
 
 #: src\HhHistoricEvents.php:424
 msgid "The custom CSV file has been created."
-msgstr "Die nutzerspezifische CSV-Datei wurde angelegt."
+msgstr ""
 
 #: src\HhHistoricEvents.php:428
 msgid "The custom CSV file has been saved."
-msgstr "Die nutzerspezifische CSV-Datei wurde gespeichert."
+msgstr ""
 
 #: src\HhHistoricEvents.php:437
 msgid "The custom CSV file has been saved under the new filename."
 msgstr ""
-"Die nutzerspezifische CSV-Datei wurde unter dem neuen Dateinamen gespeichert."
 
 #: src\HhHistoricEvents.php:441
 msgid "The custom CSV file has been deleted."
-msgstr "Die nutzerspezifische CSV-Datei wurde gelöscht."
+msgstr ""
 
 #: src\HhHistoricEvents.php:467
 #, php-format
 msgid "One invalid date value was omitted."
 msgid_plural "%s invalid date values were omitted."
-msgstr[0] "Ein ungültiger Datumswert wurde weggelassen."
-msgstr[1] "%s ungültige Datumswerte wurden weggelassen."
+msgstr[0] ""
+msgstr[1] ""
 
 #: src\HhHistoricEvents.php:475
 #, php-format
 msgid "One end date before its start date was omitted."
 msgid_plural "%s end dates before their start dates were omitted."
-msgstr[0] "Ein Enddatum vor dem zugehörigen Anfangsdatum wurde weggelassen."
-msgstr[1] "%s Enddaten vor den zugehörigen Anfangsdaten wurden weggelassen."
+msgstr[0] ""
+msgstr[1] ""
 
 #: src\TextGedcomEventProvider.php:50
 msgid "Historic Events: Switzerland"
-msgstr "Historische Ereignisse: Schweiz"
+msgstr ""
 
 #: src\TextGedcomEventProvider.php:51
 msgid "Wars and Battles Worldwide"
-msgstr "Kriege und Schlachten weltweit"
+msgstr ""
 
 #: src\TextGedcomEventProvider.php:59
 msgid "Historical facts - events in Switzerland"
-msgstr "Historische Fakten - Ereignisse in der Schweiz"
+msgstr ""
 
 #: src\TextGedcomEventProvider.php:60
 msgid "Historical facts - Wars and Battles Worldwide (since 900)"
-msgstr "Historische Fakten - weltweite Kriege und Schlachten (seit 900)"
+msgstr ""
 
 #: src\TextGedcomEventProvider.php:68
 msgid "Wikipedia"
-msgstr "Wikipedia"
+msgstr ""
 
 #: src\TextGedcomEventProvider.php:69
 msgid "Peter Jehli-Kamm, baum.jehli.ch"
-msgstr "Peter Jehli-Kamm, baum.jehli.ch"
+msgstr ""
 
 #: src\TextGedcomEventProvider.php:112
 msgid "Worldwide"
-msgstr "Weltweit"
+msgstr ""
 
 #: src\TextGedcomEventProvider.php:113
 msgid "Switzerland"
-msgstr "Schweiz"
+msgstr ""
 
 #: src\TextGedcomEventProvider.php:235
 msgid "Historic event: Switzerland"
-msgstr "Historisches Ereignis: Schweiz"
+msgstr ""
 
 #: src\TextGedcomEventProvider.php:236
 msgid "revolt"
-msgstr "Aufstand"
+msgstr ""
 
 #: src\TextGedcomEventProvider.php:237
 msgid "siege"
-msgstr "Belagerung"
+msgstr ""
 
 #: src\TextGedcomEventProvider.php:238
 msgid "blockade"
-msgstr "Blockade"
+msgstr ""
 
 #: src\TextGedcomEventProvider.php:239
 msgid "civil war"
-msgstr "Bürgerkrieg"
+msgstr ""
 
 #: src\TextGedcomEventProvider.php:240
 msgid "conquest"
-msgstr "Eroberung"
+msgstr ""
 
 #: src\TextGedcomEventProvider.php:241
 msgid "feud"
-msgstr "Fehde"
+msgstr ""
 
 #: src\TextGedcomEventProvider.php:242
 msgid "campaign"
-msgstr "Feldzug"
+msgstr ""
 
 #: src\TextGedcomEventProvider.php:243
 msgid "combat"
-msgstr "Gefecht"
+msgstr ""
 
 #: src\TextGedcomEventProvider.php:244
 msgid "invasion"
-msgstr "Invasion"
+msgstr ""
 
 #: src\TextGedcomEventProvider.php:245
 msgid "struggle"
-msgstr "Kampf"
+msgstr ""
 
 #: src\TextGedcomEventProvider.php:246
 msgid "conflict"
-msgstr "Konflikt"
+msgstr ""
 
 #: src\TextGedcomEventProvider.php:247
 msgid "crusade"
-msgstr "Kreuzzug"
+msgstr ""
 
 #: src\TextGedcomEventProvider.php:248
 msgid "war"
-msgstr "Krieg"
+msgstr ""
 
 #: src\TextGedcomEventProvider.php:249
 msgid "massacre"
-msgstr "Massaker"
+msgstr ""
 
 #: src\TextGedcomEventProvider.php:250
 msgid "offensive"
-msgstr "Offensive"
+msgstr ""
 
 #: src\TextGedcomEventProvider.php:251
 msgid "revolution"
-msgstr "Revolution"
+msgstr ""
 
 #: src\TextGedcomEventProvider.php:252
 msgid "battle"
-msgstr "Schlacht"
+msgstr ""
 
 #: src\TextGedcomEventProvider.php:253
 msgid "naval battle"
-msgstr "Seeschlacht"
+msgstr ""
 
 #: src\TextGedcomEventProvider.php:254
 msgid "operation"
-msgstr "Operation"
+msgstr ""
 
 #: resources\views\settings.phtml:39
 msgid "Superseded modules are active"
-msgstr "Ersetzte Module sind aktiv"
+msgstr ""
 
 #: resources\views\settings.phtml:41
 msgid ""
 "The following older modules are still active and provide data already "
 "included in this module:"
 msgstr ""
-"Die folgenden älteren Module sind noch aktiv und liefern Daten, die bereits "
-"in diesem Modul enthalten sind:"
 
 #: resources\views\settings.phtml:52
 msgid ""
 "Disable these modules and delete their folders from modules_v4. Do not run "
 "them in parallel with this module."
 msgstr ""
-"Deaktivieren Sie diese Module und löschen Sie ihre Ordner aus modules_v4. "
-"Betreiben Sie sie nicht parallel zu diesem Modul."
 
 #: resources\views\settings.phtml:58
 msgid "Manage custom CSV files"
-msgstr "Nutzerspezifische CSV-Dateien verwalten"
+msgstr ""
 
 #: resources\views\settings.phtml:62
 msgid ""
 "Store custom CSV files in this persistent data directory. Files in this "
 "directory override bundled CSV files with the same name."
 msgstr ""
-"Speichern Sie eigene CSV-Dateien in diesem dauerhaften Datenverzeichnis. "
-"Dateien in diesem Verzeichnis haben Vorrang vor gleichnamigen mitgelieferten "
-"CSV-Dateien."
 
 #: resources\views\settings.phtml:66
 msgid ""
 "CSV columns: start date; end date; event text; source link; optional category"
 msgstr ""
-"CSV-Spalten: Startdatum; Enddatum; Ereignistext; Quellenlink; optionale "
-"Kategorie"
 
 #: resources\views\settings.phtml:69
 msgid ""
 "New custom files require FORMAT, TOPIC, and LANGUAGE metadata. REGION "
 "optionally describes the geographical region in the language of the file."
 msgstr ""
-"Neue eigene Dateien benötigen die Metadaten FORMAT, TOPIC und LANGUAGE. "
-"REGION beschreibt optional die geografische Region in der Sprache der Datei."
 
 #: resources\views\settings.phtml:73
 msgid "Custom CSV file format"
-msgstr "Format eigener CSV-Dateien"
+msgstr ""
 
 #: resources\views\settings.phtml:77
 msgid "Download example CSV file"
-msgstr "CSV-Musterdatei herunterladen"
+msgstr ""
 
 #: resources\views\settings.phtml:83
 msgid ""
 "Only CSV files provided by administrators or webmasters in the persistent "
 "data directory can be changed here. Bundled collections remain read-only."
 msgstr ""
-"Hier können nur die von Administratoren oder Webmastern im persistenten "
-"Datenverzeichnis bereitgestellten CSV-Dateien geändert werden. Mitgelieferte "
-"Sammlungen bleiben schreibgeschützt."
 
 #: resources\views\settings.phtml:84
 msgid ""
 "The language code identifies the language of the topic, region, and event "
 "texts."
 msgstr ""
-"Der Sprachcode kennzeichnet die Sprache des Themas, der Region und der "
-"Ereignistexte."
 
 #: resources\views\settings.phtml:88
 msgid "No custom CSV files are available."
-msgstr "Es sind keine nutzerspezifischen CSV-Dateien vorhanden."
+msgstr ""
 
 #: resources\views\settings.phtml:94
 msgid "File"
-msgstr "Datei"
+msgstr ""
 
 #: resources\views\settings.phtml:95 resources\views\settings.phtml:130
 #: resources\views\settings.phtml:155
 msgid "Language"
-msgstr "Sprache"
+msgstr ""
 
 #: resources\views\settings.phtml:96 resources\views\settings.phtml:138
 #: resources\views\settings.phtml:156
 msgid "Topic"
-msgstr "Thema"
+msgstr ""
 
 #: resources\views\settings.phtml:97 resources\views\settings.phtml:142
 #: resources\views\settings.phtml:157 resources\views\settings.phtml:418
 #: resources\views\settings.phtml:526
 msgid "Region"
-msgstr "Region"
+msgstr ""
 
 #: resources\views\settings.phtml:123
 msgid "Create a custom CSV file"
-msgstr "Nutzerspezifische CSV-Datei anlegen"
+msgstr ""
 
 #: resources\views\settings.phtml:126
 msgid "Filename"
-msgstr "Dateiname"
+msgstr ""
 
 #: resources\views\settings.phtml:148
 msgid "Create file"
-msgstr "Datei anlegen"
+msgstr ""
 
 #: resources\views\settings.phtml:160
 msgid "Contact"
-msgstr "Kontakt"
+msgstr ""
 
 #: resources\views\settings.phtml:161
 msgid "License"
-msgstr "Lizenz"
+msgstr ""
 
 #: resources\views\settings.phtml:162 resources\views\settings.phtml:469
 msgid "Source"
-msgstr "Quelle"
+msgstr ""
 
 #: resources\views\settings.phtml:163
 msgid "Description"
-msgstr "Beschreibung"
+msgstr ""
 
 #: resources\views\settings.phtml:176
 msgid "Edit custom CSV file"
-msgstr "Nutzerspezifische CSV-Datei bearbeiten"
+msgstr ""
 
 #: resources\views\settings.phtml:203
 msgid ""
@@ -438,54 +410,51 @@ msgid ""
 "for the current language or as a simple GEDCOM date. Date ranges, "
 "qualifiers, and other calendars are not supported here."
 msgstr ""
-"Geben Sie gregorianische Daten vom 15. Oktober 1582 bis heute im für die "
-"aktuelle Sprache üblichen Format oder als einfaches GEDCOM-Datum ein. "
-"Datumsbereiche, Zusätze und andere Kalender werden hier nicht unterstützt."
 
 #: resources\views\settings.phtml:210
 msgid "Start date"
-msgstr "Startdatum"
+msgstr ""
 
 #: resources\views\settings.phtml:211
 msgid "End date"
-msgstr "Enddatum"
+msgstr ""
 
 #: resources\views\settings.phtml:212
 msgid "Event text"
-msgstr "Ereignistext"
+msgstr ""
 
 #: resources\views\settings.phtml:213
 msgid "Source link"
-msgstr "Quellenlink"
+msgstr ""
 
 #: resources\views\settings.phtml:244 resources\views\settings.phtml:246
 #: resources\views\settings.phtml:301 resources\views\settings.phtml:303
 msgid "Delete row"
-msgstr "Zeile löschen"
+msgstr ""
 
 #: resources\views\settings.phtml:257
 msgid "Add row"
-msgstr "Zeile hinzufügen"
+msgstr ""
 
 #: resources\views\settings.phtml:265
 msgid "New filename"
-msgstr "Neuer Dateiname"
+msgstr ""
 
 #: resources\views\settings.phtml:271
 msgid "Save current changes as a new file"
-msgstr "Aktuelle Änderungen als neue Datei speichern"
+msgstr ""
 
 #: resources\views\settings.phtml:278
 msgid "Do you really want to delete this custom CSV file?"
-msgstr "Soll diese nutzerspezifische CSV-Datei wirklich gelöscht werden?"
+msgstr ""
 
 #: resources\views\settings.phtml:283
 msgid "Delete file"
-msgstr "Datei löschen"
+msgstr ""
 
 #: resources\views\settings.phtml:343
 msgid "How the selections work"
-msgstr "Zusammenspiel der Auswahlmöglichkeiten"
+msgstr ""
 
 #: resources\views\settings.phtml:345
 msgid ""
@@ -494,60 +463,48 @@ msgid ""
 "individual collection is selected. Clearing any one of these checkboxes "
 "disables the collection; the other selections are retained."
 msgstr ""
-"Die Auswahlen werden miteinander kombiniert. Eine Ereignissammlung wird nur "
-"verwendet, wenn ihre Datenquelle aktiviert, ihre Ereignissprache für diese "
-"Quelle ausgewählt und die einzelne Sammlung ausgewählt ist. Wird eines "
-"dieser Häkchen entfernt, wird die Sammlung nicht verwendet; die übrigen "
-"Einstellungen bleiben erhalten."
 
 #: resources\views\settings.phtml:351
 msgid "Historical event ages"
-msgstr "Alter bei historischen Ereignissen"
+msgstr ""
 
 #: resources\views\settings.phtml:364
 msgid "Show ages at historical events"
-msgstr "Alter bei historischen Ereignissen anzeigen"
+msgstr ""
 
 #: resources\views\settings.phtml:367
 msgid "Show the person's age after the date of each historical event."
 msgstr ""
-"Zeigt das Alter der Person hinter dem Datum jedes historischen Ereignisses "
-"an."
 
 #: resources\views\settings.phtml:373
-#, fuzzy
 msgid "Selection by language"
-msgstr "1. Auswahl nach Sprache"
+msgstr ""
 
 #: resources\views\settings.phtml:378 resources\views\settings.phtml:486
 msgid "Event languages"
-msgstr "Sprachen der Ereignisse"
+msgstr ""
 
 #: resources\views\settings.phtml:382
 msgid "Select which data sources are used for each event language."
 msgstr ""
-"Lege fest, welche Datenquellen für jede Ereignissprache verwendet werden."
 
 #: resources\views\settings.phtml:383
 msgid ""
 "The collections listed beneath each source are for orientation; select "
 "individual collections in the second section."
 msgstr ""
-"Die unter jeder Quelle aufgeführten Sammlungen dienen der Orientierung; "
-"einzelne Sammlungen werden im zweiten Abschnitt ausgewählt."
 
 #: resources\views\settings.phtml:412 resources\views\settings.phtml:506
 msgid "User-specific"
-msgstr "Nutzerspezifisch"
+msgstr ""
 
 #: resources\views\settings.phtml:435
-#, fuzzy
 msgid "Data sources and individual collections"
-msgstr "2. Datenquellen und einzelne Sammlungen"
+msgstr ""
 
 #: resources\views\settings.phtml:438
 msgid "Performance notice"
-msgstr "Hinweis zur Performance"
+msgstr ""
 
 #: resources\views\settings.phtml:440
 msgid ""
@@ -555,102 +512,23 @@ msgid ""
 "Battles Worldwide, can significantly reduce overall webtrees performance. "
 "Enable only the sources and collections that are actually needed."
 msgstr ""
-"Die Aktivierung vieler Datenquellen oder bereits einer großen Sammlung wie "
-"Weltweite Kriege und Schlachten kann die Gesamtperformance von webtrees "
-"deutlich beeinträchtigen. Aktivieren Sie nur die tatsächlich benötigten "
-"Quellen und Sammlungen."
 
 #: resources\views\settings.phtml:461
 msgid "Use this data source"
-msgstr "Verwende diese Datenquelle"
+msgstr ""
 
 #: resources\views\settings.phtml:485
 msgid "Event language"
-msgstr "Sprache der Ereignisse"
+msgstr ""
 
 #: resources\views\settings.phtml:512 resources\views\settings.phtml:513
 msgid "Overrides a bundled file"
-msgstr "Überschreibt eine mitgelieferte Datei"
+msgstr ""
 
 #: resources\views\settings.phtml:538
 msgid "Overridden bundled files"
-msgstr "Überschriebene mitgelieferte Dateien"
+msgstr ""
 
 #: resources\views\settings.phtml:545 resources\views\settings.phtml:546
 msgid "Overridden by a user-specific file"
-msgstr "Wird durch eine nutzerspezifische Datei überschrieben"
-
-#~ msgid "German"
-#~ msgstr "Deutsch"
-
-#~ msgid "Danish"
-#~ msgstr "Dänisch"
-
-#~ msgid "English"
-#~ msgstr "Englisch"
-
-#~ msgid "Swedish"
-#~ msgstr "Schwedisch"
-
-#~ msgid "Ukrainian"
-#~ msgstr "Ukrainisch"
-
-#~ msgid "Dutch"
-#~ msgstr "Niederländisch"
-
-#~ msgid "Custom CSV files"
-#~ msgstr "Eigene CSV-Dateien"
-
-#~ msgid "Unknown CSV file action."
-#~ msgstr "Unbekannte Aktion für eine CSV-Datei."
-
-#~ msgid "The selected CSV file does not exist."
-#~ msgstr "Die ausgewählte CSV-Datei ist nicht vorhanden."
-
-#~ msgid "The selected CSV file cannot be read."
-#~ msgstr "Die ausgewählte CSV-Datei kann nicht gelesen werden."
-
-#~ msgid "TOPIC and LANGUAGE are required."
-#~ msgstr "TOPIC und LANGUAGE sind erforderlich."
-
-#~ msgid "The CSV file cannot be prepared."
-#~ msgstr "Die CSV-Datei kann nicht vorbereitet werden."
-
-#~ msgid "The CSV file cannot be saved."
-#~ msgstr "Die CSV-Datei kann nicht gespeichert werden."
-
-#~ msgid "A CSV file with this name already exists."
-#~ msgstr "Eine CSV-Datei mit diesem Namen ist bereits vorhanden."
-
-#~ msgid "The selected CSV file cannot be deleted."
-#~ msgstr "Die ausgewählte CSV-Datei kann nicht gelöscht werden."
-
-#~ msgid "The custom CSV data folder cannot be created."
-#~ msgstr ""
-#~ "Das Datenverzeichnis für nutzerspezifische CSV-Dateien kann nicht "
-#~ "angelegt werden."
-
-#~ msgid ""
-#~ "This CSV file belongs to another data provider and cannot be edited here."
-#~ msgstr ""
-#~ "Diese CSV-Datei gehört zu einer anderen Datenquelle und kann hier nicht "
-#~ "bearbeitet werden."
-
-#~ msgid "Use a simple filename ending in .csv."
-#~ msgstr "Verwenden Sie einen einfachen Dateinamen mit der Endung .csv."
-
-#~ msgid "Use a valid Gregorian date without a range or qualifier."
-#~ msgstr ""
-#~ "Verwenden Sie ein gültiges gregorianisches Datum ohne Bereich oder Zusatz."
-
-#~ msgid "Use csv file"
-#~ msgstr "Verwendung der csv-Datei"
-
-#~ msgid "Should the content of the csv file be used?"
-#~ msgstr "Soll der Inhalt der csv-Datei verwendet werden?"
-
-#~ msgid "Use wikidata"
-#~ msgstr "Verwendung von wikidata"
-
-#~ msgid "Should the content of wikidata be used?"
-#~ msgstr "Sollen Angaben aus wikidata verwendet werden?"
+msgstr ""

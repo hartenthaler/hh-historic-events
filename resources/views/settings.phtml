@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Fisharebest\Webtrees\Http\RequestHandlers\ControlPanel;
 use Fisharebest\Webtrees\Date;
 use Fisharebest\Webtrees\I18N;
+use Hartenthaler\WebtreesModules\History\HhHistoricEvents\Internationalization\MoreI18N;
 
 /**
  * @var string $title
@@ -20,14 +21,14 @@ use Fisharebest\Webtrees\I18N;
  * @var array{filename:string,metadata:array<string,string>,rows:list<array<string,string>>}|null $selected_custom_csv
  */
 
-$custom_csv_language_options = ['en' => I18N::translate('English') . ' (en)'];
+$custom_csv_language_options = ['en' => MoreI18N::xlate('English') . ' (en)'];
 foreach (I18N::activeLocales() as $locale) {
     $custom_csv_language_options[$locale->languageTag()] = $locale->endonym() . ' (' . $locale->languageTag() . ')';
 }
 ?>
 
 <?= view('components/breadcrumbs', [
-    'links' => [route(ControlPanel::class) => I18N::translate('Control panel'), $title],
+    'links' => [route(ControlPanel::class) => MoreI18N::xlate('Control panel'), $title],
 ]) ?>
 
 <h1><?= e($title) ?></h1>
@@ -94,7 +95,7 @@ foreach (I18N::activeLocales() as $locale) {
                         <th><?= I18N::translate('Language') ?></th>
                         <th><?= I18N::translate('Topic') ?></th>
                         <th><?= I18N::translate('Region') ?></th>
-                        <th><span class="visually-hidden"><?= I18N::translate('Action') ?></span></th>
+                        <th><span class="visually-hidden"><?= MoreI18N::xlate('Action') ?></span></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -107,7 +108,7 @@ foreach (I18N::activeLocales() as $locale) {
                             <td class="text-end">
                                 <a class="btn btn-sm btn-outline-primary" href="<?= e($custom_csv_file['edit_url']) ?>">
                                     <?= view('icons/edit') ?>
-                                    <?= I18N::translate('edit') ?>
+                                    <?= MoreI18N::xlate('edit') ?>
                                 </a>
                             </td>
                         </tr>
@@ -154,8 +155,8 @@ foreach (I18N::activeLocales() as $locale) {
             'LANGUAGE' => I18N::translate('Language'),
             'TOPIC' => I18N::translate('Topic'),
             'REGION' => I18N::translate('Region'),
-            'VERSION' => I18N::translate('Version'),
-            'AUTHOR' => I18N::translate('Author'),
+            'VERSION' => MoreI18N::xlate('Version'),
+            'AUTHOR' => MoreI18N::xlate('Author'),
             'CONTACT' => I18N::translate('Contact'),
             'LICENSE' => I18N::translate('License'),
             'SOURCE' => I18N::translate('Source'),
@@ -210,8 +211,8 @@ foreach (I18N::activeLocales() as $locale) {
                             <th><?= I18N::translate('End date') ?></th>
                             <th><?= I18N::translate('Event text') ?></th>
                             <th><?= I18N::translate('Source link') ?></th>
-                            <th><?= I18N::translate('Category') ?></th>
-                            <th><span class="visually-hidden"><?= I18N::translate('Action') ?></span></th>
+                            <th><?= MoreI18N::xlate('Category') ?></th>
+                            <th><span class="visually-hidden"><?= MoreI18N::xlate('Action') ?></span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -257,7 +258,7 @@ foreach (I18N::activeLocales() as $locale) {
             </button>
             <button class="btn btn-primary" name="action" type="submit" value="save-custom-csv">
                 <?= view('icons/save') ?>
-                <?= I18N::translate('save') ?>
+                <?= MoreI18N::xlate('save') ?>
             </button>
             <div class="row g-2 align-items-end mt-3">
                 <div class="col-sm-6 col-lg-4">
@@ -369,7 +370,7 @@ foreach (I18N::activeLocales() as $locale) {
         </div>
     </fieldset>
 
-    <h2 class="h3 mt-4"><?= I18N::translate('1. Selection by language') ?></h2>
+    <h2 class="h3 mt-4">1. <?= I18N::translate('Selection by language') ?></h2>
 
     <fieldset class="form-group mb-4">
         <div class="row">
@@ -431,7 +432,7 @@ foreach (I18N::activeLocales() as $locale) {
         </div>
     </fieldset>
 
-    <h2 class="h3 mt-5"><?= I18N::translate('2. Data sources and individual collections') ?></h2>
+    <h2 class="h3 mt-5">2. <?= I18N::translate('Data sources and individual collections') ?></h2>
 
     <div class="alert alert-warning" role="alert">
         <h3 class="h5 alert-heading"><?= I18N::translate('Performance notice') ?></h3>
@@ -480,7 +481,9 @@ foreach (I18N::activeLocales() as $locale) {
                         </div>
                     <?php endif ?>
                     <div class="small text-muted mb-2">
-                        <?= I18N::translate('Event language') ?>:
+                        <?= $provider['language_count'] === 1
+                            ? I18N::translate('Event language')
+                            : I18N::translate('Event languages') ?>:
                         <?= e($provider['languages']) ?>
                     </div>
 
@@ -556,6 +559,6 @@ foreach (I18N::activeLocales() as $locale) {
 
     <button type="submit" class="btn btn-primary" name="action" value="save-preferences">
         <?= view('icons/save') ?>
-        <?= I18N::translate('save') ?>
+        <?= MoreI18N::xlate('save') ?>
     </button>
 </form>

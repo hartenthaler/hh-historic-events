@@ -23,6 +23,7 @@ use Fisharebest\Webtrees\Session;
 use Fisharebest\Webtrees\View;
 use Fisharebest\Webtrees\Webtrees;
 use Hartenthaler\WebtreesModules\History\HhHistoricEvents\Http\HttpGetClient;
+use Hartenthaler\WebtreesModules\History\HhHistoricEvents\Internationalization\MoreI18N;
 use Illuminate\Support\Collection;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -298,7 +299,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
 
             $gedcom = preg_replace(
                 '/\\n2 TYPE ([^\\n]*)/',
-                "\n2 TYPE $1 " . self::EVENT_AGE_MARKER . ' ' . I18N::translate('(aged %s)', $age),
+                "\n2 TYPE $1 " . self::EVENT_AGE_MARKER . ' ' . MoreI18N::xlate('(aged %s)', $age),
                 $fact->gedcom(),
                 1
             );
@@ -403,7 +404,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
             }
         }
 
-        FlashMessages::addMessage(I18N::translate('The preferences for the module "%s" have been updated.', $this->title()), 'success');
+        FlashMessages::addMessage(MoreI18N::xlate('The preferences for the module “%s” have been updated.', $this->title()), 'success');
 
         return redirect($this->getConfigLink());
     }
@@ -545,6 +546,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
         $providerOrder = 0;
 
         foreach ($this->providerFactory()->providers() as $provider) {
+            $eventLanguages = $provider->eventLanguageOptions();
             $types = [];
             $typeOrder = 0;
             foreach ($provider->typeOptions() as $typeId => $label) {
@@ -573,7 +575,8 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
                 'source_title' => $provider->sourceTitle(),
                 'source_url' => $provider->sourceUrl(),
                 'source_status' => $provider->sourceStatus(),
-                'languages' => implode(', ', $provider->eventLanguageOptions()),
+                'languages' => implode(', ', $eventLanguages),
+                'language_count' => count($eventLanguages),
                 'form_key' => $this->providerFormKey($provider->id()),
                 'enabled' => $this->providerIsEnabled($provider),
                 'types' => $types,
