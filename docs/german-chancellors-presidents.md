@@ -1,15 +1,13 @@
 # German Chancellors and Presidents
 
-This provider supplies historical facts for the webtrees timeline:
-chancellors and presidents of Germany since 1949.
+The bundled CSV provider supplies historical facts for the webtrees timeline:
+chancellors and presidents of Germany since 1949. The optional Wikidata provider, shown as **Chancellors and Presidents from Germany, Austria and Switzerland (Wikidata)**, additionally includes Austria and Switzerland.
 
-The event text is in German.
-The provider can use the included CSV data or
-use Wikidata.
+The bundled CSV event text is in German. The Wikidata collection is dynamically localized to the webtrees user language, with English as its fallback.
 
 ## Usage
 
-Activate the `German Chancellors Presidents` provider in the settings of `hh-historic-events`.
+Activate the desired CSV or Wikidata collection in the settings of `hh-historic-events`.
 
 The structure of historic events provided by this provider is oriented on GEDCOM events:
 

@@ -40,8 +40,8 @@ The interface exposes:
 
 * provider identity and translated display text
 * available event languages
-* selectable record types
-* an optional geographical region for each record type
+* selectable record categories
+* an optional geographical region for each record category
 * default enablement
 * event loading for a given webtrees language tag and enabled-type map
 
@@ -74,7 +74,7 @@ CSV files:
 
 Wikidata:
 
-* German chancellors, presidents, and heads of the former GDR can optionally be loaded from Wikidata.
+* Chancellors and presidents from Germany, Austria, and Switzerland can optionally be loaded from Wikidata. German results include the heads of the former GDR.
 * This source performs external HTTPS requests and is disabled by default.
 
 ## Language Handling
@@ -88,7 +88,7 @@ Examples:
 * Gramps CSV files include multiple event languages such as Danish, English, Swedish, and Ukrainian.
 * The Wikidata provider is multilingual and dynamically requests labels and Wikipedia links in the webtrees user language, with English as its fallback.
 
-The administration page shows all detected event languages and lets administrators choose which data sources are used for each language.
+The administration page first shows all detected event languages. Administrators choose the languages to use and then select the collections and record categories available for those languages.
 
 For Gramps, language filtering is applied per CSV file because the provider contains multiple languages.
 
@@ -98,12 +98,12 @@ Geographical regions are descriptive metadata rather than another filter. They a
 
 The settings page has two levels of selection.
 
-First, administrators can enable or disable sources by event language.
+First, administrators can enable or disable event languages under **Selection by language**.
 
-Second, each provider has its own detailed settings:
+Second, under **Data sources and individual collections**, each provider has its own detailed settings:
 
-* enable or disable the whole provider
-* enable or disable record types inside the provider
+* enable or disable the data collection
+* enable or disable record categories inside the collection
 
 Preference keys stored in webtrees are short stable hash keys.
 This avoids database-column length problems in `module_setting.setting_name`.
@@ -133,7 +133,7 @@ The cache key includes:
 * webtrees language tag
 * enabled providers
 * enabled event languages
-* enabled record types
+* enabled record categories
 
 This means a configuration change automatically creates a different cache entry.
 
@@ -154,14 +154,14 @@ Translation catalogs are loaded through the stream API of webtrees 2.3 or the fi
 
 ## Translation
 
-Translations are loaded from:
+Translations use the GNU gettext PO/MO system and are loaded from:
 
 ```text
 resources/lang/<language>.po
 resources/lang/<language>.mo
 ```
 
-The `.po` file is preferred when both files exist.
+`default.pot` is the catalog template. Contributors edit a language-specific `.po` file and compile the matching `.mo` file; the `.po` file is preferred when both files exist.
 If a regional language tag is requested, such as `de-CH`, the module first checks the exact language tag and then falls back to the base language, such as `de`.
 
 ## Extensibility
@@ -170,7 +170,7 @@ To add a new source:
 
 1. Add the data file below `resources/data` if it is static.
 1. Create a provider implementing `EventDataProviderInterface`.
-1. Expose event languages and record types through the provider.
+1. Expose event languages and record categories through the provider.
 1. Register the provider in `EventDataProviderFactory`.
 1. Add new translation strings to `resources/lang/de.po` and compile `de.mo`.
 
