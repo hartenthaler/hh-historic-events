@@ -371,6 +371,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
             'description' => $this->description(),
             'languages' => $this->adminLanguages(),
             'providers' => $this->adminProviders(),
+            'regions' => $this->adminRegions(),
             'show_event_ages' => $this->showEventAges(),
             'custom_data_folder' => $this->customDataFolderDisplay(),
             'custom_csv_documentation_url' => self::CUSTOM_WEBSITE . 'blob/main/docs/custom-csv-format.md',
@@ -608,6 +609,48 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
             ($right['has_custom_types'] <=> $left['has_custom_types']) ?: ($left['order'] <=> $right['order']));
 
         return $providers;
+    }
+
+    /**
+     * @return list<array{region:string,collections:list<array{filename:string,label:string}>}>
+     */
+    private function adminRegions(): array
+    {
+        $regions = [];
+
+        foreach ($this->providerFactory()->providers() as $provider) {
+            if (!$provider instanceof GrampsCsvEventProvider) {
+                continue;
+            }
+
+            foreach ($provider->typeOptions() as $typeId => $label) {
+                $region = $provider->typeRegion($typeId);
+                if ($region === '') {
+                    continue;
+                }
+
+                $regions[$region][] = [
+                    'filename' => $typeId . '.csv',
+                    'label' => $label,
+                ];
+            }
+        }
+
+        ksort($regions);
+        foreach ($regions as &$collections) {
+            usort($collections, static fn (array $left, array $right): int => $left['filename'] <=> $right['filename']);
+        }
+        unset($collections);
+
+        $result = [];
+        foreach ($regions as $region => $collections) {
+            $result[] = [
+                'region' => $region,
+                'collections' => $collections,
+            ];
+        }
+
+        return $result;
     }
 
     /**
