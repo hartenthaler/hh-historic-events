@@ -86,6 +86,8 @@ The module currently includes the following data sources.
 
   Data files from [Potts Historical Facts](https://github.com/PottsNet/potts-historical-facts) can be converted for use by this module. A webmaster copies a Potts CSV file to `data/modules/hh-historic-events/data/`. The administrator then opens the file under **Control panel / Historic Events / Manage custom CSV files**, completes the language, topic, and optional region metadata, reviews the event rows, and saves the file. Saving rewrites the dates in the Gramps-compatible ISO date representation and adds the metadata header used by this module.
 
+  A planned optional final CSV column will contain one or more event identities. This will make it possible to relate the same historical event across language variants and collections without requiring those collections to have identical wording or scope. New rows created in the administration editor will receive a UUID automatically; administrators will not edit this technical value.
+
 <a name="Configuration"></a>
 ## ⚙️ Configuration
 
