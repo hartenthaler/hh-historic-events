@@ -76,7 +76,7 @@ Example:
 * `Today` is the only special value accepted in either date column, independently of capitalization. It remains stored as `Today` in the CSV file and is resolved to the current Gregorian date when the module reads the events.
 * `event text` contains the historical statement in the language declared by `LANGUAGE`.
 * `source link` contains an optional URL for the individual event. No GEDCOM `NOTE` is generated when `source link` is empty.
-* `category` is optional. If present, it becomes the GEDCOM `TYPE`; otherwise the file's `TOPIC` is used. The translated default type `Historic event` is used only when both are empty.
+* `category` is optional. If present, it becomes the GEDCOM `TYPE`; otherwise the file's `TOPIC` is used. The translated default type `Historic event` is used only when both are empty. For collections that contain categories, the module settings offer each category as an additional selection. All categories are enabled by default. Built-in category names are translated where a translation is available; categories in administrator-provided files are shown as supplied.
 
 Lines beginning with `#` and empty lines are ignored. A column-title row beginning with `From date;To date` is optional and ignored by the parser.
 

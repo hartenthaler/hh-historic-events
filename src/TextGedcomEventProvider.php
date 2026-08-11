@@ -127,7 +127,7 @@ final class TextGedcomEventProvider implements EventDataProviderInterface
         return true;
     }
 
-    public function historicEvents(string $languageTag, array $enabledTypes): Collection
+    public function historicEvents(string $languageTag, array $enabledTypes, array $enabledCategories = []): Collection
     {
         $collection = new Collection();
 
