@@ -612,33 +612,48 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
     }
 
     /**
-     * @return list<array{region:string,collections:list<array{filename:string,label:string}>}>
+     * @return list<array{region:string,collections:list<array{reference:string,label:string}>}>
      */
     private function adminRegions(): array
     {
         $regions = [];
 
         foreach ($this->providerFactory()->providers() as $provider) {
-            if (!$provider instanceof GrampsCsvEventProvider) {
-                continue;
-            }
-
             foreach ($provider->typeOptions() as $typeId => $label) {
                 $region = $provider->typeRegion($typeId);
                 if ($region === '') {
                     continue;
                 }
 
-                $regions[$region][] = [
-                    'filename' => $typeId . '.csv',
-                    'label' => $label,
+                if ($provider instanceof GrampsCsvEventProvider) {
+                    $reference = $typeId . '.csv';
+                    $collectionLabel = $label;
+                } elseif ($provider instanceof GermanChancellorsPresidentsCsvProvider) {
+                    $reference = 'GermanChancellorsPresidents.csv';
+                    $collectionLabel = $provider->title();
+                } elseif ($provider instanceof TextGedcomEventProvider) {
+                    $reference = match ($provider->id()) {
+                        'german-wars-battles-worldwide' => 'german-wars-battles-worldwide.ged',
+                        'swiss-historic-events' => 'swiss-historic-events.csv',
+                        default => '',
+                    };
+                    $collectionLabel = $provider->title();
+                } else {
+                    $reference = '';
+                    $collectionLabel = $label . ' — ' . $provider->title();
+                }
+
+                $regions[$region][$reference . '|' . $collectionLabel] = [
+                    'reference' => $reference,
+                    'label' => $collectionLabel,
                 ];
             }
         }
 
         ksort($regions);
         foreach ($regions as &$collections) {
-            usort($collections, static fn (array $left, array $right): int => $left['filename'] <=> $right['filename']);
+            $collections = array_values($collections);
+            usort($collections, static fn (array $left, array $right): int => ($left['reference'] . $left['label']) <=> ($right['reference'] . $right['label']));
         }
         unset($collections);
 
