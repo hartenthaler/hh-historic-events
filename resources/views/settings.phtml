@@ -529,6 +529,26 @@ ksort($custom_csv_language_options);
                                             <?php endif ?>
                                         </label>
                                     </div>
+                                    <?php if ($type['categories'] !== []): ?>
+                                        <div class="small ms-4 mt-1">
+                                            <span class="text-muted"><?= MoreI18N::xlate('Category') ?>:</span>
+                                            <?php foreach ($type['categories'] as $category): ?>
+                                                <div class="form-check">
+                                                    <input
+                                                        class="form-check-input"
+                                                        type="checkbox"
+                                                        name="<?= e($category['form_key']) ?>"
+                                                        id="<?= e($category['form_key']) ?>"
+                                                        value="1"
+                                                        <?= $category['enabled'] ? 'checked' : '' ?>
+                                                    >
+                                                    <label class="form-check-label" for="<?= e($category['form_key']) ?>">
+                                                        <?= e($category['label']) ?>
+                                                    </label>
+                                                </div>
+                                            <?php endforeach ?>
+                                        </div>
+                                    <?php endif ?>
                                 </div>
                             <?php endforeach ?>
                         </div>

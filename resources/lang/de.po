@@ -151,9 +151,21 @@ msgstr ""
 "Die enthaltenen Gramps-Datendateien sind aktuell. Lokale Version: %s. "
 "Neueste gefundene Quellversion: %s."
 
-#: src\GrampsCsvEventProvider.php:291
+#: src\GrampsCsvEventProvider.php:319
 msgid "Historic event"
 msgstr "Historisches Ereignis"
+
+#: src\GrampsCsvEventProvider.php:548
+msgid "Epidemic"
+msgstr "Epidemie"
+
+#: src\GrampsCsvEventProvider.php:549
+msgid "Pandemic"
+msgstr "Pandemie"
+
+#: src\GrampsCsvEventProvider.php:550
+msgid "Institutional care"
+msgstr "Institutionelle Betreuung"
 
 #: src\HhHistoricEvents.php:126
 msgid "Historic Events"

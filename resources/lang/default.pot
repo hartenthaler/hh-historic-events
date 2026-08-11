@@ -143,8 +143,20 @@ msgid ""
 "version found: %s."
 msgstr ""
 
-#: src\GrampsCsvEventProvider.php:291
+#: src\GrampsCsvEventProvider.php:319
 msgid "Historic event"
+msgstr ""
+
+#: src\GrampsCsvEventProvider.php:548
+msgid "Epidemic"
+msgstr ""
+
+#: src\GrampsCsvEventProvider.php:549
+msgid "Pandemic"
+msgstr ""
+
+#: src\GrampsCsvEventProvider.php:550
+msgid "Institutional care"
 msgstr ""
 
 #: src\HhHistoricEvents.php:126

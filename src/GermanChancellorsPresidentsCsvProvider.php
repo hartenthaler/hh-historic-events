@@ -91,7 +91,7 @@ final class GermanChancellorsPresidentsCsvProvider implements EventDataProviderI
         return true;
     }
 
-    public function historicEvents(string $languageTag, array $enabledTypes): Collection
+    public function historicEvents(string $languageTag, array $enabledTypes, array $enabledCategories = []): Collection
     {
         $collection = new Collection();
         $source = I18N::translate('source');

@@ -104,7 +104,7 @@ final class GermanChancellorsPresidentsWikidataProvider implements EventDataProv
         return true;
     }
 
-    public function historicEvents(string $languageTag, array $enabledTypes): Collection
+    public function historicEvents(string $languageTag, array $enabledTypes, array $enabledCategories = []): Collection
     {
         $collection = new Collection();
         $wikipedia = substr($languageTag, 0, 2) ?: 'en';

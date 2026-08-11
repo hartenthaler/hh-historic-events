@@ -201,10 +201,12 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
             'sv_SE_data_v1_0' => 'sv',
             'uk_UA_data_v1_0' => 'uk',
             'default_data_v1_0',
+            'en_default_data_v1_0',
             'en_US_data_v1_0',
             'en_US_involuntary_v1_0',
             'en_US_prejudice_v1_0',
-            'pandemi_v1_1' => 'en',
+            'pandemi_v1_1',
+            'en_pandemi_v1_1' => 'en',
             default => '',
         };
     }
@@ -285,7 +287,37 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
         return false;
     }
 
-    public function historicEvents(string $languageTag, array $enabledTypes): Collection
+    /**
+     * @return array<string,string>
+     */
+    public function categoryOptions(string $typeId): array
+    {
+        foreach ($this->csvFiles() as $file) {
+            if (pathinfo($file, PATHINFO_FILENAME) !== $typeId) {
+                continue;
+            }
+
+            $categories = [];
+            foreach ($this->loadCsvFile($file) as $event) {
+                if ($event['category'] !== '') {
+                    $categories[$event['category']] = $this->categoryLabel($event['category']);
+                }
+            }
+
+            ksort($categories);
+
+            return $categories;
+        }
+
+        return [];
+    }
+
+    public function categoryEnabledByDefault(string $typeId, string $categoryId): bool
+    {
+        return true;
+    }
+
+    public function historicEvents(string $languageTag, array $enabledTypes, array $enabledCategories = []): Collection
     {
         $collection = new Collection();
         $defaultEventType = I18N::translate('Historic event');
@@ -299,11 +331,15 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
             $topic = $this->sanitizeCsvValue($this->csvFileMetadata($file)['TOPIC'] ?? '');
 
             foreach ($this->loadCsvFile($file) as $event) {
+                if ($event['category'] !== '' && (($enabledCategories[$typeId][$event['category']] ?? true) !== true)) {
+                    continue;
+                }
+
                 $date = $event['toDate'] === ''
                     ? $event['fromDate']
                     : 'FROM ' . $event['fromDate'] . ' TO ' . $event['toDate'];
                 $eventType = $event['category'] !== ''
-                    ? $event['category']
+                    ? $this->categoryLabel($event['category'])
                     : ($topic !== '' ? $topic : $defaultEventType);
                 $gedcom = '1 EVEN ' . $event['event'] .
                     "\n2 TYPE " . $eventType .
@@ -507,6 +543,16 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
             'nl' => MoreI18N::xlate('Dutch'),
             '' => '',
             default => $languageId,
+        };
+    }
+
+    private function categoryLabel(string $category): string
+    {
+        return match ($category) {
+            'Epidemic' => I18N::translate('Epidemic'),
+            'Pandemic' => I18N::translate('Pandemic'),
+            'Institutional care' => I18N::translate('Institutional care'),
+            default => $category,
         };
     }
 

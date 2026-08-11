@@ -267,7 +267,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
                 continue;
             }
 
-            foreach ($provider->historicEvents($language_tag, $this->enabledTypes($provider)) as $event) {
+            foreach ($provider->historicEvents($language_tag, $this->enabledTypes($provider), $this->enabledCategories($provider)) as $event) {
                 $events[] = $event;
             }
         }
@@ -404,6 +404,15 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
 
             foreach ($provider->typeOptions() as $typeId => $label) {
                 $this->setPreference($this->typePreferenceKey($provider->id(), $typeId), isset($params[$this->typeFormKey($provider->id(), $typeId)]) ? '1' : '0');
+
+                if ($provider instanceof GrampsCsvEventProvider) {
+                    foreach ($provider->categoryOptions($typeId) as $categoryId => $categoryLabel) {
+                        $this->setPreference(
+                            $this->categoryPreferenceKey($provider->id(), $typeId, $categoryId),
+                            isset($params[$this->categoryFormKey($provider->id(), $typeId, $categoryId)]) ? '1' : '0'
+                        );
+                    }
+                }
             }
         }
 
@@ -561,6 +570,9 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
                     'region' => $provider->typeRegion($typeId),
                     'form_key' => $this->typeFormKey($provider->id(), $typeId),
                     'enabled' => $this->typeIsEnabled($provider, $typeId),
+                    'categories' => $provider instanceof GrampsCsvEventProvider
+                        ? $this->adminCategories($provider, $typeId)
+                        : [],
                     'custom' => $isCustom,
                     'overrides_bundled' => $provider instanceof GrampsCsvEventProvider
                         && $provider->typeOverridesBundled($typeId),
@@ -739,6 +751,43 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
         return $enabledTypes;
     }
 
+    /**
+     * @return array<string,array<string,bool>>
+     */
+    private function enabledCategories(EventDataProviderInterface $provider): array
+    {
+        if (!$provider instanceof GrampsCsvEventProvider) {
+            return [];
+        }
+
+        $enabledCategories = [];
+        foreach ($provider->typeOptions() as $typeId => $label) {
+            foreach ($provider->categoryOptions($typeId) as $categoryId => $categoryLabel) {
+                $enabledCategories[$typeId][$categoryId] = $this->categoryIsEnabled($provider, $typeId, $categoryId);
+            }
+        }
+
+        return $enabledCategories;
+    }
+
+    /**
+     * @return list<array{id:string,label:string,form_key:string,enabled:bool}>
+     */
+    private function adminCategories(GrampsCsvEventProvider $provider, string $typeId): array
+    {
+        $categories = [];
+        foreach ($provider->categoryOptions($typeId) as $categoryId => $categoryLabel) {
+            $categories[] = [
+                'id' => $categoryId,
+                'label' => $categoryLabel,
+                'form_key' => $this->categoryFormKey($provider->id(), $typeId, $categoryId),
+                'enabled' => $this->categoryIsEnabled($provider, $typeId, $categoryId),
+            ];
+        }
+
+        return $categories;
+    }
+
     private function showEventAges(): bool
     {
         return $this->getPreference(self::SHOW_EVENT_AGES_PREFERENCE, '0') === '1';
@@ -752,6 +801,14 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
         ) === '1';
     }
 
+    private function categoryIsEnabled(GrampsCsvEventProvider $provider, string $typeId, string $categoryId): bool
+    {
+        return $this->getPreference(
+            $this->categoryPreferenceKey($provider->id(), $typeId, $categoryId),
+            $provider->categoryEnabledByDefault($typeId, $categoryId) ? '1' : '0'
+        ) === '1';
+    }
+
     private function providerPreferenceKey(string $providerId): string
     {
         return 's_' . substr(md5($providerId), 0, 16);
@@ -760,6 +817,11 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
     private function typePreferenceKey(string $providerId, string $typeId): string
     {
         return 't_' . substr(md5($providerId . '|' . $typeId), 0, 16);
+    }
+
+    private function categoryPreferenceKey(string $providerId, string $typeId, string $categoryId): string
+    {
+        return 'c_' . substr(md5($providerId . '|' . $typeId . '|' . $categoryId), 0, 16);
     }
 
     private function providerLanguagePreferenceKey(string $providerId, string $languageId): string
@@ -775,6 +837,11 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
     private function typeFormKey(string $providerId, string $typeId): string
     {
         return 'type-' . $providerId . '-' . $typeId;
+    }
+
+    private function categoryFormKey(string $providerId, string $typeId, string $categoryId): string
+    {
+        return 'category-' . substr(md5($providerId . '|' . $typeId . '|' . $categoryId), 0, 16);
     }
 
     private function providerLanguageFormKey(string $providerId, string $languageId): string
@@ -836,6 +903,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
                 'enabled' => $this->providerIsEnabled($provider),
                 'languages' => [],
                 'types' => [],
+                'categories' => [],
             ];
 
             foreach ($provider->eventLanguageOptions() as $languageId => $languageLabel) {
@@ -844,6 +912,12 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
 
             foreach ($provider->typeOptions() as $typeId => $label) {
                 $providerSignature['types'][$typeId] = $this->typeIsEnabled($provider, $typeId);
+
+                if ($provider instanceof GrampsCsvEventProvider) {
+                    foreach ($provider->categoryOptions($typeId) as $categoryId => $categoryLabel) {
+                        $providerSignature['categories'][$typeId][$categoryId] = $this->categoryIsEnabled($provider, $typeId, $categoryId);
+                    }
+                }
             }
 
             $signature[] = $providerSignature;
