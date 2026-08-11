@@ -12,7 +12,7 @@ use Hartenthaler\WebtreesModules\History\HhHistoricEvents\Internationalization\M
  * @var string $description
  * @var array<int,array<string,mixed>> $languages
  * @var array<int,array<string,mixed>> $providers
- * @var list<array{region:string,collections:list<array{filename:string,label:string}>}> $regions
+ * @var list<array{region:string,collections:list<array{reference:string,label:string}>}> $regions
  * @var bool $show_event_ages
  * @var string $custom_data_folder
  * @var string $custom_csv_documentation_url
@@ -367,13 +367,6 @@ ksort($custom_csv_language_options);
         </div>
     </fieldset>
 
-    <div class="alert alert-info" role="alert">
-        <h2 class="h5 alert-heading"><?= I18N::translate('How the selections work') ?></h2>
-        <p class="mb-0">
-            <?= I18N::translate('The selections are combined. An event collection is used only when its data source is enabled, its event language is selected for that source, and the individual collection is selected. Clearing any one of these checkboxes disables the collection; the other selections are retained.') ?>
-        </p>
-    </div>
-
     <?php if ($regions !== []): ?>
         <section class="mb-4">
             <h2 class="h3"><?= I18N::translate('Regions') ?></h2>
@@ -387,8 +380,11 @@ ksort($custom_csv_language_options);
                         <ul class="list-unstyled mb-2">
                             <?php foreach ($region['collections'] as $collection): ?>
                                 <li>
-                                    <code><?= e($collection['filename']) ?></code>
-                                    <span class="text-muted">— <?= e($collection['label']) ?></span>
+                                    <?php if ($collection['reference'] !== ''): ?>
+                                        <code><?= e($collection['reference']) ?></code>
+                                        <span class="text-muted">— </span>
+                                    <?php endif ?>
+                                    <span class="text-muted"><?= e($collection['label']) ?></span>
                                 </li>
                             <?php endforeach ?>
                         </ul>
@@ -397,6 +393,13 @@ ksort($custom_csv_language_options);
             </dl>
         </section>
     <?php endif ?>
+
+    <div class="alert alert-info" role="alert">
+        <h2 class="h5 alert-heading"><?= I18N::translate('How the selections work') ?></h2>
+        <p class="mb-0">
+            <?= I18N::translate('The selections are combined. An event collection is used only when its data source is enabled, its event language is selected for that source, and the individual collection is selected. Clearing any one of these checkboxes disables the collection; the other selections are retained.') ?>
+        </p>
+    </div>
 
     <h2 class="h3 mt-4">1. <?= I18N::translate('Selection by language') ?></h2>
 

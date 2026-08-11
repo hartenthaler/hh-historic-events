@@ -2,7 +2,12 @@
 
 ## Next release
 
-_No changes yet._
+- Add individual category selections for CSV collections in the administration settings; category choices are included in the event-cache configuration.
+- Add and translate the bundled CSV categories `Epidemic`, `Pandemic`, and `Institutional care`; categorize the Involuntary commitment and institutional care collection.
+- Rename the bundled English general-history and pandemic collections with `en_` filename prefixes.
+- Add local-language `REGION` metadata to the bundled Gramps CSV collections and show a settings overview that maps each region to its CSV collections.
+- Refine the settings order with an Options heading, the age-display preference, and then the explanation of how selections interact.
+- Clarify collection configuration and document the planned event-identity model for linking equivalent events across collections and language variants.
 
 ## 2.2.6.2 - 2026-08-10
 
