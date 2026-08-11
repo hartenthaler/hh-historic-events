@@ -12,6 +12,7 @@ use Hartenthaler\WebtreesModules\History\HhHistoricEvents\Internationalization\M
  * @var string $description
  * @var array<int,array<string,mixed>> $languages
  * @var array<int,array<string,mixed>> $providers
+ * @var list<array{region:string,collections:list<array{filename:string,label:string}>}> $regions
  * @var bool $show_event_ages
  * @var string $custom_data_folder
  * @var string $custom_csv_documentation_url
@@ -340,12 +341,7 @@ ksort($custom_csv_language_options);
 <form method="post" class="mb-5">
     <?= csrf_field() ?>
 
-    <div class="alert alert-info" role="alert">
-        <h2 class="h5 alert-heading"><?= I18N::translate('How the selections work') ?></h2>
-        <p class="mb-0">
-            <?= I18N::translate('The selections are combined. An event collection is used only when its data source is enabled, its event language is selected for that source, and the individual collection is selected. Clearing any one of these checkboxes disables the collection; the other selections are retained.') ?>
-        </p>
-    </div>
+    <h2 class="h3 mt-4"><?= MoreI18N::xlate('Options') ?></h2>
 
     <fieldset class="form-group mb-4">
         <legend class="col-form-label col-sm-3 wt-page-options-label">
@@ -370,6 +366,37 @@ ksort($custom_csv_language_options);
             </div>
         </div>
     </fieldset>
+
+    <div class="alert alert-info" role="alert">
+        <h2 class="h5 alert-heading"><?= I18N::translate('How the selections work') ?></h2>
+        <p class="mb-0">
+            <?= I18N::translate('The selections are combined. An event collection is used only when its data source is enabled, its event language is selected for that source, and the individual collection is selected. Clearing any one of these checkboxes disables the collection; the other selections are retained.') ?>
+        </p>
+    </div>
+
+    <?php if ($regions !== []): ?>
+        <section class="mb-4">
+            <h2 class="h3"><?= I18N::translate('Regions') ?></h2>
+            <p class="text-muted">
+                <?= I18N::translate('The following regions are covered by these CSV collections.') ?>
+            </p>
+            <dl class="row mb-0">
+                <?php foreach ($regions as $region): ?>
+                    <dt class="col-sm-3"><?= e($region['region']) ?></dt>
+                    <dd class="col-sm-9">
+                        <ul class="list-unstyled mb-2">
+                            <?php foreach ($region['collections'] as $collection): ?>
+                                <li>
+                                    <code><?= e($collection['filename']) ?></code>
+                                    <span class="text-muted">— <?= e($collection['label']) ?></span>
+                                </li>
+                            <?php endforeach ?>
+                        </ul>
+                    </dd>
+                <?php endforeach ?>
+            </dl>
+        </section>
+    <?php endif ?>
 
     <h2 class="h3 mt-4">1. <?= I18N::translate('Selection by language') ?></h2>
 

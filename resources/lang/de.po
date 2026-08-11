@@ -436,6 +436,14 @@ msgstr "Thema"
 msgid "Region"
 msgstr "Region"
 
+#: resources\views\settings.phtml:376
+msgid "Regions"
+msgstr "Regionen"
+
+#: resources\views\settings.phtml:378
+msgid "The following regions are covered by these CSV collections."
+msgstr "Die folgenden Regionen werden von diesen CSV-Sammlungen abgedeckt."
+
 #: resources\views\settings.phtml:124
 msgid "Create a custom CSV file"
 msgstr "Nutzerspezifische CSV-Datei anlegen"

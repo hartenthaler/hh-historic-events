@@ -406,6 +406,14 @@ msgstr ""
 msgid "Region"
 msgstr ""
 
+#: resources\views\settings.phtml:376
+msgid "Regions"
+msgstr ""
+
+#: resources\views\settings.phtml:378
+msgid "The following regions are covered by these CSV collections."
+msgstr ""
+
 #: resources\views\settings.phtml:124
 msgid "Create a custom CSV file"
 msgstr ""
