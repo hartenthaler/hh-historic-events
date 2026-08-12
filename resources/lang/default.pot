@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hh-historic-events 2.2.6.3\n"
 "Report-Msgid-Bugs-To: hermann@hartenthaler.de\n"
-"POT-Creation-Date: 2026-08-12 01:30+0200\n"
+"POT-Creation-Date: 2026-08-13 00:34+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,49 +17,160 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src\GermanChancellorsPresidentsCsvProvider.php:32
-msgid "German Chancellors Presidents (CSV)"
+#: resources\views\settings.phtml:33
+msgid "Control panel"
 msgstr ""
 
-#: src\GermanChancellorsPresidentsCsvProvider.php:37
-msgid "Historical facts - Chancellors and Presidents of Germany (since 1949)"
+#: resources\views\settings.phtml:39
+msgid "Settings navigation"
 msgstr ""
 
-#: src\GermanChancellorsPresidentsCsvProvider.php:42
-msgid "Wikipedia and Wikimedia Commons"
+#: resources\views\settings.phtml:40
+msgid "Configuration"
 msgstr ""
 
+#: resources\views\settings.phtml:41
+msgid "Custom CSV files"
+msgstr ""
+
+#: resources\views\settings.phtml:42
+#: resources\views\settings\event-identities.phtml:11
+msgid "Event identities and equivalences"
+msgstr ""
+
+#: resources\views\settings.phtml:47
+msgid "Superseded modules are active"
+msgstr ""
+
+#: resources\views\settings.phtml:49
+msgid ""
+"The following older modules are still active and provide data already "
+"included in this module:"
+msgstr ""
+
+#: resources\views\settings.phtml:60
+msgid ""
+"Disable these modules and delete their folders from modules_v4. Do not run "
+"them in parallel with this module."
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:54
+msgid "Historic Events: Switzerland (CSV)"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:55
+msgid "Wars and Battles Worldwide"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:63
+msgid "Historical facts - events in Switzerland"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:64
+msgid "Historical facts - Wars and Battles Worldwide (since 900)"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:72
+msgid "Wikipedia"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:73
+msgid "Peter Jehli-Kamm, baum.jehli.ch"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:116
+msgid "Worldwide"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:117
+#: src\GermanChancellorsPresidentsWikidataProvider.php:180
+msgid "Switzerland"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:249
+msgid "Historic event: Switzerland"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:250
+msgid "revolt"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:251
+msgid "siege"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:252
+msgid "blockade"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:253
+msgid "civil war"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:254
+msgid "conquest"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:255
+msgid "feud"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:256
+msgid "campaign"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:257
+msgid "combat"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:258
+msgid "invasion"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:259
+msgid "struggle"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:260
+msgid "conflict"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:261
+msgid "crusade"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:262
+msgid "war"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:263
+msgid "massacre"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:264
+msgid "offensive"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:265
+msgid "revolution"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:266
+msgid "battle"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:267
+msgid "naval battle"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:268
+msgid "operation"
+msgstr ""
+
+#: src\TextGedcomEventProvider.php:276
 #: src\GermanChancellorsPresidentsCsvProvider.php:57
-#: src\GrampsCsvEventProvider.php:551 src\TextGedcomEventProvider.php:276
+#: src\GrampsCsvEventProvider.php:551
 msgid "German"
-msgstr ""
-
-#: src\GermanChancellorsPresidentsCsvProvider.php:63
-#: src\GermanChancellorsPresidentsCsvProvider.php:177
-#: src\GermanChancellorsPresidentsWikidataProvider.php:175
-msgid "Chancellor of Germany"
-msgstr ""
-
-#: src\GermanChancellorsPresidentsCsvProvider.php:64
-#: src\GermanChancellorsPresidentsCsvProvider.php:177
-#: src\GermanChancellorsPresidentsWikidataProvider.php:176
-msgid "President of Germany"
-msgstr ""
-
-#: src\GermanChancellorsPresidentsCsvProvider.php:65
-#: src\GermanChancellorsPresidentsCsvProvider.php:177
-msgid "acting"
-msgstr ""
-
-#: src\GermanChancellorsPresidentsCsvProvider.php:81
-#: src\GermanChancellorsPresidentsWikidataProvider.php:175
-#: src\GermanChancellorsPresidentsWikidataProvider.php:176
-#: src\GermanChancellorsPresidentsWikidataProvider.php:177
-msgid "Germany"
-msgstr ""
-
-#: src\GermanChancellorsPresidentsCsvProvider.php:97
-msgid "source"
 msgstr ""
 
 #: src\GermanChancellorsPresidentsWikidataProvider.php:45
@@ -91,6 +202,25 @@ msgstr ""
 msgid "member of party %s"
 msgstr ""
 
+#: src\GermanChancellorsPresidentsWikidataProvider.php:175
+#: src\GermanChancellorsPresidentsCsvProvider.php:63
+#: src\GermanChancellorsPresidentsCsvProvider.php:177
+msgid "Chancellor of Germany"
+msgstr ""
+
+#: src\GermanChancellorsPresidentsWikidataProvider.php:175
+#: src\GermanChancellorsPresidentsWikidataProvider.php:176
+#: src\GermanChancellorsPresidentsWikidataProvider.php:177
+#: src\GermanChancellorsPresidentsCsvProvider.php:81
+msgid "Germany"
+msgstr ""
+
+#: src\GermanChancellorsPresidentsWikidataProvider.php:176
+#: src\GermanChancellorsPresidentsCsvProvider.php:64
+#: src\GermanChancellorsPresidentsCsvProvider.php:177
+msgid "President of Germany"
+msgstr ""
+
 #: src\GermanChancellorsPresidentsWikidataProvider.php:177
 msgid "Head of former state GDR"
 msgstr ""
@@ -112,10 +242,155 @@ msgstr ""
 msgid "President of the Swiss Confederation"
 msgstr ""
 
-#: src\GermanChancellorsPresidentsWikidataProvider.php:180
-#: src\TextGedcomEventProvider.php:117
-msgid "Switzerland"
+#: src\GermanChancellorsPresidentsCsvProvider.php:32
+msgid "German Chancellors Presidents (CSV)"
 msgstr ""
+
+#: src\GermanChancellorsPresidentsCsvProvider.php:37
+msgid "Historical facts - Chancellors and Presidents of Germany (since 1949)"
+msgstr ""
+
+#: src\GermanChancellorsPresidentsCsvProvider.php:42
+msgid "Wikipedia and Wikimedia Commons"
+msgstr ""
+
+#: src\GermanChancellorsPresidentsCsvProvider.php:65
+#: src\GermanChancellorsPresidentsCsvProvider.php:177
+msgid "acting"
+msgstr ""
+
+#: src\GermanChancellorsPresidentsCsvProvider.php:97
+msgid "source"
+msgstr ""
+
+#: src\HhHistoricEvents.php:149
+msgid "Historic Events"
+msgstr ""
+
+#: src\HhHistoricEvents.php:154
+msgid "Historical facts from selectable data collections"
+msgstr ""
+
+#: src\HhHistoricEvents.php:209
+msgid ""
+"The Historic Events module can query Wikidata for selected historical event "
+"data. Responses are cached locally for 24 hours to reduce external requests."
+msgstr ""
+
+#: src\HhHistoricEvents.php:211
+msgid "Server IP address and technical request metadata."
+msgstr ""
+
+#: src\HhHistoricEvents.php:212
+msgid "Requested Wikidata entities for the enabled historical event provider."
+msgstr ""
+
+#: src\HhHistoricEvents.php:217
+msgid ""
+"Wikidata responses are cached locally for 24 hours to reduce external "
+"requests."
+msgstr ""
+
+#: src\HhHistoricEvents.php:438
+msgid "Equivalence group"
+msgstr ""
+
+#: src\HhHistoricEvents.php:464 src\HhHistoricEvents.php:714
+msgid "The JSON equivalence file is too large. The maximum size is 1 MiB."
+msgstr ""
+
+#: src\HhHistoricEvents.php:469
+msgid "The JSON equivalence file is invalid."
+msgstr ""
+
+#: src\HhHistoricEvents.php:472
+msgid "The JSON equivalence file has an unsupported format."
+msgstr ""
+
+#: src\HhHistoricEvents.php:475
+msgid "The JSON equivalence file contains too many groups."
+msgstr ""
+
+#: src\HhHistoricEvents.php:481 src\HhHistoricEvents.php:485
+#: src\HhHistoricEvents.php:494
+msgid "The JSON equivalence file contains an invalid group."
+msgstr ""
+
+#: src\HhHistoricEvents.php:489
+msgid "The JSON equivalence file contains an invalid event ID."
+msgstr ""
+
+#: src\HhHistoricEvents.php:575
+#, php-format
+msgid "(aged %s)"
+msgstr ""
+
+#: src\HhHistoricEvents.php:691
+#, php-format
+msgid "The preferences for the module “%s” have been updated."
+msgstr ""
+
+#: src\HhHistoricEvents.php:710
+msgid "Choose a JSON equivalence file to import."
+msgstr ""
+
+#: src\HhHistoricEvents.php:712
+msgid "The JSON equivalence file could not be uploaded."
+msgstr ""
+
+#: src\HhHistoricEvents.php:719
+#, php-format
+msgid "One equivalence group was imported."
+msgid_plural "%s equivalence groups were imported."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src\HhHistoricEvents.php:731
+msgid "Enter at least one event identity."
+msgstr ""
+
+#: src\HhHistoricEvents.php:733
+#, php-format
+msgid "Invalid event identity: %s"
+msgstr ""
+
+#: src\HhHistoricEvents.php:737
+msgid "The event equivalence group has been saved."
+msgstr ""
+
+#: src\HhHistoricEvents.php:747
+msgid "The event equivalence group has been deleted."
+msgstr ""
+
+#: src\HhHistoricEvents.php:759
+msgid "The custom CSV file has been created."
+msgstr ""
+
+#: src\HhHistoricEvents.php:763
+msgid "The custom CSV file has been saved."
+msgstr ""
+
+#: src\HhHistoricEvents.php:772
+msgid "The custom CSV file has been saved under the new filename."
+msgstr ""
+
+#: src\HhHistoricEvents.php:776
+msgid "The custom CSV file has been deleted."
+msgstr ""
+
+#: src\HhHistoricEvents.php:802
+#, php-format
+msgid "One invalid date value was omitted."
+msgid_plural "%s invalid date values were omitted."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src\HhHistoricEvents.php:810
+#, php-format
+msgid "One end date before its start date was omitted."
+msgid_plural "%s end dates before their start dates were omitted."
+msgstr[0] ""
+msgstr[1] ""
 
 #: src\GrampsCsvEventProvider.php:80
 msgid "Gramps-compatible CSV historical facts"
@@ -212,77 +487,6 @@ msgstr ""
 msgid "Technology"
 msgstr ""
 
-#: src\HhHistoricEvents.php:137
-msgid "Historic Events"
-msgstr ""
-
-#: src\HhHistoricEvents.php:142
-msgid "Historical facts from selectable data collections"
-msgstr ""
-
-#: src\HhHistoricEvents.php:192
-msgid ""
-"The Historic Events module can query Wikidata for selected historical event "
-"data. Responses are cached locally for 24 hours to reduce external requests."
-msgstr ""
-
-#: src\HhHistoricEvents.php:194
-msgid "Server IP address and technical request metadata."
-msgstr ""
-
-#: src\HhHistoricEvents.php:195
-msgid "Requested Wikidata entities for the enabled historical event provider."
-msgstr ""
-
-#: src\HhHistoricEvents.php:200
-msgid ""
-"Wikidata responses are cached locally for 24 hours to reduce external "
-"requests."
-msgstr ""
-
-#: src\HhHistoricEvents.php:432
-#, php-format
-msgid "(aged %s)"
-msgstr ""
-
-#: src\HhHistoricEvents.php:548
-#, php-format
-msgid "The preferences for the module “%s” have been updated."
-msgstr ""
-
-#: src\HhHistoricEvents.php:561
-msgid "Enter at least one event identity."
-msgstr ""
-
-#: src\HhHistoricEvents.php:563
-#, php-format
-msgid "Invalid event identity: %s"
-msgstr ""
-
-#: src\HhHistoricEvents.php:566
-msgid "The event equivalence group has been saved."
-msgstr ""
-
-#: src\HhHistoricEvents.php:575
-msgid "The event equivalence group has been deleted."
-msgstr ""
-
-#: src\HhHistoricEvents.php:587
-msgid "The custom CSV file has been created."
-msgstr ""
-
-#: src\HhHistoricEvents.php:591
-msgid "The custom CSV file has been saved."
-msgstr ""
-
-#: src\HhHistoricEvents.php:600
-msgid "The custom CSV file has been saved under the new filename."
-msgstr ""
-
-#: src\HhHistoricEvents.php:604
-msgid "The custom CSV file has been deleted."
-msgstr ""
-
 #: src\HistoricEventResolver.php:100
 msgid "Alternative description"
 msgstr ""
@@ -304,154 +508,9 @@ msgid "Alternative descriptions"
 msgstr ""
 
 #: src\HistoricEventResolver.php:123
-#: resources\views\settings\event-identities.phtml:26
-#: resources\views\settings\event-identities.phtml:42
+#: resources\views\settings\event-identities.phtml:30
+#: resources\views\settings\event-identities.phtml:61
 msgid "External references"
-msgstr ""
-
-#: src\TextGedcomEventProvider.php:54
-msgid "Historic Events: Switzerland (CSV)"
-msgstr ""
-
-#: src\TextGedcomEventProvider.php:55
-msgid "Wars and Battles Worldwide"
-msgstr ""
-
-#: src\TextGedcomEventProvider.php:63
-msgid "Historical facts - events in Switzerland"
-msgstr ""
-
-#: src\TextGedcomEventProvider.php:64
-msgid "Historical facts - Wars and Battles Worldwide (since 900)"
-msgstr ""
-
-#: src\TextGedcomEventProvider.php:72
-msgid "Wikipedia"
-msgstr ""
-
-#: src\TextGedcomEventProvider.php:73
-msgid "Peter Jehli-Kamm, baum.jehli.ch"
-msgstr ""
-
-#: src\TextGedcomEventProvider.php:116
-msgid "Worldwide"
-msgstr ""
-
-#: src\TextGedcomEventProvider.php:249
-msgid "Historic event: Switzerland"
-msgstr ""
-
-#: src\TextGedcomEventProvider.php:250
-msgid "revolt"
-msgstr ""
-
-#: src\TextGedcomEventProvider.php:251
-msgid "siege"
-msgstr ""
-
-#: src\TextGedcomEventProvider.php:252
-msgid "blockade"
-msgstr ""
-
-#: src\TextGedcomEventProvider.php:253
-msgid "civil war"
-msgstr ""
-
-#: src\TextGedcomEventProvider.php:254
-msgid "conquest"
-msgstr ""
-
-#: src\TextGedcomEventProvider.php:255
-msgid "feud"
-msgstr ""
-
-#: src\TextGedcomEventProvider.php:256
-msgid "campaign"
-msgstr ""
-
-#: src\TextGedcomEventProvider.php:257
-msgid "combat"
-msgstr ""
-
-#: src\TextGedcomEventProvider.php:258
-msgid "invasion"
-msgstr ""
-
-#: src\TextGedcomEventProvider.php:259
-msgid "struggle"
-msgstr ""
-
-#: src\TextGedcomEventProvider.php:260
-msgid "conflict"
-msgstr ""
-
-#: src\TextGedcomEventProvider.php:261
-msgid "crusade"
-msgstr ""
-
-#: src\TextGedcomEventProvider.php:262
-msgid "war"
-msgstr ""
-
-#: src\TextGedcomEventProvider.php:263
-msgid "massacre"
-msgstr ""
-
-#: src\TextGedcomEventProvider.php:264
-msgid "offensive"
-msgstr ""
-
-#: src\TextGedcomEventProvider.php:265
-msgid "revolution"
-msgstr ""
-
-#: src\TextGedcomEventProvider.php:266
-msgid "battle"
-msgstr ""
-
-#: src\TextGedcomEventProvider.php:267
-msgid "naval battle"
-msgstr ""
-
-#: src\TextGedcomEventProvider.php:268
-msgid "operation"
-msgstr ""
-
-#: resources\views\settings.phtml:33
-msgid "Control panel"
-msgstr ""
-
-#: resources\views\settings.phtml:39
-msgid "Settings navigation"
-msgstr ""
-
-#: resources\views\settings.phtml:40
-msgid "Configuration"
-msgstr ""
-
-#: resources\views\settings.phtml:41
-msgid "Custom CSV files"
-msgstr ""
-
-#: resources\views\settings.phtml:42
-#: resources\views\settings\event-identities.phtml:11
-msgid "Event identities and equivalences"
-msgstr ""
-
-#: resources\views\settings.phtml:47
-msgid "Superseded modules are active"
-msgstr ""
-
-#: resources\views\settings.phtml:49
-msgid ""
-"The following older modules are still active and provide data already "
-"included in this module:"
-msgstr ""
-
-#: resources\views\settings.phtml:60
-msgid ""
-"Disable these modules and delete their folders from modules_v4. Do not run "
-"them in parallel with this module."
 msgstr ""
 
 #: resources\views\settings\configuration.phtml:10
@@ -572,6 +631,88 @@ msgstr ""
 #: resources\views\settings\configuration.phtml:279
 #: resources\views\settings\custom-csv.phtml:223
 msgid "save"
+msgstr ""
+
+#: resources\views\settings\event-identities.phtml:12
+msgid ""
+"Link identities that describe the same historical event in different "
+"collections or languages."
+msgstr ""
+
+#: resources\views\settings\event-identities.phtml:14
+msgid ""
+"Enter one or more event IDs, separated by commas, semicolons, spaces, or "
+"line breaks. A single event ID can be saved together with external "
+"references."
+msgstr ""
+
+#: resources\views\settings\event-identities.phtml:15
+msgid ""
+"External references are optional. Use a semicolon-separated format such as "
+"“GND:4079163-4; Wikidata:Q361”."
+msgstr ""
+
+#: resources\views\settings\event-identities.phtml:22
+#: resources\views\settings\event-identities.phtml:57
+msgid "Title"
+msgstr ""
+
+#: resources\views\settings\event-identities.phtml:23
+msgid "Suggested automatically from the first event"
+msgstr ""
+
+#: resources\views\settings\event-identities.phtml:26
+#: resources\views\settings\event-identities.phtml:59
+msgid "Event IDs"
+msgstr ""
+
+#: resources\views\settings\event-identities.phtml:33
+#: resources\views\settings\event-identities.phtml:80
+msgid "Save"
+msgstr ""
+
+#: resources\views\settings\event-identities.phtml:39
+msgid "Export equivalence groups (JSON)"
+msgstr ""
+
+#: resources\views\settings\event-identities.phtml:44
+msgid "Import equivalence groups (JSON)"
+msgstr ""
+
+#: resources\views\settings\event-identities.phtml:49
+msgid "No event equivalences have been defined."
+msgstr ""
+
+#: resources\views\settings\event-identities.phtml:64
+msgid ""
+"No indexed event data is available yet. Open historic events once to rebuild "
+"the index automatically."
+msgstr ""
+
+#: resources\views\settings\event-identities.phtml:67
+#: resources\views\settings\custom-csv.phtml:166
+msgid "Event ID"
+msgstr ""
+
+#: resources\views\settings\event-identities.phtml:67
+msgid "Event"
+msgstr ""
+
+#: resources\views\settings\event-identities.phtml:67
+msgid "Date"
+msgstr ""
+
+#: resources\views\settings\event-identities.phtml:67
+msgid "Collection"
+msgstr ""
+
+#: resources\views\settings\event-identities.phtml:77
+#, php-format
+msgid "These event IDs were not found in the index: %s"
+msgstr ""
+
+#: resources\views\settings\event-identities.phtml:86
+msgid "Delete"
 msgstr ""
 
 #: resources\views\settings\custom-csv.phtml:9
@@ -704,11 +845,6 @@ msgstr ""
 msgid "Source link"
 msgstr ""
 
-#: resources\views\settings\custom-csv.phtml:166
-#: resources\views\settings\event-identities.phtml:48
-msgid "Event ID"
-msgstr ""
-
 #: resources\views\settings\custom-csv.phtml:201
 msgid "Generated when saved"
 msgstr ""
@@ -738,64 +874,4 @@ msgstr ""
 
 #: resources\views\settings\custom-csv.phtml:245
 msgid "Delete file"
-msgstr ""
-
-#: resources\views\settings\event-identities.phtml:12
-msgid ""
-"Link identities that describe the same historical event in different "
-"collections or languages."
-msgstr ""
-
-#: resources\views\settings\event-identities.phtml:14
-msgid ""
-"Enter one or more event IDs, separated by commas, semicolons, spaces, or "
-"line breaks. A single event ID can be saved together with external "
-"references."
-msgstr ""
-
-#: resources\views\settings\event-identities.phtml:15
-msgid ""
-"External references are optional. Use a semicolon-separated format such as "
-"“GND:4079163-4; Wikidata:Q361”."
-msgstr ""
-
-#: resources\views\settings\event-identities.phtml:22
-#: resources\views\settings\event-identities.phtml:40
-msgid "Event IDs"
-msgstr ""
-
-#: resources\views\settings\event-identities.phtml:29
-#: resources\views\settings\event-identities.phtml:61
-msgid "Save"
-msgstr ""
-
-#: resources\views\settings\event-identities.phtml:33
-msgid "No event equivalences have been defined."
-msgstr ""
-
-#: resources\views\settings\event-identities.phtml:45
-msgid ""
-"No indexed event data is available yet. Open historic events once to rebuild "
-"the index automatically."
-msgstr ""
-
-#: resources\views\settings\event-identities.phtml:48
-msgid "Event"
-msgstr ""
-
-#: resources\views\settings\event-identities.phtml:48
-msgid "Date"
-msgstr ""
-
-#: resources\views\settings\event-identities.phtml:48
-msgid "Collection"
-msgstr ""
-
-#: resources\views\settings\event-identities.phtml:58
-#, php-format
-msgid "These event IDs were not found in the index: %s"
-msgstr ""
-
-#: resources\views\settings\event-identities.phtml:67
-msgid "Delete"
 msgstr ""
