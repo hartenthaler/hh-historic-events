@@ -44,7 +44,7 @@ interface EventDataProviderInterface
      * @param array<string,bool> $enabledTypes
      * @param array<string,array<string,bool>> $enabledCategories
      *
-     * @return Collection<string>
+     * @return Collection<int,HistoricEvent>
      */
     public function historicEvents(string $languageTag, array $enabledTypes, array $enabledCategories = []): Collection;
 }

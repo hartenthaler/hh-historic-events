@@ -24,6 +24,7 @@ use function md5;
 use function mkdir;
 use function preg_match;
 use function sprintf;
+use function strtolower;
 use function substr;
 use function time;
 use function urlencode;
@@ -134,8 +135,7 @@ final class GermanChancellorsPresidentsWikidataProvider implements EventDataProv
                 $article = $person->article ?? $person->officeHolder ?? '';
                 $articleLabel = isset($person->article) ? ($person->wikiType ?? 'wiki') : I18N::translate('Wikidata');
 
-                $collection->push(
-                    sprintf(
+                $gedcom = sprintf(
                         "1 EVEN %s%s%s%s%s%s%s%s%s\n2 TYPE %s\n2 DATE FROM %s%s\n2 NOTE [%s](%s )",
                         $person->officeHolderLabel ?? '',
                         (isset($person->birthDate) || isset($person->deathDate)) ? ' (' : ' ',
@@ -151,8 +151,15 @@ final class GermanChancellorsPresidentsWikidataProvider implements EventDataProv
                         $endActingDate !== '' ? ' TO ' . $endActingDate : '',
                         $articleLabel,
                         $article
-                    )
-                );
+                    );
+
+                $statementIdentity = $this->statementIdentity($person, $wikidataObject[1]);
+                if ($statementIdentity !== null) {
+                    $gedcom .= "\n2 _WIKIDATA_STATEMENT " . $statementIdentity['guid'];
+                    $gedcom .= "\n2 _WIKIDATA_PROPERTY " . $statementIdentity['property'];
+                }
+
+                $collection->push(HistoricEvent::fromGedcom($gedcom, $languageTag, $this->id(), $this->title()));
             }
         }
 
@@ -205,15 +212,21 @@ final class GermanChancellorsPresidentsWikidataProvider implements EventDataProv
         [$wikidataId, $property] = $wikidataObject;
 
         return "
-            SELECT ?officeHolder ?officeHolderLabel ?startActingDate ?endActingDate ?birthDate ?deathDate ?partyShortLabel ?startPartyDate ?endPartyDate ?article WHERE {
+            SELECT ?statement ?statementProperty ?officeHolder ?officeHolderLabel ?startActingDate ?endActingDate ?birthDate ?deathDate ?partyShortLabel ?startPartyDate ?endPartyDate ?article WHERE {
                 {
                     wd:$wikidataId p:$property ?statement.
                     ?statement ps:$property ?officeHolder.
+                    BIND('$property' AS ?statementProperty)
                 }
                 UNION
                 {
                     ?officeHolder p:P39 ?statement.
                     ?statement ps:P39 wd:$wikidataId.
+                    FILTER NOT EXISTS {
+                        wd:$wikidataId p:$property ?directStatement.
+                        ?directStatement ps:$property ?officeHolder.
+                    }
+                    BIND('P39' AS ?statementProperty)
                 }
                 OPTIONAL { ?statement pq:P580 ?startActingDate. }
                 OPTIONAL { ?statement pq:P582 ?endActingDate. }
@@ -277,6 +290,27 @@ final class GermanChancellorsPresidentsWikidataProvider implements EventDataProv
         $month = (int) substr($dateString, 5, 2);
 
         return substr($dateString, 8, 2) . ' ' . $gedcomMonths[$month - 1] . ' ' . substr($dateString, 0, 4);
+    }
+
+    /**
+     * @return array{guid:string,property:string}|null
+     */
+    private function statementIdentity(object $person, string $fallbackProperty): ?array
+    {
+        $statement = $person->statement ?? '';
+        if (preg_match('#/statement/(Q[0-9]+)-([^/]+)$#i', $statement, $matches) !== 1) {
+            return null;
+        }
+
+        $property = $person->statementProperty ?? $fallbackProperty;
+        if (preg_match('/^P[0-9]+$/', $property) !== 1) {
+            return null;
+        }
+
+        return [
+            'guid' => $matches[1] . '$' . strtolower($matches[2]),
+            'property' => $property,
+        ];
     }
 
     /**

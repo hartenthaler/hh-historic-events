@@ -9,12 +9,14 @@ use Illuminate\Support\Collection;
 use Hartenthaler\WebtreesModules\History\HhHistoricEvents\Internationalization\MoreI18N;
 
 use function array_pad;
+use function explode;
 use function file_get_contents;
 use function fclose;
 use function fgetcsv;
 use function fopen;
 use function is_file;
 use function pathinfo;
+use function preg_match;
 use function preg_match_all;
 use function preg_split;
 use function str_replace;
@@ -144,13 +146,13 @@ final class TextGedcomEventProvider implements EventDataProviderInterface
             return $collection;
         }
 
-        foreach (preg_split('/\r\n\r\n|\n\n|\r\r/', $content) ?: [] as $record) {
+        foreach (preg_split('/\r?\n\r?\n/', $content) ?: [] as $record) {
             $record = trim($record);
             if ($record === '' || !$this->recordTypeIsEnabled($record, $enabledTypes)) {
                 continue;
             }
 
-            $collection->push($this->replacePlaceholders($record));
+            $collection->push(HistoricEvent::fromGedcom($this->replacePlaceholders($record), $this->language, $this->id(), $this->title()));
         }
 
         return $collection;
@@ -173,18 +175,28 @@ final class TextGedcomEventProvider implements EventDataProviderInterface
                 continue;
             }
 
-            [$date, $event, $note, $type] = array_pad($row, 4, '');
+            [$date, $event, $note, $type, $eventId] = array_pad($row, 5, '');
             if ($event === '' || $type === '' || $date === '') {
                 continue;
             }
 
+            $eventIds = [];
+            foreach (explode(',', strtolower(trim($eventId))) as $eventId) {
+                if (preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/', $eventId) === 1) {
+                    $eventIds[] = $eventId;
+                }
+            }
+
             $record = '1 EVEN ' . $event . "\n" .
                 '2 TYPE {{type:' . $type . "}}\n" .
-                '2 DATE ' . $date . "\n" .
-                '2 NOTE ' . $note;
+                '2 DATE ' . $date;
+            foreach ($eventIds as $eventId) {
+                $record .= "\n2 _UID " . $eventId;
+            }
+            $record .= "\n2 NOTE " . $note;
 
             if ($this->recordTypeIsEnabled($record, $enabledTypes)) {
-                $collection->push($this->replacePlaceholders($record));
+                $collection->push(HistoricEvent::fromGedcom($this->replacePlaceholders($record), $this->language, $this->id(), $this->title()));
             }
         }
 

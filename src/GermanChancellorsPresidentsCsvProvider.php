@@ -102,17 +102,21 @@ final class GermanChancellorsPresidentsCsvProvider implements EventDataProviderI
                 continue;
             }
 
-            $collection->push(
+            $collection->push(HistoricEvent::fromGedcom(
                 '1 EVEN ' . $event['name'] .
                 "\n2 TYPE " . $this->translateType($event['typeCode']) .
                 "\n2 DATE " . $event['date'] .
+                ($event['eventId'] === '' ? '' : "\n2 _UID " . $event['eventId']) .
                 "\n2 NOTE " . ($event['image'] === ''
                     ? '[wikipedia ' . $wikipedia . '](https://' . $wikipedia . '.wikipedia.org/wiki/' . $event['article'] . ' )'
                     : '[![wikipedia ' . $wikipedia . '](https://' . $event['image'] .
                         ($event['imageTitle'] === '' ? '' : ' "' . $this->escapeMarkdownTitle($event['imageTitle']) . '"') .
                         ')](https://' . $wikipedia . '.wikipedia.org/wiki/' . $event['article'] . ' )' .
-                        ($event['attribution'] === '' ? '' : "\n3 CONT " . $source . ': ' . $event['attribution']))
-            );
+                        ($event['attribution'] === '' ? '' : "\n3 CONT " . $source . ': ' . $event['attribution'])),
+                'de',
+                $this->id(),
+                $this->title(),
+            ));
         }
 
         return $collection;
@@ -147,6 +151,7 @@ final class GermanChancellorsPresidentsCsvProvider implements EventDataProviderI
                 'image' => $row[4] ?? '',
                 'attribution' => $row[5] ?? '',
                 'imageTitle' => $row[6] ?? '',
+                'eventId' => $row[7] ?? '',
             ];
         }
 

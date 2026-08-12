@@ -24,6 +24,7 @@ use Fisharebest\Webtrees\View;
 use Fisharebest\Webtrees\Webtrees;
 use Hartenthaler\WebtreesModules\History\HhHistoricEvents\Http\HttpGetClient;
 use Hartenthaler\WebtreesModules\History\HhHistoricEvents\Internationalization\MoreI18N;
+use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Support\Collection;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -48,9 +49,11 @@ use function json_encode;
 use function md5;
 use function mkdir;
 use function preg_replace;
+use function preg_match_all;
 use function redirect;
 use function realpath;
 use function rtrim;
+use function sha1;
 use function rawurlencode;
 use function str_contains;
 use function str_ends_with;
@@ -73,11 +76,12 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
     public const CUSTOM_AUTHOR = 'Hermann Hartenthaler';
     public const CUSTOM_GITHUB_USER = 'hartenthaler';
     public const GITHUB_REPO = self::CUSTOM_GITHUB_USER . '/' . self::CUSTOM_MODULE;
-    public const CUSTOM_VERSION = '2.2.6.2';
+    public const CUSTOM_VERSION = '2.2.6.3';
     public const CUSTOM_WEBSITE = 'https://github.com/' . self::GITHUB_REPO . '/';
     public const CUSTOM_LAST = 'https://github.com/' . self::CUSTOM_GITHUB_USER . '/' .
         self::CUSTOM_MODULE . '/raw/main/latest-version.txt';
     private const EVENTS_CACHE_TTL = 86400;
+    private const EVENT_IDENTITY_SCHEMA_VERSION_PREFERENCE = 'event_identity_schema_version';
     private const SHOW_EVENT_AGES_PREFERENCE = 'show_event_ages';
     private const EVENT_AGE_MARKER = "\u{2063}\u{2063}\u{2063}";
     private const CUSTOM_CSV_FORM_SESSION_KEY = 'hh-historic-events-custom-csv-form';
@@ -103,6 +107,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
             'gramps_historical_facts',
         ],
     ];
+
     private const LEGACY_MODULE_TITLES = [
         'Wars and Battles Worldwide 🇩🇪',
         'German Chancellors Presidents',
@@ -118,6 +123,12 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
 
     public function boot(): void
     {
+        $schemaVersion = (new EventIdentitySchema())->ensureSchema(
+            (int) $this->getPreference(self::EVENT_IDENTITY_SCHEMA_VERSION_PREFERENCE, '0')
+        );
+        if ($schemaVersion !== (int) $this->getPreference(self::EVENT_IDENTITY_SCHEMA_VERSION_PREFERENCE, '0')) {
+            $this->setPreference(self::EVENT_IDENTITY_SCHEMA_VERSION_PREFERENCE, (string) $schemaVersion);
+        }
         View::registerNamespace($this->name(), $this->resourcesFolder() . 'views/');
     }
 
@@ -267,14 +278,130 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
                 continue;
             }
 
-            foreach ($provider->historicEvents($language_tag, $this->enabledTypes($provider), $this->enabledCategories($provider)) as $event) {
+            $providerEvents = $provider->historicEvents($language_tag, $this->enabledTypes($provider), $this->enabledCategories($provider));
+            $this->refreshEventIdentityIndex($provider->id(), $provider->title(), $providerEvents->all());
+            foreach ($providerEvents as $event) {
                 $events[] = $event;
             }
         }
 
+        $events = (new HistoricEventResolver())->resolve($events, $language_tag);
+        $events = array_map(static fn (HistoricEvent $event): string => $event->withoutInternalWikidataTags()->gedcom, $events);
+
         $this->writeEventsCache($language_tag, $events);
 
         return new Collection($events);
+    }
+
+    /** @param list<HistoricEvent> $events */
+    private function refreshEventIdentityIndex(string $providerId, string $collectionId, array $events): void
+    {
+        DB::table(EventIdentitySchema::TABLE_INDEX)->where('provider_id', '=', $providerId)->delete();
+
+        foreach ($events as $position => $event) {
+            foreach ($event->identities as $identity) {
+                DB::table(EventIdentitySchema::TABLE_INDEX)->insertOrIgnore([
+                    'event_identity' => trim($identity),
+                    'provider_id' => $providerId,
+                    'collection_id' => $event->collectionId,
+                    'source_location' => (string) $position,
+                    'event_hash' => sha1($event->gedcom),
+                    'event_label' => preg_replace('/^1 EVEN ([^\r\n]+).*$/s', '$1', $event->gedcom) ?? '',
+                    'event_date' => $event->date(),
+                ]);
+            }
+        }
+    }
+
+    /** @return list<array{identities:list<string>,external_references:string,events:list<object>,unindexed_identities:list<string>}> */
+    private function adminEventEquivalenceGroups(): array
+    {
+        $pairs = DB::table(EventIdentitySchema::TABLE_EQUIVALENCES)->orderBy('identity_a')->orderBy('identity_b')->get()->all();
+        $parent = [];
+        $find = static function (string $identity) use (&$parent, &$find): string {
+            $parent[$identity] ??= $identity;
+            if ($parent[$identity] !== $identity) {
+                $parent[$identity] = $find($parent[$identity]);
+            }
+
+            return $parent[$identity];
+        };
+        foreach ($pairs as $pair) {
+            $a = $find((string) $pair->identity_a);
+            $b = (string) $pair->identity_b;
+            if ($b !== '') {
+                $parent[$find($b)] = $a;
+            }
+        }
+
+        $groups = [];
+        foreach ($pairs as $pair) {
+            $identity = (string) $pair->identity_a;
+            $key = $find($identity);
+            $groups[$key]['identities'][] = $identity;
+            if ((string) $pair->identity_b !== '') {
+                $groups[$key]['identities'][] = (string) $pair->identity_b;
+            }
+            if ((string) $pair->external_references !== '') {
+                $groups[$key]['external_references'][] = (string) $pair->external_references;
+            }
+        }
+
+        foreach ($groups as &$group) {
+            $group['identities'] = array_values(array_unique($group['identities']));
+            sort($group['identities']);
+            $group['external_references'] = implode('; ', array_values(array_unique($group['external_references'] ?? [])));
+            $group['events'] = DB::table(EventIdentitySchema::TABLE_INDEX)
+                ->whereIn('event_identity', $group['identities'])
+                ->orderBy('event_identity')
+                ->orderBy('collection_id')
+                ->get()
+                ->all();
+            $indexedIdentities = array_values(array_unique(array_map(static fn (object $event): string => (string) $event->event_identity, $group['events'])));
+            $group['unindexed_identities'] = array_values(array_diff($group['identities'], $indexedIdentities));
+        }
+        unset($group);
+
+        return array_values($groups);
+    }
+
+    /** @return list<string> */
+    private function eventIdentityList(string $value): array
+    {
+        $identities = preg_split('/[\s,;]+/', trim($value)) ?: [];
+
+        return array_values(array_unique(array_filter(array_map(fn (string $identity): string => $this->normalizeEventIdentity($identity), $identities), static fn (string $identity): bool => $identity !== '')));
+    }
+
+    private function normalizeEventIdentity(string $identity): string
+    {
+        $identity = strtolower(trim($identity));
+
+        return preg_replace('/^q/', 'Q', $identity) ?? $identity;
+    }
+
+    private function validEventIdentity(string $identity): bool
+    {
+        return preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/', $identity) === 1
+            || preg_match('/^Q[0-9]+\$[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/', $identity) === 1;
+    }
+
+    /** @param list<string> $identities */
+    private function saveEventEquivalenceGroup(array $identities, string $externalReferences): void
+    {
+        DB::table(EventIdentitySchema::TABLE_EQUIVALENCES)->whereIn('identity_a', $identities)->orWhereIn('identity_b', $identities)->delete();
+        $anchor = $identities[0];
+        $others = array_slice($identities, 1);
+        if ($others === []) {
+            $others = [''];
+        }
+        foreach ($others as $identity) {
+            DB::table(EventIdentitySchema::TABLE_EQUIVALENCES)->insertOrIgnore([
+                'identity_a' => $anchor,
+                'identity_b' => $identity,
+                'external_references' => $externalReferences !== '' ? $externalReferences : null,
+            ]);
+        }
     }
 
     /**
@@ -379,6 +506,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
             'active_legacy_modules' => $this->activeLegacyModules(),
             'custom_csv_files' => $customCsvFiles,
             'selected_custom_csv' => $selectedCustomCsv,
+            'event_equivalence_groups' => $this->adminEventEquivalenceGroups(),
         ]);
     }
 
@@ -427,6 +555,28 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
      */
     private function handleCustomCsvAction(string $action, array $params): ResponseInterface
     {
+        if ($action === 'save-event-equivalence-group') {
+            $identities = $this->eventIdentityList((string) ($params['event_identities'] ?? ''));
+            if ($identities === []) {
+                FlashMessages::addMessage(I18N::translate('Enter at least one event identity.'), 'danger');
+            } elseif (($invalidIdentities = array_filter($identities, fn (string $identity): bool => !$this->validEventIdentity($identity))) !== []) {
+                FlashMessages::addMessage(I18N::translate('Invalid event identity: %s', implode(', ', $invalidIdentities)), 'danger');
+            } else {
+                $this->saveEventEquivalenceGroup($identities, trim((string) ($params['external_references'] ?? '')));
+                FlashMessages::addMessage(I18N::translate('The event equivalence group has been saved.'), 'success');
+            }
+
+            return redirect($this->getConfigLink());
+        }
+
+        if ($action === 'delete-event-equivalence-group') {
+            $identities = $this->eventIdentityList((string) ($params['event_identities'] ?? ''));
+            DB::table(EventIdentitySchema::TABLE_EQUIVALENCES)->whereIn('identity_a', $identities)->orWhereIn('identity_b', $identities)->delete();
+            FlashMessages::addMessage(I18N::translate('The event equivalence group has been deleted.'), 'success');
+
+            return redirect($this->getConfigLink());
+        }
+
         $manager = $this->customCsvManager();
         $selectedFilename = '';
 
@@ -507,7 +657,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
     }
 
     /** @param array<string,mixed> $params
-     *  @return list<array{from_date:string,to_date:string,event:string,link:string,category:string}>
+     *  @return list<array{from_date:string,to_date:string,event:string,link:string,category:string,event_id:string}>
      */
     private function customCsvRows(array $params): array
     {
@@ -522,6 +672,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
                 'event' => (string) ($row['event'] ?? ''),
                 'link' => (string) ($row['link'] ?? ''),
                 'category' => (string) ($row['category'] ?? ''),
+                'event_id' => (string) ($row['event_id'] ?? ''),
             ];
         }
 
@@ -953,7 +1104,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
 
     private function configurationSignature(): string
     {
-        $signature = [];
+        $signature = ['event_cache_format_version' => 3];
 
         foreach ($this->providerFactory()->providers() as $provider) {
             $providerSignature = [
@@ -978,7 +1129,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
                 }
             }
 
-            $signature[] = $providerSignature;
+            $signature['providers'][] = $providerSignature;
         }
 
         return (string) json_encode($signature);

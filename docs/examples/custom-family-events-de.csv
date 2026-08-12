@@ -10,6 +10,6 @@
 ## SOURCE: Familienchronik der Familie Muster
 ## DESCRIPTION: Beispiel für nutzerdefinierte historische Familienereignisse
 ########################################################
-From date;To date;Event text;Source link;Category
+Start date;End date;Event text;Source link;Category;Event ID
 1872;;Die Familie Muster zieht nach Stuttgart;;Familiengeschichte
 1901;1903;Das Familienhaus der Familie Muster wird gebaut;https://example.com/source;Familiengeschichte

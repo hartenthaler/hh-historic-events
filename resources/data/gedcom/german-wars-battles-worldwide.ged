@@ -856,6 +856,7 @@
 1 EVEN Schlacht am Morgarten
 2 TYPE {{type:battle}}
 2 DATE @#DJULIAN@ 15 NOV 1315
+2 _UID 905abaaa-a461-4032-a1d2-9c6311b3a9da
 2 NOTE Eidgenossen besiegen Habsburger in Schweiz; siehe [wikipedia {{wikipedia}}](https://{{wikipedia}}.wikipedia.org/wiki/Schlacht_am_Morgarten )
 
 1 EVEN Schlacht von Wöhrden
@@ -1313,16 +1314,19 @@
 1 EVEN Schlacht bei Grandson
 2 TYPE {{type:battle}}
 2 DATE @#DJULIAN@ 02 MAR 1476
+2 _UID 99364d38-4e68-4d98-9e0c-478fa806d487
 2 NOTE Eidgenossen besiegen Burgund in Schweiz; siehe [wikipedia {{wikipedia}}](https://{{wikipedia}}.wikipedia.org/wiki/Schlacht_bei_Grandson )
 
 1 EVEN Schlacht bei Murten
 2 TYPE {{type:battle}}
 2 DATE @#DJULIAN@ 22 JUN 1476
+2 _UID e0e89776-a901-40b8-a49a-e64d8b0e0d61
 2 NOTE Eidgenossen und Verbündete besiegen Burgund in Schweiz; siehe [wikipedia {{wikipedia}}](https://{{wikipedia}}.wikipedia.org/wiki/Schlacht_bei_Murten )
 
 1 EVEN Schlacht bei Nancy
 2 TYPE {{type:battle}}
 2 DATE @#DJULIAN@ 05 JAN 1477
+2 _UID 8a5f0d45-6f69-417b-85d8-9d62dc30a5be
 2 NOTE Eidgenossen und Verbündete besiegen Burgund in Burgund; siehe [wikipedia {{wikipedia}}](https://{{wikipedia}}.wikipedia.org/wiki/Schlacht_bei_Nancy )
 
 1 EVEN Schlacht von Toro
@@ -1401,6 +1405,7 @@
 1 EVEN Schlacht bei Marignano
 2 TYPE {{type:battle}}
 2 DATE FROM @#DJULIAN@ 13 SEP 1515 TO @#DJULIAN@ 14 SEP 1515
+2 _UID 5a75ec82-95a8-44e1-b5f1-1c649e65c394
 2 NOTE siehe [wikipedia {{wikipedia}}](https://{{wikipedia}}.wikipedia.org/wiki/Schlacht_bei_Marignano )
 
 1 EVEN Italienkriege
@@ -1431,6 +1436,7 @@
 1 EVEN Schlacht bei Marignano
 2 TYPE {{type:battle}}
 2 DATE FROM @#DJULIAN@ 13 SEP 1515 TO @#DJULIAN@ 14 SEP 1515
+2 _UID ca79d916-c120-4f4a-ba25-f104d072ce7c
 2 NOTE Frankreich besiegt Schweizer; siehe [wikipedia {{wikipedia}}](https://{{wikipedia}}.wikipedia.org/wiki/Schlacht_bei_Marignano )
 
 1 EVEN Schlacht bei Bicocca
@@ -3817,6 +3823,7 @@
 1 EVEN Schlacht von Trafalgar
 2 TYPE {{type:battle}}
 2 DATE 21 OCT 1805
+2 _UID 28da9369-b025-4366-b697-512534e64ad6
 2 NOTE Briten schlagen die Franzosen und Spanier; siehe [wikipedia {{wikipedia}}](https://{{wikipedia}}.wikipedia.org/wiki/Schlacht_von_Trafalgar )
 
 1 EVEN Schlacht von Caldiero
@@ -4112,6 +4119,7 @@
 1 EVEN Schlacht an der Beresina (Russlandfeldzug 1812)
 2 TYPE {{type:battle}}
 2 DATE FROM 26 NOV 1812 TO 28 NOV 1812
+2 _UID 604a1e7d-80b0-4d88-8009-986a3dcd3b2a
 2 NOTE Russland besiegt Frankreich beim Rückzug der Grande Armée Napoleons vor den Truppen des Zaren Alexander I.; siehe [wikipedia {{wikipedia}}](https://{{wikipedia}}.wikipedia.org/wiki/Schlacht_an_der_Beresina )
 
 1 EVEN Schlacht bei Krasnoje (Russlandfeldzug 1812)
@@ -4755,7 +4763,8 @@
 
 1 EVEN Sonderbundskrieg in der Schweiz
 2 TYPE {{type:war}}
-2 DATE 1847
+2 DATE FROM 03 NOV 1847 TO 29 NOV 1847
+2 _UID d525e4d0-08e4-4780-9f2e-f700918f77d1
 2 NOTE siehe [wikipedia {{wikipedia}}](https://{{wikipedia}}.wikipedia.org/wiki/Sonderbundskrieg )
 
 1 EVEN Zweiter Karlistenkrieg (Carlistenkriege)
@@ -6233,6 +6242,7 @@
 1 EVEN Erster Weltkrieg
 2 TYPE {{type:war}}
 2 DATE FROM 1914 TO 1918
+2 _UID 486a7033-03cf-4855-a144-b087d0834241
 2 NOTE siehe [wikipedia {{wikipedia}}](https://{{wikipedia}}.wikipedia.org/wiki/Erster_Weltkrieg )
 
 1 EVEN Schlacht von Cer
@@ -6688,6 +6698,7 @@
 1 EVEN Zweiter Weltkrieg
 2 TYPE {{type:war}}
 2 DATE FROM 1939 TO 1945
+2 _UID 66ea1ac1-7b8a-4064-9f7d-5f21da7c8e34
 2 NOTE siehe [wikipedia {{wikipedia}}](https://{{wikipedia}}.wikipedia.org/wiki/Zweiter_Weltkrieg )
 
 1 EVEN Schlacht um die Westerplatte

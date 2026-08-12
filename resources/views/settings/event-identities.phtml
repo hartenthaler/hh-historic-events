@@ -1,0 +1,72 @@
+<?php
+
+declare(strict_types=1);
+
+use Fisharebest\Webtrees\I18N;
+
+/** @var list<array{identities:list<string>,external_references:string,events:list<object>,unindexed_identities:list<string>}> $event_equivalence_groups */
+?>
+
+<section class="mb-5" id="event-identities">
+    <h2><?= I18N::translate('Event identities and equivalences') ?></h2>
+    <p><?= I18N::translate('Link identities that describe the same historical event in different collections or languages.') ?></p>
+    <p class="text-muted">
+        <?= I18N::translate('Enter one or more event IDs, separated by commas, semicolons, spaces, or line breaks. A single event ID can be saved together with external references.') ?>
+        <?= I18N::translate('External references are optional. Use a semicolon-separated format such as “GND:4079163-4; Wikidata:Q361”.') ?>
+    </p>
+
+    <form method="post" class="row g-2 mb-4">
+        <?= csrf_field() ?>
+        <input name="action" type="hidden" value="save-event-equivalence-group">
+        <div class="col-md-6">
+            <label class="form-label" for="event_identities"><?= I18N::translate('Event IDs') ?></label>
+            <textarea class="form-control" id="event_identities" name="event_identities" required rows="3" placeholder="123e4567-e89b-42d3-a456-426614174000"></textarea>
+        </div>
+        <div class="col-md-5">
+            <label class="form-label" for="external_references"><?= I18N::translate('External references') ?></label>
+            <textarea class="form-control" id="external_references" name="external_references" rows="3" placeholder="GND:4079163-4; Wikidata:Q361"></textarea>
+        </div>
+        <div class="col-md-1 d-flex align-items-end"><button class="btn btn-primary" type="submit"><?= I18N::translate('Save') ?></button></div>
+    </form>
+
+    <?php if ($event_equivalence_groups === []): ?>
+        <p class="text-muted"><?= I18N::translate('No event equivalences have been defined.') ?></p>
+    <?php else: ?>
+        <?php foreach ($event_equivalence_groups as $group): ?>
+            <article class="border rounded p-3 mb-3">
+                <form method="post">
+                    <?= csrf_field() ?>
+                    <input name="action" type="hidden" value="save-event-equivalence-group">
+                    <label class="form-label"><?= I18N::translate('Event IDs') ?></label>
+                    <textarea class="form-control font-monospace mb-2" name="event_identities" rows="2" required><?= e(implode("\n", $group['identities'])) ?></textarea>
+                    <label class="form-label"><?= I18N::translate('External references') ?></label>
+                    <input class="form-control mb-2" name="external_references" value="<?= e($group['external_references']) ?>">
+                    <?php if ($group['events'] === []): ?>
+                        <p class="text-muted mb-2"><?= I18N::translate('No indexed event data is available yet. Open historic events once to rebuild the index automatically.') ?></p>
+                    <?php else: ?>
+                        <table class="table table-sm mb-2">
+                            <thead><tr><th><?= I18N::translate('Event ID') ?></th><th><?= I18N::translate('Event') ?></th><th><?= I18N::translate('Date') ?></th><th><?= I18N::translate('Collection') ?></th></tr></thead>
+                            <tbody>
+                            <?php foreach ($group['events'] as $event): ?>
+                                <tr><td><code><?= e((string) $event->event_identity) ?></code></td><td><?= e((string) $event->event_label) ?></td><td><?= e((string) $event->event_date) ?></td><td><?= e((string) $event->collection_id) ?></td></tr>
+                            <?php endforeach ?>
+                            </tbody>
+                        </table>
+                    <?php endif ?>
+                    <?php if ($group['unindexed_identities'] !== []): ?>
+                        <p class="text-warning mb-2">
+                            <?= I18N::translate('These event IDs were not found in the index: %s', implode(', ', $group['unindexed_identities'])) ?>
+                        </p>
+                    <?php endif ?>
+                    <button class="btn btn-primary" type="submit"><?= I18N::translate('Save') ?></button>
+                </form>
+                <form method="post" class="d-inline-block mt-2">
+                    <?= csrf_field() ?>
+                    <input name="action" type="hidden" value="delete-event-equivalence-group">
+                    <input name="event_identities" type="hidden" value="<?= e(implode(',', $group['identities'])) ?>">
+                    <button class="btn btn-outline-danger" type="submit"><?= I18N::translate('Delete') ?></button>
+                </form>
+            </article>
+        <?php endforeach ?>
+    <?php endif ?>
+</section>

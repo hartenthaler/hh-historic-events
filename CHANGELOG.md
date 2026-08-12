@@ -2,6 +2,14 @@
 
 ## Next release
 
+## 2.2.6.3 - 2026-08-12
+
+- Add event IDs, a manual equivalence table, a derived identity index, and language-aware resolution of equivalent historical events.
+- Split the administration settings into configuration, custom-CSV, and event-identity views; show the region overview after the collection selections.
+- Extend the custom-CSV editor to six columns and generate a UUID-v4 event ID for newly saved rows.
+- Document event identities and the distinct GEDCOM-date format of the Swiss CSV collection.
+- Add UUID-v4 event IDs to the bundled German chancellors and presidents CSV collection.
+- Replace pair-by-pair equivalence administration with complete editable groups, optional external references, and indexed event details for quality control.
 - Add individual category selections for CSV collections in the administration settings; category choices are included in the event-cache configuration.
 - Add and translate the bundled CSV categories `Epidemic`, `Pandemic`, and `Institutional care`; categorize the Involuntary commitment and institutional care collection.
 - Rename the bundled English general-history and pandemic collections with `en_` filename prefixes.

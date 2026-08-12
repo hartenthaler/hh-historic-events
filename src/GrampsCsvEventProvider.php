@@ -12,9 +12,12 @@ use Illuminate\Support\Collection;
 use Psr\Http\Client\ClientExceptionInterface;
 
 use function array_values;
+use function array_search;
+use function array_unique;
 use function checkdate;
 use function basename;
 use function dirname;
+use function explode;
 use function file_exists;
 use function file_get_contents;
 use function file_put_contents;
@@ -349,7 +352,13 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
                     $gedcom .= "\n2 NOTE [link](" . $event['link'] . ' )';
                 }
 
-                $collection->push($gedcom);
+                if ($event['eventId'] !== '') {
+                    foreach (explode(',', $event['eventId']) as $eventId) {
+                        $gedcom .= "\n2 _UID " . $eventId;
+                    }
+                }
+
+                $collection->push(HistoricEvent::fromGedcom($gedcom, $this->fileLanguageId($file), $this->id(), $typeId));
             }
         }
 
@@ -499,7 +508,7 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
                 continue;
             }
 
-            if ($firstColumn !== '' && !str_starts_with($firstColumn, '#') && $firstColumn !== 'From date') {
+            if ($firstColumn !== '' && !str_starts_with($firstColumn, '#') && $firstColumn !== 'From date' && $firstColumn !== 'Start date') {
                 break;
             }
         }
@@ -552,6 +561,13 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
             'Epidemic' => I18N::translate('Epidemic'),
             'Pandemic' => I18N::translate('Pandemic'),
             'Institutional care' => I18N::translate('Institutional care'),
+            'Disaster' => I18N::translate('Disaster'),
+            'Health' => I18N::translate('Health'),
+            'History' => I18N::translate('History'),
+            'Politics' => I18N::translate('Politics'),
+            'Science' => I18N::translate('Science'),
+            'Society' => I18N::translate('Society'),
+            'Technology' => I18N::translate('Technology'),
             default => $category,
         };
     }
@@ -566,6 +582,10 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
         }
 
         $events = [];
+        // Legacy Gramps files can have no header row. Their fifth column is
+        // still the category, while a recognised header can opt into Event ID.
+        $categoryColumn = 4;
+        $eventIdColumn = false;
         $handle = fopen($file, 'r');
         if ($handle === false) {
             return [];
@@ -576,7 +596,9 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
                 continue;
             }
 
-            if (($row[0] ?? '') === 'From date' && ($row[1] ?? '') === 'To date') {
+            if ((($row[0] ?? '') === 'From date' && ($row[1] ?? '') === 'To date') || (($row[0] ?? '') === 'Start date' && ($row[1] ?? '') === 'End date')) {
+                $categoryColumn = array_search('Category', $row, true);
+                $eventIdColumn = array_search('Event ID', $row, true);
                 continue;
             }
 
@@ -585,13 +607,30 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
                 'toDate' => $this->normalizeCsvDate($row[1] ?? ''),
                 'event' => $this->sanitizeCsvValue($row[2] ?? ''),
                 'link' => $this->sanitizeCsvUrl($row[3] ?? ''),
-                'category' => $this->sanitizeCsvValue($row[4] ?? ''),
+                'category' => $categoryColumn === false
+                    ? ''
+                    : $this->sanitizeCsvValue($row[$categoryColumn] ?? ''),
+                'eventId' => $eventIdColumn === false
+                    ? ''
+                    : $this->eventId($row[$eventIdColumn] ?? ''),
             ];
         }
 
         fclose($handle);
 
         return $events;
+    }
+
+    private function eventId(string $value): string
+    {
+        $eventIds = [];
+        foreach (explode(',', strtolower($this->sanitizeCsvValue($value))) as $eventId) {
+            if (preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/', $eventId) === 1) {
+                $eventIds[] = $eventId;
+            }
+        }
+
+        return implode(',', array_unique($eventIds));
     }
 
     private function normalizeCsvDate(string $date): string

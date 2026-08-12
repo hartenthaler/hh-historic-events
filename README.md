@@ -82,11 +82,11 @@ The module currently includes the following data sources.
   Gramps CSV files are stored in `resources/data/csv/`.
   See [provider documentation](docs/gramps-historical-facts.md).
 
-* **User-specific event lists:** Administrators can create and manage individual semicolon-separated CSV files in the module settings or webmasters can place them in `data/modules/hh-historic-events/data/`. The built-in five-column editor supports creating, editing, saving the current form state under a new filename, and deleting these persistent files. The supported columns are the start date, end date, event text, source link, and an optional category. New custom files identify their content language, the topic, and the geographical region in the metadata header. Files in this persistent directory survive module upgrades and override bundled CSV files with the same name. See the [custom CSV format specification](docs/custom-csv-format.md) and the [German example file](docs/examples/custom-family-events-de.csv).
+* **User-specific event lists:** Administrators can create and manage individual semicolon-separated CSV files in the module settings or webmasters can place them in `data/modules/hh-historic-events/data/`. The built-in six-column editor supports creating, editing, saving the current form state under a new filename, and deleting these persistent files. The supported columns are the start date, end date, event text, source link, an optional category, and an optional event ID. New custom files identify their content language, the topic, and the geographical region in the metadata header. Files in this persistent directory survive module upgrades and override bundled CSV files with the same name. See the [custom CSV format specification](docs/custom-csv-format.md) and the [German example file](docs/examples/custom-family-events-de.csv).
 
   Data files from [Potts Historical Facts](https://github.com/PottsNet/potts-historical-facts) can be converted for use by this module. A webmaster copies a Potts CSV file to `data/modules/hh-historic-events/data/`. The administrator then opens the file under **Control panel / Historic Events / Manage custom CSV files**, completes the language, topic, and optional region metadata, reviews the event rows, and saves the file. Saving rewrites the dates in the Gramps-compatible ISO date representation and adds the metadata header used by this module.
 
-  A planned optional final CSV column will contain one or more event identities. This will make it possible to relate the same historical event across language variants and collections without requiring those collections to have identical wording or scope. New rows created in the administration editor will receive a UUID automatically; administrators will not edit this technical value.
+  The optional final `Event ID` CSV column can contain one or more comma-separated UUID-v4 values. These identities make it possible to relate the same historical event across language variants and collections without requiring those collections to have identical wording or scope. New rows created in the administration editor receive one UUID automatically; administrators cannot edit this technical value.
 
 <a name="Configuration"></a>
 ## ⚙️ Configuration
@@ -100,6 +100,8 @@ The settings page has two selection steps:
 
 For good performance, enable only the data sources and collections that are actually needed. Processing many sources, or a single large collection such as Wars and Battles Worldwide, can noticeably slow down webtrees.
 The module caches Wikidata responses for 24 hours.
+
+Equivalent events can be linked by optional UUID-v4 event IDs across collections and language variants. Administrators can maintain complete equivalence groups in the module settings, optionally attaching external references such as GND or Wikidata identifiers. The settings show the indexed event name, date, and collection for each ID as a quality-control aid. The module uses the groups to show one combined event without modifying the source files.
 
 <a name="Usage"></a>
 ## 👤 Usage
