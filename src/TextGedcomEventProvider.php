@@ -27,6 +27,9 @@ use const PATHINFO_EXTENSION;
 
 final class TextGedcomEventProvider implements EventDataProviderInterface
 {
+    private const MAX_FILE_BYTES = 5242880;
+    private const MAX_RECORDS = 20000;
+    private const MAX_FIELD_BYTES = 16384;
     /**
      * @param array<string,string> $typeOptions
      */
@@ -136,6 +139,9 @@ final class TextGedcomEventProvider implements EventDataProviderInterface
         if (!is_file($this->file)) {
             return $collection;
         }
+        if (filesize($this->file) === false || filesize($this->file) > self::MAX_FILE_BYTES) {
+            return $collection;
+        }
 
         if (pathinfo($this->file, PATHINFO_EXTENSION) === 'csv') {
             return $this->csvHistoricEvents($enabledTypes);
@@ -146,7 +152,11 @@ final class TextGedcomEventProvider implements EventDataProviderInterface
             return $collection;
         }
 
+        $recordCount = 0;
         foreach (preg_split('/\r?\n\r?\n/', $content) ?: [] as $record) {
+            if (++$recordCount > self::MAX_RECORDS || strlen($record) > self::MAX_FIELD_BYTES * 4) {
+                break;
+            }
             $record = trim($record);
             if ($record === '' || !$this->recordTypeIsEnabled($record, $enabledTypes)) {
                 continue;
@@ -170,7 +180,11 @@ final class TextGedcomEventProvider implements EventDataProviderInterface
             return $collection;
         }
 
+        $rowCount = 0;
         while (($row = fgetcsv($handle, 0, ';', '"', '\\')) !== false) {
+            if (++$rowCount > self::MAX_RECORDS || !$this->rowIsWithinLimits($row)) {
+                break;
+            }
             if (($row[0] ?? '') === 'date' || str_starts_with($row[0] ?? '', '#')) {
                 continue;
             }
@@ -203,6 +217,18 @@ final class TextGedcomEventProvider implements EventDataProviderInterface
         fclose($handle);
 
         return $collection;
+    }
+
+    /** @param array<int,string|null> $row */
+    private function rowIsWithinLimits(array $row): bool
+    {
+        foreach ($row as $value) {
+            if (strlen((string) $value) > self::MAX_FIELD_BYTES) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

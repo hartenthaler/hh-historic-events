@@ -10,6 +10,8 @@ data/modules/hh-historic-events/data/
 
 The exact server path is shown in the module settings. A custom file overrides a bundled file with the same filename. The files are UTF-8 encoded and use semicolons as column separators.
 
+For predictable administration and event loading, a custom CSV file may be at most 1 MiB, contain at most 10,000 rows, and use at most 16 KiB per field. Larger files are rejected by the editor.
+
 The module settings include a file manager and a six-column table editor for these administrator-provided files. Administrators can create, edit, copy, and delete them without direct filesystem access. Saving a file clears the module's generated event cache. Bundled collections and the separate German chancellors/presidents CSV provider cannot be changed with this editor.
 
 The editor uses the active webtrees languages for `LANGUAGE`. Date fields accept the usual input order of the current webtrees language or a simple GEDCOM date and display the date in the user's language. When saving, the editor converts the value to the ISO representation required by the shared CSV format. It does not offer calendars, date ranges, or qualifiers such as `ABT` and `CAL`.

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hartenthaler\WebtreesModules\History\HhHistoricEvents;
 
+use Fisharebest\Webtrees\I18N;
 use RuntimeException;
 
 use function array_fill;
@@ -39,6 +40,9 @@ use function unlink;
 
 final class CustomCsvFileManager
 {
+    private const MAX_FILE_BYTES = 1048576;
+    private const MAX_ROWS = 10000;
+    private const MAX_FIELD_BYTES = 16384;
     public const METADATA_FIELDS = [
         'TOPIC',
         'LANGUAGE',
@@ -91,6 +95,9 @@ final class CustomCsvFileManager
         if (!is_file($file)) {
             throw new RuntimeException('The selected CSV file does not exist.');
         }
+        if (filesize($file) === false || filesize($file) > self::MAX_FILE_BYTES) {
+            throw new RuntimeException(I18N::translate('The selected CSV file is too large. The maximum size is 1 MiB.'));
+        }
 
         $handle = fopen($file, 'rb');
         if ($handle === false) {
@@ -99,7 +106,12 @@ final class CustomCsvFileManager
 
         $metadata = [];
         $rows = [];
+        $lineCount = 0;
         while (($row = fgetcsv($handle, 0, ';', '"', '\\')) !== false) {
+            if (++$lineCount > self::MAX_ROWS || !$this->rowIsWithinLimits($row)) {
+                fclose($handle);
+                throw new RuntimeException(I18N::translate('The selected CSV file exceeds the supported size limits.'));
+            }
             $first = trim((string) ($row[0] ?? ''));
             if (preg_match('/^##\s+([A-Z][A-Z0-9_-]*):\s*(.*)$/', $first, $matches) === 1) {
                 $metadata[$matches[1]] = trim($matches[2]);
@@ -133,6 +145,9 @@ final class CustomCsvFileManager
     public function save(string $filename, array $metadata, array $rows): array
     {
         $filename = $this->filename($filename);
+        if (count($rows) > self::MAX_ROWS) {
+            throw new RuntimeException(I18N::translate('The CSV file contains too many rows.'));
+        }
         $existing = is_file($this->path($filename)) ? $this->read($filename)['metadata'] : [];
 
         foreach (self::METADATA_FIELDS as $field) {
@@ -172,6 +187,10 @@ final class CustomCsvFileManager
                 $this->singleLine($row['link'] ?? ''),
                 $this->singleLine($row['category'] ?? ''),
             ];
+            if (!$this->rowIsWithinLimits($values)) {
+                fclose($stream);
+                throw new RuntimeException(I18N::translate('A CSV field exceeds the supported size limit.'));
+            }
             if (implode('', $values) === '') {
                 continue;
             }
@@ -188,6 +207,18 @@ final class CustomCsvFileManager
         }
 
         return ['invalid_dates' => $invalidDates, 'invalid_periods' => $invalidPeriods];
+    }
+
+    /** @param array<int,string|null> $row */
+    private function rowIsWithinLimits(array $row): bool
+    {
+        foreach ($row as $value) {
+            if (strlen((string) $value) > self::MAX_FIELD_BYTES) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /** @param array<string,string> $metadata */

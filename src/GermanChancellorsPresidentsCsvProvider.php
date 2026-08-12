@@ -18,6 +18,9 @@ use function str_starts_with;
 
 final class GermanChancellorsPresidentsCsvProvider implements EventDataProviderInterface
 {
+    private const MAX_FILE_BYTES = 5242880;
+    private const MAX_ROWS = 20000;
+    private const MAX_FIELD_BYTES = 16384;
     public function __construct(private readonly string $file)
     {
     }
@@ -130,6 +133,9 @@ final class GermanChancellorsPresidentsCsvProvider implements EventDataProviderI
         if (!is_file($this->file)) {
             return [];
         }
+        if (filesize($this->file) === false || filesize($this->file) > self::MAX_FILE_BYTES) {
+            return [];
+        }
 
         $events = [];
         $handle = fopen($this->file, 'r');
@@ -138,7 +144,11 @@ final class GermanChancellorsPresidentsCsvProvider implements EventDataProviderI
         }
 
         fgetcsv($handle, 0, ',', '"', '\\');
+        $rowCount = 0;
         while (($row = fgetcsv($handle, 0, ',', '"', '\\')) !== false) {
+            if (++$rowCount > self::MAX_ROWS || !$this->rowIsWithinLimits($row)) {
+                break;
+            }
             if (($row[0] ?? '') === '' || str_starts_with($row[0], '#')) {
                 continue;
             }
@@ -158,6 +168,18 @@ final class GermanChancellorsPresidentsCsvProvider implements EventDataProviderI
         fclose($handle);
 
         return $events;
+    }
+
+    /** @param array<int,string|null> $row */
+    private function rowIsWithinLimits(array $row): bool
+    {
+        foreach ($row as $value) {
+            if (strlen((string) $value) > self::MAX_FIELD_BYTES) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
