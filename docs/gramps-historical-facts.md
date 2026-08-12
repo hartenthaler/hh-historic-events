@@ -51,7 +51,7 @@ An override of the special file `GermanChancellorsPresidents.csv` must retain th
 
 ### Reproducible parser check
 
-To verify backwards compatibility, create one custom file with four columns and another with five columns, enable both sources in the module settings, and open an individual's facts and events tab. The four-column event must use the file's `TOPIC`; the five-column event must use its fifth column as the GEDCOM `TYPE`. A file without a link must not create an empty `NOTE`. Give one file the same name as a bundled CSV and verify that only the custom events are shown for that source.
+To verify backwards compatibility, create one custom file with four columns, another with five columns, and one with the optional sixth `Event ID` column, enable all sources in the module settings, and open an individual's facts and events tab. The four-column event must use the file's `TOPIC`; the five-column event must use its fifth column as the GEDCOM `TYPE`; the sixth column must add the UUID as GEDCOM `_UID`. A file without a link must not create an empty `NOTE`. Give one file the same name as a bundled CSV and verify that only the custom events are shown for that source.
 
 The file names use the `.csv` extension and follow the pattern `<locale>_data_v1_0.csv`, for example `da_DK_data_v1_0.csv` for events related to Denmark.
 

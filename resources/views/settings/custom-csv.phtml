@@ -1,0 +1,303 @@
+<?php
+
+use Fisharebest\Webtrees\I18N;
+use Fisharebest\Webtrees\Date;
+use Hartenthaler\WebtreesModules\History\HhHistoricEvents\Internationalization\MoreI18N;
+
+?>
+<section class="mb-5" id="custom-csv">
+<h2 class="h3"><?= I18N::translate('Manage custom CSV files') ?></h2>
+
+<div class="alert alert-info">
+    <p class="mb-2">
+        <?= I18N::translate('Store custom CSV files in this persistent data directory. Files in this directory override bundled CSV files with the same name.') ?>
+    </p>
+    <code class="d-block mb-2"><?= e($custom_data_folder) ?></code>
+    <p class="small mb-0">
+            <?= I18N::translate('CSV columns: start date; end date; event text; source link; optional category; event ID') ?>
+    </p>
+    <p class="small mb-0">
+        <?= I18N::translate('New custom files require FORMAT, TOPIC, and LANGUAGE metadata. REGION optionally describes the geographical region in the language of the file.') ?>
+    </p>
+    <p class="small mt-2 mb-0">
+        <a href="<?= e($custom_csv_documentation_url) ?>" target="_blank" rel="noopener noreferrer">
+            <?= I18N::translate('Custom CSV file format') ?>
+        </a>
+        ·
+        <a href="<?= e($custom_csv_example_url) ?>" target="_blank" rel="noopener noreferrer">
+            <?= I18N::translate('Download example CSV file') ?>
+        </a>
+    </p>
+</div>
+
+    <p class="text-muted">
+        <?= I18N::translate('Only CSV files provided by administrators or webmasters in the persistent data directory can be changed here. Bundled collections remain read-only.') ?>
+        <?= I18N::translate('The language code identifies the language of the topic, region, and event texts.') ?>
+    </p>
+
+    <?php if ($custom_csv_files === []): ?>
+        <p><?= I18N::translate('No custom CSV files are available.') ?></p>
+    <?php else: ?>
+        <div class="table-responsive mb-4">
+            <table class="table table-sm table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th><?= I18N::translate('File') ?></th>
+                        <th><?= I18N::translate('Language') ?></th>
+                        <th><?= I18N::translate('Topic') ?></th>
+                        <th><?= I18N::translate('Region') ?></th>
+                        <th><span class="visually-hidden"><?= MoreI18N::xlate('Action') ?></span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($custom_csv_files as $custom_csv_file): ?>
+                        <tr>
+                            <td><code><?= e($custom_csv_file['filename']) ?></code></td>
+                            <td><?= e($custom_csv_file['language']) ?></td>
+                            <td><?= e($custom_csv_file['topic']) ?></td>
+                            <td><?= e($custom_csv_file['region']) ?></td>
+                            <td class="text-end">
+                                <a class="btn btn-sm btn-outline-primary" href="<?= e($custom_csv_file['edit_url']) ?>">
+                                    <?= view('icons/edit') ?>
+                                    <?= MoreI18N::xlate('edit') ?>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endforeach ?>
+                </tbody>
+            </table>
+        </div>
+    <?php endif ?>
+
+    <form method="post" class="border p-3 mb-4">
+        <?= csrf_field() ?>
+        <h3 class="h5"><?= I18N::translate('Create a custom CSV file') ?></h3>
+        <div class="row g-3 align-items-end">
+            <div class="col-md-3">
+                <label class="form-label" for="new_filename"><?= I18N::translate('Filename') ?></label>
+                <input class="form-control" id="new_filename" name="new_filename" type="text" required pattern="(?:[A-Za-z0-9][A-Za-z0-9_-]*|[A-Za-z0-9][A-Za-z0-9._-]*\.csv)" placeholder="de_DE_data_v1_0.csv">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label" for="new_language"><?= I18N::translate('Language') ?></label>
+                <select class="form-select" id="new_language" name="metadata[LANGUAGE]" required>
+                    <?php foreach ($custom_csv_language_options as $language_code => $language_label): ?>
+                        <option value="<?= e($language_code) ?>" <?= $language_code === I18N::languageTag() ? 'selected' : '' ?>><?= e($language_label) ?></option>
+                    <?php endforeach ?>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label" for="new_topic"><?= I18N::translate('Topic') ?></label>
+                <input class="form-control" id="new_topic" name="metadata[TOPIC]" type="text" required>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label" for="new_region"><?= I18N::translate('Region') ?></label>
+                <input class="form-control" id="new_region" name="metadata[REGION]" type="text">
+            </div>
+        </div>
+        <button class="btn btn-primary mt-3" name="action" type="submit" value="create-custom-csv">
+            <i class="fa-solid fa-file-circle-plus" aria-hidden="true"></i>
+            <?= I18N::translate('Create file') ?>
+        </button>
+    </form>
+
+    <?php if ($selected_custom_csv !== null): ?>
+        <?php
+        $metadata_labels = [
+            'LANGUAGE' => I18N::translate('Language'),
+            'TOPIC' => I18N::translate('Topic'),
+            'REGION' => I18N::translate('Region'),
+            'VERSION' => MoreI18N::xlate('Version'),
+            'AUTHOR' => MoreI18N::xlate('Author'),
+            'CONTACT' => I18N::translate('Contact'),
+            'LICENSE' => I18N::translate('License'),
+            'SOURCE' => I18N::translate('Source'),
+            'DESCRIPTION' => I18N::translate('Description'),
+        ];
+        $editor_rows = $selected_custom_csv['rows'];
+        $editor_rows[] = ['from_date' => '', 'to_date' => '', 'event' => '', 'link' => '', 'category' => '', 'event_id' => ''];
+        $selected_language = $selected_custom_csv['metadata']['LANGUAGE'] ?? '';
+        $language_options = $custom_csv_language_options;
+        if ($selected_language !== '' && !isset($language_options[$selected_language])) {
+            $language_options[$selected_language] = $selected_language;
+        }
+        ?>
+        <form method="post" class="border p-3 mb-3" id="custom-csv-editor" autocomplete="off">
+            <?= csrf_field() ?>
+            <input name="filename" type="hidden" value="<?= e($selected_custom_csv['filename']) ?>">
+            <h3 class="h4"><?= I18N::translate('Edit custom CSV file') ?>: <code><?= e($selected_custom_csv['filename']) ?></code></h3>
+
+            <div class="row g-3 mb-4">
+                <?php foreach ($metadata_labels as $metadata_key => $metadata_label): ?>
+                    <div class="col-md-6 col-lg-4">
+                        <label class="form-label" for="metadata_<?= e(strtolower($metadata_key)) ?>"><?= e($metadata_label) ?></label>
+                        <?php if ($metadata_key === 'LANGUAGE'): ?>
+                            <select class="form-select" id="metadata_language" name="metadata[LANGUAGE]" required>
+                                <?php foreach ($language_options as $language_code => $language_label): ?>
+                                    <option value="<?= e($language_code) ?>" <?= $language_code === $selected_language ? 'selected' : '' ?>><?= e($language_label) ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        <?php else: ?>
+                            <input
+                                class="form-control"
+                                id="metadata_<?= e(strtolower($metadata_key)) ?>"
+                                name="metadata[<?= e($metadata_key) ?>]"
+                                type="text"
+                                value="<?= e($selected_custom_csv['metadata'][$metadata_key] ?? '') ?>"
+                                <?= $metadata_key === 'TOPIC' ? 'required' : '' ?>
+                            >
+                        <?php endif ?>
+                    </div>
+                <?php endforeach ?>
+            </div>
+
+            <p class="small text-muted">
+                <?= I18N::translate('Enter Gregorian dates from 15 October 1582 up to today in the usual format for the current language or as a simple GEDCOM date. Date ranges, qualifiers, and other calendars are not supported here.') ?>
+            </p>
+
+            <div class="table-responsive">
+                <table class="table table-sm align-middle" id="custom-csv-rows">
+                    <thead>
+                        <tr>
+                            <th><?= I18N::translate('Start date') ?></th>
+                            <th><?= I18N::translate('End date') ?></th>
+                            <th><?= I18N::translate('Event text') ?></th>
+                            <th><?= I18N::translate('Source link') ?></th>
+                            <th><?= MoreI18N::xlate('Category') ?></th>
+                            <th><?= I18N::translate('Event ID') ?></th>
+                            <th><span class="visually-hidden"><?= MoreI18N::xlate('Action') ?></span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($editor_rows as $row_index => $editor_row): ?>
+                            <tr>
+                                <?php foreach (['from_date', 'to_date', 'event', 'link', 'category'] as $column): ?>
+                                    <td>
+                                        <?php if ($column === 'from_date' || $column === 'to_date'): ?>
+                                            <input
+                                                class="form-control form-control-sm"
+                                                dir="ltr"
+                                                name="rows[<?= $row_index ?>][<?= e($column) ?>]"
+                                                type="text"
+                                                autocomplete="off"
+                                                data-1p-ignore
+                                                data-lpignore="true"
+                                                data-form-type="other"
+                                                value="<?= e($editor_row[$column]) ?>"
+                                                onchange="webtrees.reformatDate(this, '<?= e(I18N::language()->dateOrder()) ?>')"
+                                                pattern="(?:[Tt][Oo][Dd][Aa][Yy]|(?:[0-9]{1,2} )?(?:(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC) )?[1-9][0-9]{0,3})"
+                                            >
+                                            <div class="text-muted" style="font-size: .75rem"><?= $editor_row[$column] === '' ? '' : (new Date($editor_row[$column]))->display() ?></div>
+                                        <?php else: ?>
+                                            <input class="form-control form-control-sm" name="rows[<?= $row_index ?>][<?= e($column) ?>]" type="text" value="<?= e($editor_row[$column]) ?>">
+                                        <?php endif ?>
+                                    </td>
+                                <?php endforeach ?>
+                                <td>
+                                    <input
+                                        class="form-control form-control-sm"
+                                        name="rows[<?= $row_index ?>][event_id]"
+                                        type="text"
+                                        value="<?= e($editor_row['event_id'] ?? '') ?>"
+                                        placeholder="<?= e(I18N::translate('Generated when saved')) ?>"
+                                        readonly
+                                    >
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-danger js-remove-csv-row" type="button" title="<?= e(I18N::translate('Delete row')) ?>">
+                                        <?= view('icons/delete') ?>
+                                        <span class="visually-hidden"><?= I18N::translate('Delete row') ?></span>
+                                    </button>
+                                </td>
+                            </tr>
+                        <?php endforeach ?>
+                    </tbody>
+                </table>
+            </div>
+
+            <button class="btn btn-outline-secondary" id="add-custom-csv-row" type="button">
+                <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                <?= I18N::translate('Add row') ?>
+            </button>
+            <button class="btn btn-primary" name="action" type="submit" value="save-custom-csv">
+                <?= view('icons/save') ?>
+                <?= MoreI18N::xlate('save') ?>
+            </button>
+            <div class="row g-2 align-items-end mt-3">
+                <div class="col-sm-6 col-lg-4">
+                    <label class="form-label" for="copy_filename"><?= I18N::translate('New filename') ?></label>
+                    <input class="form-control" id="copy_filename" name="copy_filename" type="text" pattern="(?:[A-Za-z0-9][A-Za-z0-9_-]*|[A-Za-z0-9][A-Za-z0-9._-]*\.csv)" placeholder="de_DE_data_v1_0.csv">
+                </div>
+                <div class="col-auto">
+                <button class="btn btn-outline-primary" name="action" type="submit" value="save-custom-csv-as">
+                    <i class="fa-solid fa-copy" aria-hidden="true"></i>
+                    <?= I18N::translate('Save current changes as a new file') ?>
+                </button>
+                </div>
+            </div>
+        </form>
+
+        <div class="mb-4">
+            <form method="post" onsubmit="return window.confirm(this.dataset.confirm)" data-confirm="<?= e(I18N::translate('Do you really want to delete this custom CSV file?')) ?>">
+                <?= csrf_field() ?>
+                <input name="filename" type="hidden" value="<?= e($selected_custom_csv['filename']) ?>">
+                <button class="btn btn-danger" name="action" type="submit" value="delete-custom-csv">
+                    <?= view('icons/delete') ?>
+                    <?= I18N::translate('Delete file') ?>
+                </button>
+            </form>
+        </div>
+
+        <template id="custom-csv-row-template">
+            <tr>
+                <?php foreach (['from_date', 'to_date', 'event', 'link', 'category'] as $column): ?>
+                    <td>
+                        <input
+                            class="form-control form-control-sm"
+                            data-name="<?= e($column) ?>"
+                            type="text"
+                            <?= $column === 'from_date' || $column === 'to_date' ? 'dir="ltr" autocomplete="off" data-1p-ignore data-lpignore="true" data-form-type="other" onchange="webtrees.reformatDate(this, \'' . e(I18N::language()->dateOrder()) . '\')" pattern="(?:[Tt][Oo][Dd][Aa][Yy]|(?:[0-9]{1,2} )?(?:(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC) )?[1-9][0-9]{0,3})"' : '' ?>
+                        >
+                    </td>
+                <?php endforeach ?>
+                <td>
+                    <input class="form-control form-control-sm" data-name="event_id" type="text" readonly>
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-outline-danger js-remove-csv-row" type="button" title="<?= e(I18N::translate('Delete row')) ?>">
+                        <?= view('icons/delete') ?>
+                        <span class="visually-hidden"><?= I18N::translate('Delete row') ?></span>
+                    </button>
+                </td>
+            </tr>
+        </template>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const tableBody = document.querySelector('#custom-csv-rows tbody');
+                const template = document.querySelector('#custom-csv-row-template');
+                const addButton = document.querySelector('#add-custom-csv-row');
+                let nextRowIndex = <?= count($editor_rows) ?>;
+                if (!tableBody || !template || !addButton) {
+                    return;
+                }
+
+                const bindRemoveButtons = () => {
+                    tableBody.querySelectorAll('.js-remove-csv-row').forEach((button) => {
+                        button.onclick = () => button.closest('tr')?.remove();
+                    });
+                };
+
+                addButton.addEventListener('click', () => {
+                    const row = template.content.cloneNode(true);
+                    row.querySelectorAll('input[data-name]').forEach((input) => {
+                        input.name = `rows[${nextRowIndex}][${input.dataset.name}]`;
+                    });
+                    nextRowIndex += 1;
+                    tableBody.appendChild(row);
+                    bindRemoveButtons();
+                });
+                bindRemoveButtons();
+            });
+        </script>
+    <?php endif ?>
+</section>
+

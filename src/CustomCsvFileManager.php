@@ -9,9 +9,11 @@ use RuntimeException;
 use function array_fill;
 use function array_search;
 use function array_slice;
+use function array_unique;
 use function basename;
 use function checkdate;
 use function date;
+use function explode;
 use function fclose;
 use function fgetcsv;
 use function file_get_contents;
@@ -80,7 +82,7 @@ final class CustomCsvFileManager
     }
 
     /**
-     * @return array{filename:string,metadata:array<string,string>,rows:list<array{from_date:string,to_date:string,event:string,link:string,category:string}>}
+     * @return array{filename:string,metadata:array<string,string>,rows:list<array{from_date:string,to_date:string,event:string,link:string,category:string,event_id:string}>}
      */
     public function read(string $filename): array
     {
@@ -103,17 +105,18 @@ final class CustomCsvFileManager
                 $metadata[$matches[1]] = trim($matches[2]);
                 continue;
             }
-            if ($first === '' || str_starts_with($first, '#') || $first === 'From date') {
+            if ($first === '' || str_starts_with($first, '#') || $first === 'From date' || $first === 'Start date') {
                 continue;
             }
 
-            $values = array_slice($row + array_fill(0, 5, ''), 0, 5);
+            $values = array_slice($row + array_fill(0, 6, ''), 0, 6);
             $rows[] = [
                 'from_date' => $this->dateForEditor((string) $values[0]),
                 'to_date' => $this->dateForEditor((string) $values[1]),
                 'event' => (string) $values[2],
                 'link' => (string) $values[3],
                 'category' => (string) $values[4],
+                'event_id' => $this->readEventId((string) $values[5]),
             ];
         }
         fclose($handle);
@@ -124,7 +127,7 @@ final class CustomCsvFileManager
 
     /**
      * @param array<string,string> $metadata
-     * @param list<array{from_date:string,to_date:string,event:string,link:string,category:string}> $rows
+     * @param list<array{from_date:string,to_date:string,event:string,link:string,category:string,event_id:string}> $rows
      * @return array{invalid_dates:int,invalid_periods:int}
      */
     public function save(string $filename, array $metadata, array $rows): array
@@ -151,7 +154,7 @@ final class CustomCsvFileManager
             fwrite($stream, '## ' . $field . ': ' . ($existing[$field] ?? '') . "\n");
         }
         fwrite($stream, "########################################################\n");
-        fputcsv($stream, ['From date', 'To date', 'Event', 'Source link', 'Category'], ';', '"', '\\');
+        fputcsv($stream, ['Start date', 'End date', 'Event', 'Source link', 'Category', 'Event ID'], ';', '"', '\\');
 
         $invalidDates = 0;
         $invalidPeriods = 0;
@@ -172,6 +175,7 @@ final class CustomCsvFileManager
             if (implode('', $values) === '') {
                 continue;
             }
+            $values[] = $this->canonicalEventId($row['event_id'] ?? '');
             fputcsv($stream, $values, ';', '"', '\\');
         }
 
@@ -194,7 +198,7 @@ final class CustomCsvFileManager
 
     /**
      * @param array<string,string> $metadata
-     * @param list<array{from_date:string,to_date:string,event:string,link:string,category:string}> $rows
+     * @param list<array{from_date:string,to_date:string,event:string,link:string,category:string,event_id:string}> $rows
      * @return array{invalid_dates:int,invalid_periods:int}
      */
     public function saveAs(string $filename, array $metadata, array $rows): array
@@ -252,6 +256,49 @@ final class CustomCsvFileManager
     private function singleLine(string $value): string
     {
         return trim((string) preg_replace('/[\x00-\x1F\x7F]+/u', ' ', $value));
+    }
+
+    private function canonicalEventId(string $value): string
+    {
+        $eventIds = $this->eventIds($value);
+        if ($eventIds === []) {
+            $bytes = random_bytes(16);
+            $bytes[6] = chr((ord($bytes[6]) & 0x0f) | 0x40);
+            $bytes[8] = chr((ord($bytes[8]) & 0x3f) | 0x80);
+
+            return substr(bin2hex($bytes), 0, 8) . '-' . substr(bin2hex($bytes), 8, 4) . '-' .
+                substr(bin2hex($bytes), 12, 4) . '-' . substr(bin2hex($bytes), 16, 4) . '-' . substr(bin2hex($bytes), 20);
+        }
+
+        return implode(',', $eventIds);
+    }
+
+    private function readEventId(string $value): string
+    {
+        return implode(',', $this->eventIds($value));
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function eventIds(string $value): array
+    {
+        $value = strtolower($this->singleLine($value));
+        if ($value === '') {
+            return [];
+        }
+
+        $eventIds = [];
+        foreach (explode(',', $value) as $eventId) {
+            $eventId = trim($eventId);
+            if (preg_match('/\A[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\z/', $eventId) !== 1) {
+                throw new RuntimeException('Use canonical UUID v4 values for event IDs.');
+            }
+
+            $eventIds[] = $eventId;
+        }
+
+        return array_values(array_unique($eventIds));
     }
 
     private function dateForEditor(string $value): string

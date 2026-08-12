@@ -112,16 +112,18 @@ This avoids database-column length problems in `module_setting.setting_name`.
 
 One historical event can occur in several collections with different wording, geographical scope, or language. For example, a Swiss collection and a worldwide collection can describe the same event, and `de_DE` and `en_DE` can contain parallel language variants. A collection-level identifier is not required: relationships are made at event-row level.
 
-The planned event identity model is:
+The event identity model is:
 
-* CSV files gain an optional final `Event IDs` column, after the optional `Category` column. Existing four- and five-column files remain valid.
-* The column contains a comma-separated list of canonical lowercase UUIDs. More than one UUID is allowed because independently created events can later be recognised as describing the same occurrence.
+* CSV files use an optional final `Event ID` column, after the optional `Category` column. Existing four- and five-column files remain valid.
+* The column contains a comma-separated list of canonical lowercase UUID-v4 values. More than one UUID is allowed because independently created events can later be recognised as describing the same occurrence.
 * When an administrator creates a new row in a user-specific CSV file, the editor generates one UUID automatically. The identity value is technical and is not editable in the user interface.
 * When a CSV file is translated, its existing event UUIDs are retained. Equivalent rows can therefore be recognised even when their text, source link, category, or collection differ.
-* GEDCOM providers use an optional private `_UID` subtag with a UUID value for the same purpose.
-* Wikidata uses a source-derived identity rather than an authored UUID. `Q` plus `P` is not sufficient because an item can have multiple statements for one property. The stable source key is the Wikibase statement/claim GUID, conventionally shaped like `Q…$UUID`; the associated Q-item and P-property remain available as readable context.
+* GEDCOM providers retain one or more optional private `_UID` subtags with UUID-v4 values. CSV providers emit one `_UID` subtag for every UUID in their final event-identity column.
+* Wikidata uses a source-derived identity rather than an authored UUID. `Q` plus `P` is not sufficient because an item can have multiple statements for one property. The stable source key is the Wikibase statement/claim GUID, conventionally shaped like `Q…$UUID`; its GEDCOM record carries it in `_WIKIDATA_STATEMENT` and the actual property in `_WIKIDATA_PROPERTY`.
 
 Some equivalent events will still have distinct identifiers. A persistent administrator-maintained equivalence table will initially record pairs of equivalent event identities. Its pair graph defines the equivalence groups; it does not introduce a collection ID. The physical storage format and administration view belong to the implementation work.
+
+The presentation rules for equivalent records are documented in [event-equivalence-resolution.md](event-equivalence-resolution.md). They prefer the current user language, then English, then any available language; they do not silently discard conflicting dates, links, or categories.
 
 The module will generate an index from event identity to every collection and row in which it occurs. The index is derived data, is rebuilt or invalidated when collections change, and is used for lookup rather than scanning every collection on each request. The source CSV, GEDCOM, Wikidata data, and equivalence table remain authoritative.
 

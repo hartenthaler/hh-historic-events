@@ -30,6 +30,7 @@ The comma-separated columns are:
 * image link, based on Wikimedia Commons, without leading `https://`
 * image attribution from the Wikimedia Commons image license
 * optional image title, displayed as the Markdown image title
+* optional `Event ID`, a UUID-v4 that is emitted as GEDCOM `_UID` and displayed by webtrees as the unique identifier
 
 At the moment only the German Wikipedia is supported for this CSV provider.
 
