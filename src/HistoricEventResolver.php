@@ -98,7 +98,7 @@ final class HistoricEventResolver
 
         foreach ([
             I18N::translate('Alternative description') => $this->alternativeValues($group, static fn (HistoricEvent $event): string => $event->eventName(), $primary->eventName(), $languageTag, $primary->language),
-            I18N::translate('Alternative dates') => $this->alternativeValues($group, static fn (HistoricEvent $event): string => $event->date(), $primary->date()),
+            I18N::translate('Alternative dates') => $this->alternativeDates($group, $primary->date()),
             I18N::translate('Alternative categories') => $this->alternativeValues($group, static fn (HistoricEvent $event): string => $event->type(), $primary->type()),
             I18N::translate('Alternative links') => $this->alternativeLinks($group, $primary->sourceLink()),
             I18N::translate('Alternative descriptions') => $this->alternativeValues($group, static fn (HistoricEvent $event): string => implode(' ', $event->notes()), implode(' ', $primary->notes()), $languageTag, $primary->language),
@@ -165,8 +165,34 @@ final class HistoricEventResolver
         return array_values(array_unique(array_filter(array_map(static fn (HistoricEvent $event): string => $event->sourceLink(), $events), fn (string $link): bool => $link !== '' && $this->normalizedLink($link) !== $primaryLink)));
     }
 
+    /** @param list<HistoricEvent> $events
+     *  @return list<string>
+     */
+    private function alternativeDates(array $events, string $primaryDate): array
+    {
+        $normalizedPrimaryDate = $this->normalizedDate($primaryDate);
+
+        return array_values(array_unique(array_filter(
+            array_map(static fn (HistoricEvent $event): string => $event->date(), $events),
+            fn (string $date): bool => $date !== '' && $this->normalizedDate($date) !== $normalizedPrimaryDate
+        )));
+    }
+
+    private function normalizedDate(string $date): string
+    {
+        return preg_replace_callback(
+            '/(?<![0-9])(\d{1,2})\s+(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)\s+(\d{4})(?![0-9])/i',
+            static fn (array $matches): string => str_pad($matches[1], 2, '0', STR_PAD_LEFT) . ' ' . strtoupper($matches[2]) . ' ' . $matches[3],
+            $date
+        ) ?? $date;
+    }
+
     private function normalizedLink(string $link): string
     {
+        if (preg_match('/\]\((https?:\/\/[^\s)]+)/', $link, $matches) === 1) {
+            $link = $matches[1];
+        }
+
         return preg_replace('#https://(?:[a-z]{2}\.)?wikipedia\.org/#i', 'https://wikipedia.org/', $link) ?? $link;
     }
 }
