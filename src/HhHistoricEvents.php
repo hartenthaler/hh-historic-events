@@ -82,7 +82,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
     public const CUSTOM_AUTHOR = 'Hermann Hartenthaler';
     public const CUSTOM_GITHUB_USER = 'hartenthaler';
     public const GITHUB_REPO = self::CUSTOM_GITHUB_USER . '/' . self::CUSTOM_MODULE;
-    public const CUSTOM_VERSION = '2.2.6.3';
+    public const CUSTOM_VERSION = '2.2.6.4';
     public const CUSTOM_WEBSITE = 'https://github.com/' . self::GITHUB_REPO . '/';
     public const CUSTOM_LAST = 'https://github.com/' . self::CUSTOM_GITHUB_USER . '/' .
         self::CUSTOM_MODULE . '/raw/main/latest-version.txt';

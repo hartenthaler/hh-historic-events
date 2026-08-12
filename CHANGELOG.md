@@ -2,10 +2,14 @@
 
 ## Next release
 
-- Protect CSV and GEDCOM processing with file-size, record-count, and field-length limits.
-- Add titled equivalence groups and portable JSON export/import. Import merges duplicate or overlapping groups and rebuilds the derived identity index; bundled initial equivalences are loaded once.
-- Clear the event cache after editing an equivalence group and compare equivalent GEDCOM dates and source URLs in normalized form.
-- Limit portrait images from the German chancellors and presidents CSV collection to 500 × 500 pixels.
+## 2.2.6.4 - 2026-08-13
+
+- Give each group of equivalent historical events a clear, editable name.
+- Export and import these groups as a JSON file, making it easier to move a curated set of links between installations.
+- Include an initial link for the First World War across bundled collections; existing manually maintained links remain unchanged.
+- Apply changes to equivalence groups immediately and avoid repeated alternative dates or source links.
+- Keep portrait photographs in historical-event entries at a usable maximum size.
+- Protect CSV and GEDCOM collections against unusually large files and fields, without affecting the bundled collections.
 
 ## 2.2.6.3 - 2026-08-12
 
