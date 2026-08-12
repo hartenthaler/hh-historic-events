@@ -109,7 +109,7 @@ final class GermanChancellorsPresidentsCsvProvider implements EventDataProviderI
                 ($event['eventId'] === '' ? '' : "\n2 _UID " . $event['eventId']) .
                 "\n2 NOTE " . ($event['image'] === ''
                     ? '[wikipedia ' . $wikipedia . '](https://' . $wikipedia . '.wikipedia.org/wiki/' . $event['article'] . ' )'
-                    : '[![wikipedia ' . $wikipedia . '](https://' . $event['image'] .
+                    : '[![Historic Events office holder portrait](https://' . $event['image'] .
                         ($event['imageTitle'] === '' ? '' : ' "' . $this->escapeMarkdownTitle($event['imageTitle']) . '"') .
                         ')](https://' . $wikipedia . '.wikipedia.org/wiki/' . $event['article'] . ' )' .
                         ($event['attribution'] === '' ? '' : "\n3 CONT " . $source . ': ' . $event['attribution'])),

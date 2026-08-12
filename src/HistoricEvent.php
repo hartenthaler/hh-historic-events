@@ -62,8 +62,12 @@ final class HistoricEvent
     public function notes(): array
     {
         preg_match_all('/^2 NOTE ([^\r\n]*)$/m', $this->gedcom, $matches);
+        $sourceLink = $this->sourceLink();
 
-        return array_values(array_unique(array_filter(array_map(static fn (string $note): string => trim($note), $matches[1] ?? []), static fn (string $note): bool => $note !== '')));
+        return array_values(array_unique(array_filter(
+            array_map(static fn (string $note): string => trim($note), $matches[1] ?? []),
+            static fn (string $note): bool => $note !== '' && $note !== $sourceLink
+        )));
     }
 
     public function withValues(?string $type = null, ?string $date = null, ?string $sourceLink = null, array $notes = []): self

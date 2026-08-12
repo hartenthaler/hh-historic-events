@@ -32,6 +32,7 @@ use RuntimeException;
 
 use function array_values;
 use function dirname;
+use function e;
 use function explode;
 use function file_exists;
 use function file_get_contents;
@@ -160,6 +161,11 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
     public function customModuleSupportUrl(): string
     {
         return self::CUSTOM_WEBSITE;
+    }
+
+    public function headContent(): string
+    {
+        return '<link rel="stylesheet" href="' . e($this->assetUrl('css/hh-historic-events.css')) . '">';
     }
 
     /**
@@ -563,6 +569,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
                 FlashMessages::addMessage(I18N::translate('Invalid event identity: %s', implode(', ', $invalidIdentities)), 'danger');
             } else {
                 $this->saveEventEquivalenceGroup($identities, trim((string) ($params['external_references'] ?? '')));
+                $this->clearEventsCache();
                 FlashMessages::addMessage(I18N::translate('The event equivalence group has been saved.'), 'success');
             }
 
@@ -572,6 +579,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
         if ($action === 'delete-event-equivalence-group') {
             $identities = $this->eventIdentityList((string) ($params['event_identities'] ?? ''));
             DB::table(EventIdentitySchema::TABLE_EQUIVALENCES)->whereIn('identity_a', $identities)->orWhereIn('identity_b', $identities)->delete();
+            $this->clearEventsCache();
             FlashMessages::addMessage(I18N::translate('The event equivalence group has been deleted.'), 'success');
 
             return redirect($this->getConfigLink());
@@ -1104,7 +1112,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
 
     private function configurationSignature(): string
     {
-        $signature = ['event_cache_format_version' => 3];
+        $signature = ['event_cache_format_version' => 6];
 
         foreach ($this->providerFactory()->providers() as $provider) {
             $providerSignature = [

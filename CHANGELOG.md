@@ -2,6 +2,9 @@
 
 ## Next release
 
+- Clear the event cache after editing an equivalence group and compare equivalent GEDCOM dates and source URLs in normalized form.
+- Limit portrait images from the German chancellors and presidents CSV collection to 500 × 500 pixels.
+
 ## 2.2.6.3 - 2026-08-12
 
 - Add event IDs, a manual equivalence table, a derived identity index, and language-aware resolution of equivalent historical events.
