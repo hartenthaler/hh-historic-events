@@ -2,6 +2,7 @@
 
 ## Next release
 
+- Add titled equivalence groups and portable JSON export/import. Import merges duplicate or overlapping groups and rebuilds the derived identity index; bundled initial equivalences are loaded once.
 - Clear the event cache after editing an equivalence group and compare equivalent GEDCOM dates and source URLs in normalized form.
 - Limit portrait images from the German chancellors and presidents CSV collection to 500 × 500 pixels.
 

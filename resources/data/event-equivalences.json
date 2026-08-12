@@ -1,0 +1,15 @@
+{
+  "format": "hh-historic-events-equivalences",
+  "version": 1,
+  "groups": [
+    {
+      "title": "First World War",
+      "event_ids": [
+        "486a7033-03cf-4855-a144-b087d0834241",
+        "f041a28c-06e3-4978-a416-c38d652583d0",
+        "e71bd1da-bf40-459b-a981-4b59568a2820"
+      ],
+      "external_references": "GND:4079163-4; Wikidata:Q361"
+    }
+  ]
+}

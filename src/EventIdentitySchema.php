@@ -8,7 +8,7 @@ use Illuminate\Database\Capsule\Manager as DB;
 
 final class EventIdentitySchema
 {
-    public const CURRENT_VERSION = 2;
+    public const CURRENT_VERSION = 3;
     public const TABLE_EQUIVALENCES = 'hh_historic_event_equivalences';
     public const TABLE_INDEX = 'hh_historic_event_index';
 
@@ -21,6 +21,10 @@ final class EventIdentitySchema
         if ($currentVersion < 2) {
             $this->upgradeToVersion2();
             $currentVersion = 2;
+        }
+        if ($currentVersion < 3) {
+            $this->upgradeToVersion3();
+            $currentVersion = 3;
         }
 
         return $currentVersion;
@@ -66,6 +70,15 @@ final class EventIdentitySchema
         if (DB::schema()->hasTable(self::TABLE_INDEX) && !DB::schema()->hasColumn(self::TABLE_INDEX, 'event_date')) {
             DB::schema()->table(self::TABLE_INDEX, static function ($table): void {
                 $table->string('event_date', 80)->nullable()->after('event_label');
+            });
+        }
+    }
+
+    private function upgradeToVersion3(): void
+    {
+        if (DB::schema()->hasTable(self::TABLE_EQUIVALENCES) && !DB::schema()->hasColumn(self::TABLE_EQUIVALENCES, 'group_title')) {
+            DB::schema()->table(self::TABLE_EQUIVALENCES, static function ($table): void {
+                $table->string('group_title', 255)->nullable()->after('external_references');
             });
         }
     }

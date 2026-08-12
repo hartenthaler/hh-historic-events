@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Fisharebest\Webtrees\I18N;
 
-/** @var list<array{identities:list<string>,external_references:string,events:list<object>,unindexed_identities:list<string>}> $event_equivalence_groups */
+/** @var list<array{title:string,identities:list<string>,external_references:string,events:list<object>,unindexed_identities:list<string>}> $event_equivalence_groups */
 ?>
 
 <section class="mb-5" id="event-identities">
@@ -18,16 +18,32 @@ use Fisharebest\Webtrees\I18N;
     <form method="post" class="row g-2 mb-4">
         <?= csrf_field() ?>
         <input name="action" type="hidden" value="save-event-equivalence-group">
-        <div class="col-md-6">
+        <div class="col-md-4">
+            <label class="form-label" for="group_title"><?= I18N::translate('Title') ?></label>
+            <input class="form-control" id="group_title" name="group_title" maxlength="255" placeholder="<?= e(I18N::translate('Suggested automatically from the first event')) ?>">
+        </div>
+        <div class="col-md-4">
             <label class="form-label" for="event_identities"><?= I18N::translate('Event IDs') ?></label>
             <textarea class="form-control" id="event_identities" name="event_identities" required rows="3" placeholder="123e4567-e89b-42d3-a456-426614174000"></textarea>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-3">
             <label class="form-label" for="external_references"><?= I18N::translate('External references') ?></label>
             <textarea class="form-control" id="external_references" name="external_references" rows="3" placeholder="GND:4079163-4; Wikidata:Q361"></textarea>
         </div>
         <div class="col-md-1 d-flex align-items-end"><button class="btn btn-primary" type="submit"><?= I18N::translate('Save') ?></button></div>
     </form>
+
+    <div class="d-flex flex-wrap gap-2 mb-4">
+        <form method="post">
+            <?= csrf_field() ?>
+            <button class="btn btn-outline-secondary" name="action" type="submit" value="export-event-equivalence-groups"><?= I18N::translate('Export equivalence groups (JSON)') ?></button>
+        </form>
+        <form method="post" enctype="multipart/form-data" class="d-flex gap-2">
+            <?= csrf_field() ?>
+            <input class="form-control" name="equivalence_json" type="file" accept="application/json,.json" required>
+            <button class="btn btn-outline-primary" name="action" type="submit" value="import-event-equivalence-groups"><?= I18N::translate('Import equivalence groups (JSON)') ?></button>
+        </form>
+    </div>
 
     <?php if ($event_equivalence_groups === []): ?>
         <p class="text-muted"><?= I18N::translate('No event equivalences have been defined.') ?></p>
@@ -37,6 +53,9 @@ use Fisharebest\Webtrees\I18N;
                 <form method="post">
                     <?= csrf_field() ?>
                     <input name="action" type="hidden" value="save-event-equivalence-group">
+                    <h3 class="h5 mb-3"><?= e($group['title']) ?></h3>
+                    <label class="form-label"><?= I18N::translate('Title') ?></label>
+                    <input class="form-control mb-2" name="group_title" maxlength="255" value="<?= e($group['title']) ?>">
                     <label class="form-label"><?= I18N::translate('Event IDs') ?></label>
                     <textarea class="form-control font-monospace mb-2" name="event_identities" rows="2" required><?= e(implode("\n", $group['identities'])) ?></textarea>
                     <label class="form-label"><?= I18N::translate('External references') ?></label>

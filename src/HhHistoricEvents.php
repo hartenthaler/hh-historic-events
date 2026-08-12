@@ -28,9 +28,13 @@ use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Support\Collection;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\UploadedFileInterface;
+use JsonException;
 use RuntimeException;
 
 use function array_values;
+use function array_filter;
+use function array_map;
 use function dirname;
 use function e;
 use function explode;
@@ -47,6 +51,7 @@ use function is_dir;
 use function is_file;
 use function json_decode;
 use function json_encode;
+use function trim;
 use function md5;
 use function mkdir;
 use function preg_replace;
@@ -83,6 +88,11 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
         self::CUSTOM_MODULE . '/raw/main/latest-version.txt';
     private const EVENTS_CACHE_TTL = 86400;
     private const EVENT_IDENTITY_SCHEMA_VERSION_PREFERENCE = 'event_identity_schema_version';
+    private const BUNDLED_EQUIVALENCES_LOADED_PREFERENCE = 'bundled_equivalences_loaded';
+    private const MAX_EQUIVALENCE_JSON_BYTES = 1048576;
+    private const MAX_EQUIVALENCE_JSON_GROUPS = 5000;
+    private const MAX_EQUIVALENCE_GROUP_IDENTITIES = 100;
+    private const MAX_EQUIVALENCE_EXTERNAL_REFERENCES_LENGTH = 4096;
     private const SHOW_EVENT_AGES_PREFERENCE = 'show_event_ages';
     private const EVENT_AGE_MARKER = "\u{2063}\u{2063}\u{2063}";
     private const CUSTOM_CSV_FORM_SESSION_KEY = 'hh-historic-events-custom-csv-form';
@@ -130,6 +140,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
         if ($schemaVersion !== (int) $this->getPreference(self::EVENT_IDENTITY_SCHEMA_VERSION_PREFERENCE, '0')) {
             $this->setPreference(self::EVENT_IDENTITY_SCHEMA_VERSION_PREFERENCE, (string) $schemaVersion);
         }
+        $this->loadBundledEquivalences();
         View::registerNamespace($this->name(), $this->resourcesFolder() . 'views/');
     }
 
@@ -319,7 +330,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
         }
     }
 
-    /** @return list<array{identities:list<string>,external_references:string,events:list<object>,unindexed_identities:list<string>}> */
+    /** @return list<array{title:string,identities:list<string>,external_references:string,events:list<object>,unindexed_identities:list<string>}> */
     private function adminEventEquivalenceGroups(): array
     {
         $pairs = DB::table(EventIdentitySchema::TABLE_EQUIVALENCES)->orderBy('identity_a')->orderBy('identity_b')->get()->all();
@@ -351,6 +362,9 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
             if ((string) $pair->external_references !== '') {
                 $groups[$key]['external_references'][] = (string) $pair->external_references;
             }
+            if ((string) ($pair->group_title ?? '') !== '') {
+                $groups[$key]['titles'][] = (string) $pair->group_title;
+            }
         }
 
         foreach ($groups as &$group) {
@@ -365,6 +379,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
                 ->all();
             $indexedIdentities = array_values(array_unique(array_map(static fn (object $event): string => (string) $event->event_identity, $group['events'])));
             $group['unindexed_identities'] = array_values(array_diff($group['identities'], $indexedIdentities));
+            $group['title'] = $group['titles'][0] ?? $this->suggestEventEquivalenceTitle($group['events'], $group['identities']);
         }
         unset($group);
 
@@ -393,7 +408,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
     }
 
     /** @param list<string> $identities */
-    private function saveEventEquivalenceGroup(array $identities, string $externalReferences): void
+    private function saveEventEquivalenceGroup(array $identities, string $externalReferences, string $title = ''): void
     {
         DB::table(EventIdentitySchema::TABLE_EQUIVALENCES)->whereIn('identity_a', $identities)->orWhereIn('identity_b', $identities)->delete();
         $anchor = $identities[0];
@@ -406,8 +421,130 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
                 'identity_a' => $anchor,
                 'identity_b' => $identity,
                 'external_references' => $externalReferences !== '' ? $externalReferences : null,
+                'group_title' => $title !== '' ? $title : null,
             ]);
         }
+    }
+
+    /** @param list<object> $events
+     *  @param list<string> $identities
+     */
+    private function suggestEventEquivalenceTitle(array $events, array $identities): string
+    {
+        if ($events !== []) {
+            return (string) $events[0]->event_label;
+        }
+
+        return I18N::translate('Equivalence group') . ': ' . $identities[0];
+    }
+
+    private function eventEquivalencesJson(): string
+    {
+        $groups = array_map(static fn (array $group): array => [
+            'title' => $group['title'],
+            'event_ids' => $group['identities'],
+            'external_references' => $group['external_references'],
+        ], $this->adminEventEquivalenceGroups());
+        $json = json_encode([
+            'format' => 'hh-historic-events-equivalences',
+            'version' => 1,
+            'groups' => $groups,
+        ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+
+        if ($json === false) {
+            throw new RuntimeException('The equivalence data could not be exported.');
+        }
+
+        return $json . "\n";
+    }
+
+    private function importEventEquivalences(string $json): int
+    {
+        if (strlen($json) > self::MAX_EQUIVALENCE_JSON_BYTES) {
+            throw new RuntimeException(I18N::translate('The JSON equivalence file is too large. The maximum size is 1 MiB.'));
+        }
+        try {
+            $data = json_decode($json, true, 16, JSON_THROW_ON_ERROR);
+        } catch (JsonException) {
+            throw new RuntimeException(I18N::translate('The JSON equivalence file is invalid.'));
+        }
+        if (!is_array($data) || ($data['format'] ?? '') !== 'hh-historic-events-equivalences' || ($data['version'] ?? null) !== 1 || !is_array($data['groups'] ?? null)) {
+            throw new RuntimeException(I18N::translate('The JSON equivalence file has an unsupported format.'));
+        }
+        if (count($data['groups']) > self::MAX_EQUIVALENCE_JSON_GROUPS) {
+            throw new RuntimeException(I18N::translate('The JSON equivalence file contains too many groups.'));
+        }
+
+        $validatedGroups = [];
+        foreach ($data['groups'] as $group) {
+            if (!is_array($group)) {
+                throw new RuntimeException(I18N::translate('The JSON equivalence file contains an invalid group.'));
+            }
+            $rawIdentities = $group['event_ids'] ?? null;
+            if (!is_array($rawIdentities) || count($rawIdentities) > self::MAX_EQUIVALENCE_GROUP_IDENTITIES || array_filter($rawIdentities, static fn (mixed $identity): bool => !is_string($identity)) !== []) {
+                throw new RuntimeException(I18N::translate('The JSON equivalence file contains an invalid group.'));
+            }
+            $identities = $this->eventIdentityList(implode(',', $rawIdentities));
+            if ($identities === [] || array_filter($identities, fn (string $identity): bool => !$this->validEventIdentity($identity)) !== []) {
+                throw new RuntimeException(I18N::translate('The JSON equivalence file contains an invalid event ID.'));
+            }
+            $title = $group['title'] ?? '';
+            $externalReferences = $group['external_references'] ?? '';
+            if (!is_string($title) || !is_string($externalReferences) || strlen($title) > 255 || strlen($externalReferences) > self::MAX_EQUIVALENCE_EXTERNAL_REFERENCES_LENGTH) {
+                throw new RuntimeException(I18N::translate('The JSON equivalence file contains an invalid group.'));
+            }
+            $validatedGroups[] = [
+                'identities' => $identities,
+                'external_references' => trim($externalReferences),
+                'title' => trim($title),
+            ];
+        }
+
+        foreach ($validatedGroups as $group) {
+            $this->mergeImportedEventEquivalenceGroup($group['identities'], $group['external_references'], $group['title']);
+        }
+
+        return count($validatedGroups);
+    }
+
+    /** @param list<string> $identities */
+    private function mergeImportedEventEquivalenceGroup(array $identities, string $externalReferences, string $title): void
+    {
+        $pairs = DB::table(EventIdentitySchema::TABLE_EQUIVALENCES)
+            ->whereIn('identity_a', $identities)->orWhereIn('identity_b', $identities)->get()->all();
+        $allIdentities = $identities;
+        foreach ($pairs as $pair) {
+            $allIdentities[] = (string) $pair->identity_a;
+            if ((string) $pair->identity_b !== '') {
+                $allIdentities[] = (string) $pair->identity_b;
+            }
+            $externalReferences = $externalReferences !== '' ? $externalReferences : (string) ($pair->external_references ?? '');
+            $title = $title !== '' ? $title : (string) ($pair->group_title ?? '');
+        }
+        $allIdentities = array_values(array_unique($allIdentities));
+        if ($pairs !== []) {
+            DB::table(EventIdentitySchema::TABLE_EQUIVALENCES)->whereIn('identity_a', $allIdentities)->orWhereIn('identity_b', $allIdentities)->delete();
+        }
+        $this->saveEventEquivalenceGroup($allIdentities, $externalReferences, $title);
+    }
+
+    private function loadBundledEquivalences(): void
+    {
+        if ($this->getPreference(self::BUNDLED_EQUIVALENCES_LOADED_PREFERENCE, '0') === '1') {
+            return;
+        }
+        $file = $this->resourcesFolder() . 'data/event-equivalences.json';
+        if (is_file($file)) {
+            try {
+                $contents = file_get_contents($file);
+                if ($contents !== false) {
+                    $this->importEventEquivalences($contents);
+                }
+            } catch (RuntimeException) {
+                // A bundled data error must not prevent webtrees from booting.
+            }
+        }
+        $this->setPreference(self::BUNDLED_EQUIVALENCES_LOADED_PREFERENCE, '1');
     }
 
     /**
@@ -522,7 +659,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
         $action = (string) ($params['action'] ?? 'save-preferences');
 
         if ($action !== 'save-preferences') {
-            return $this->handleCustomCsvAction($action, $params);
+            return $this->handleCustomCsvAction($action, $params, $request);
         }
 
         $this->setPreference(self::SHOW_EVENT_AGES_PREFERENCE, isset($params['show_event_ages']) ? '1' : '0');
@@ -559,8 +696,35 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
     /**
      * @param array<string,mixed> $params
      */
-    private function handleCustomCsvAction(string $action, array $params): ResponseInterface
+    private function handleCustomCsvAction(string $action, array $params, ?ServerRequestInterface $request = null): ResponseInterface
     {
+        if ($action === 'export-event-equivalence-groups') {
+            return response($this->eventEquivalencesJson())
+                ->withHeader('Content-Type', 'application/json; charset=UTF-8')
+                ->withHeader('Content-Disposition', 'attachment; filename="hh-historic-events-equivalences.json"');
+        }
+
+        if ($action === 'import-event-equivalence-groups') {
+            $file = $request?->getUploadedFiles()['equivalence_json'] ?? null;
+            if (!$file instanceof UploadedFileInterface || $file->getError() === UPLOAD_ERR_NO_FILE) {
+                FlashMessages::addMessage(I18N::translate('Choose a JSON equivalence file to import.'), 'danger');
+            } elseif ($file->getError() !== UPLOAD_ERR_OK) {
+                FlashMessages::addMessage(I18N::translate('The JSON equivalence file could not be uploaded.'), 'danger');
+            } elseif (($file->getSize() ?? 0) > self::MAX_EQUIVALENCE_JSON_BYTES) {
+                FlashMessages::addMessage(I18N::translate('The JSON equivalence file is too large. The maximum size is 1 MiB.'), 'danger');
+            } else {
+                try {
+                    $count = $this->importEventEquivalences($file->getStream()->getContents());
+                    $this->clearEventsCache();
+                    FlashMessages::addMessage(I18N::plural('One equivalence group was imported.', '%s equivalence groups were imported.', $count, I18N::number($count)), 'success');
+                } catch (RuntimeException $exception) {
+                    FlashMessages::addMessage($exception->getMessage(), 'danger');
+                }
+            }
+
+            return redirect($this->getConfigLink());
+        }
+
         if ($action === 'save-event-equivalence-group') {
             $identities = $this->eventIdentityList((string) ($params['event_identities'] ?? ''));
             if ($identities === []) {
@@ -568,7 +732,7 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
             } elseif (($invalidIdentities = array_filter($identities, fn (string $identity): bool => !$this->validEventIdentity($identity))) !== []) {
                 FlashMessages::addMessage(I18N::translate('Invalid event identity: %s', implode(', ', $invalidIdentities)), 'danger');
             } else {
-                $this->saveEventEquivalenceGroup($identities, trim((string) ($params['external_references'] ?? '')));
+                $this->saveEventEquivalenceGroup($identities, trim((string) ($params['external_references'] ?? '')), trim((string) ($params['group_title'] ?? '')));
                 $this->clearEventsCache();
                 FlashMessages::addMessage(I18N::translate('The event equivalence group has been saved.'), 'success');
             }

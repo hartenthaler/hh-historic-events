@@ -101,7 +101,7 @@ The settings page has two selection steps:
 For good performance, enable only the data sources and collections that are actually needed. Processing many sources, or a single large collection such as Wars and Battles Worldwide, can noticeably slow down webtrees.
 The module caches Wikidata responses for 24 hours.
 
-Equivalent events can be linked by optional UUID-v4 event IDs across collections and language variants. Administrators can maintain complete equivalence groups in the module settings, optionally attaching external references such as GND or Wikidata identifiers. The settings show the indexed event name, date, and collection for each ID as a quality-control aid. The module uses the groups to show one combined event without modifying the source files.
+Equivalent events can be linked by optional UUID-v4 event IDs across collections and language variants. Administrators can maintain complete equivalence groups in the module settings, optionally attaching external references such as GND or Wikidata identifiers. Each group has an automatically suggested, editable title and shows the indexed event name, date, and collection for each ID as a quality-control aid. Groups can be exported and imported as a portable [JSON file](docs/event-equivalence-json.md); the derived index is rebuilt automatically. The module also imports its bundled initial equivalence groups once, without modifying source files or replacing manual groups.
 
 <a name="Usage"></a>
 ## 👤 Usage
