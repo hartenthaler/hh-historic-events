@@ -53,6 +53,9 @@ use const PHP_URL_SCHEME;
 
 final class GrampsCsvEventProvider implements EventDataProviderInterface
 {
+    private const MAX_FILE_BYTES = 5242880;
+    private const MAX_ROWS = 20000;
+    private const MAX_FIELD_BYTES = 16384;
     private const SOURCE_API_URL = 'https://api.github.com/repos/kajmikkelsen/HistContext/contents';
     private const SOURCE_URL = 'https://github.com/kajmikkelsen/HistContext';
     private const SOURCE_CACHE_TTL = 86400;
@@ -494,6 +497,9 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
         if (!is_file($file)) {
             return [];
         }
+        if (filesize($file) === false || filesize($file) > self::MAX_FILE_BYTES) {
+            return [];
+        }
 
         $handle = fopen($file, 'r');
         if ($handle === false) {
@@ -501,7 +507,11 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
         }
 
         $metadata = [];
+        $rowCount = 0;
         while (($row = fgetcsv($handle, 0, ';', '"', '\\')) !== false) {
+            if (++$rowCount > self::MAX_ROWS || !$this->rowIsWithinLimits($row)) {
+                break;
+            }
             $firstColumn = trim($row[0] ?? '');
             if (preg_match('/^##\s+([A-Z][A-Z0-9_-]*):\s*(.*)$/', $firstColumn, $matches) === 1) {
                 $metadata[$matches[1]] = trim($matches[2]);
@@ -619,6 +629,18 @@ final class GrampsCsvEventProvider implements EventDataProviderInterface
         fclose($handle);
 
         return $events;
+    }
+
+    /** @param array<int,string|null> $row */
+    private function rowIsWithinLimits(array $row): bool
+    {
+        foreach ($row as $value) {
+            if (strlen((string) $value) > self::MAX_FIELD_BYTES) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private function eventId(string $value): string

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hh-historic-events\n"
 "Report-Msgid-Bugs-To: hermann@hartenthaler.de\n"
-"POT-Creation-Date: 2026-08-13 00:34+0200\n"
+"POT-Creation-Date: 2026-08-13 00:44+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Hermann Hartenthaler <hermann@hartenthaler.de>\n"
 "Language-Team: \n"
@@ -17,6 +17,125 @@ msgstr ""
 "X-Poedit-KeywordsList: translate;noop;plural:1,2;translateContext:2,1c\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: .git\n"
+
+#: src\TextGedcomEventProvider.php:57
+msgid "Historic Events: Switzerland (CSV)"
+msgstr "Historische Ereignisse: Schweiz (CSV)"
+
+#: src\TextGedcomEventProvider.php:58
+msgid "Wars and Battles Worldwide"
+msgstr "Kriege und Schlachten weltweit"
+
+#: src\TextGedcomEventProvider.php:66
+msgid "Historical facts - events in Switzerland"
+msgstr "Historische Fakten - Ereignisse in der Schweiz"
+
+#: src\TextGedcomEventProvider.php:67
+msgid "Historical facts - Wars and Battles Worldwide (since 900)"
+msgstr "Historische Fakten - weltweite Kriege und Schlachten (seit 900)"
+
+#: src\TextGedcomEventProvider.php:75
+msgid "Wikipedia"
+msgstr "Wikipedia"
+
+#: src\TextGedcomEventProvider.php:76
+msgid "Peter Jehli-Kamm, baum.jehli.ch"
+msgstr "Peter Jehli-Kamm, baum.jehli.ch"
+
+#: src\TextGedcomEventProvider.php:119
+msgid "Worldwide"
+msgstr "Weltweit"
+
+#: src\TextGedcomEventProvider.php:120
+#: src\GermanChancellorsPresidentsWikidataProvider.php:180
+msgid "Switzerland"
+msgstr "Schweiz"
+
+#: src\TextGedcomEventProvider.php:275
+msgid "Historic event: Switzerland"
+msgstr "Historisches Ereignis: Schweiz"
+
+#: src\TextGedcomEventProvider.php:276
+msgid "revolt"
+msgstr "Aufstand"
+
+#: src\TextGedcomEventProvider.php:277
+msgid "siege"
+msgstr "Belagerung"
+
+#: src\TextGedcomEventProvider.php:278
+msgid "blockade"
+msgstr "Blockade"
+
+#: src\TextGedcomEventProvider.php:279
+msgid "civil war"
+msgstr "Bürgerkrieg"
+
+#: src\TextGedcomEventProvider.php:280
+msgid "conquest"
+msgstr "Eroberung"
+
+#: src\TextGedcomEventProvider.php:281
+msgid "feud"
+msgstr "Fehde"
+
+#: src\TextGedcomEventProvider.php:282
+msgid "campaign"
+msgstr "Feldzug"
+
+#: src\TextGedcomEventProvider.php:283
+msgid "combat"
+msgstr "Gefecht"
+
+#: src\TextGedcomEventProvider.php:284
+msgid "invasion"
+msgstr "Invasion"
+
+#: src\TextGedcomEventProvider.php:285
+msgid "struggle"
+msgstr "Kampf"
+
+#: src\TextGedcomEventProvider.php:286
+msgid "conflict"
+msgstr "Konflikt"
+
+#: src\TextGedcomEventProvider.php:287
+msgid "crusade"
+msgstr "Kreuzzug"
+
+#: src\TextGedcomEventProvider.php:288
+msgid "war"
+msgstr "Krieg"
+
+#: src\TextGedcomEventProvider.php:289
+msgid "massacre"
+msgstr "Massaker"
+
+#: src\TextGedcomEventProvider.php:290
+msgid "offensive"
+msgstr "Offensive"
+
+#: src\TextGedcomEventProvider.php:291
+msgid "revolution"
+msgstr "Revolution"
+
+#: src\TextGedcomEventProvider.php:292
+msgid "battle"
+msgstr "Schlacht"
+
+#: src\TextGedcomEventProvider.php:293
+msgid "naval battle"
+msgstr "Seeschlacht"
+
+#: src\TextGedcomEventProvider.php:294
+msgid "operation"
+msgstr "Operation"
+
+#: src\TextGedcomEventProvider.php:302
+#: src\GermanChancellorsPresidentsCsvProvider.php:60
+#: src\GrampsCsvEventProvider.php:561
+msgid "German"
+msgstr "Deutsch"
 
 #: resources\views\settings.phtml:33
 msgid "Control panel"
@@ -59,614 +178,6 @@ msgstr ""
 "Deaktivieren Sie diese Module und löschen Sie ihre Ordner aus modules_v4. "
 "Betreiben Sie sie nicht parallel zu diesem Modul."
 
-#: src\TextGedcomEventProvider.php:54
-msgid "Historic Events: Switzerland (CSV)"
-msgstr "Historische Ereignisse: Schweiz (CSV)"
-
-#: src\TextGedcomEventProvider.php:55
-msgid "Wars and Battles Worldwide"
-msgstr "Kriege und Schlachten weltweit"
-
-#: src\TextGedcomEventProvider.php:63
-msgid "Historical facts - events in Switzerland"
-msgstr "Historische Fakten - Ereignisse in der Schweiz"
-
-#: src\TextGedcomEventProvider.php:64
-msgid "Historical facts - Wars and Battles Worldwide (since 900)"
-msgstr "Historische Fakten - weltweite Kriege und Schlachten (seit 900)"
-
-#: src\TextGedcomEventProvider.php:72
-msgid "Wikipedia"
-msgstr "Wikipedia"
-
-#: src\TextGedcomEventProvider.php:73
-msgid "Peter Jehli-Kamm, baum.jehli.ch"
-msgstr "Peter Jehli-Kamm, baum.jehli.ch"
-
-#: src\TextGedcomEventProvider.php:116
-msgid "Worldwide"
-msgstr "Weltweit"
-
-#: src\TextGedcomEventProvider.php:117
-#: src\GermanChancellorsPresidentsWikidataProvider.php:180
-msgid "Switzerland"
-msgstr "Schweiz"
-
-#: src\TextGedcomEventProvider.php:249
-msgid "Historic event: Switzerland"
-msgstr "Historisches Ereignis: Schweiz"
-
-#: src\TextGedcomEventProvider.php:250
-msgid "revolt"
-msgstr "Aufstand"
-
-#: src\TextGedcomEventProvider.php:251
-msgid "siege"
-msgstr "Belagerung"
-
-#: src\TextGedcomEventProvider.php:252
-msgid "blockade"
-msgstr "Blockade"
-
-#: src\TextGedcomEventProvider.php:253
-msgid "civil war"
-msgstr "Bürgerkrieg"
-
-#: src\TextGedcomEventProvider.php:254
-msgid "conquest"
-msgstr "Eroberung"
-
-#: src\TextGedcomEventProvider.php:255
-msgid "feud"
-msgstr "Fehde"
-
-#: src\TextGedcomEventProvider.php:256
-msgid "campaign"
-msgstr "Feldzug"
-
-#: src\TextGedcomEventProvider.php:257
-msgid "combat"
-msgstr "Gefecht"
-
-#: src\TextGedcomEventProvider.php:258
-msgid "invasion"
-msgstr "Invasion"
-
-#: src\TextGedcomEventProvider.php:259
-msgid "struggle"
-msgstr "Kampf"
-
-#: src\TextGedcomEventProvider.php:260
-msgid "conflict"
-msgstr "Konflikt"
-
-#: src\TextGedcomEventProvider.php:261
-msgid "crusade"
-msgstr "Kreuzzug"
-
-#: src\TextGedcomEventProvider.php:262
-msgid "war"
-msgstr "Krieg"
-
-#: src\TextGedcomEventProvider.php:263
-msgid "massacre"
-msgstr "Massaker"
-
-#: src\TextGedcomEventProvider.php:264
-msgid "offensive"
-msgstr "Offensive"
-
-#: src\TextGedcomEventProvider.php:265
-msgid "revolution"
-msgstr "Revolution"
-
-#: src\TextGedcomEventProvider.php:266
-msgid "battle"
-msgstr "Schlacht"
-
-#: src\TextGedcomEventProvider.php:267
-msgid "naval battle"
-msgstr "Seeschlacht"
-
-#: src\TextGedcomEventProvider.php:268
-msgid "operation"
-msgstr "Operation"
-
-#: src\TextGedcomEventProvider.php:276
-#: src\GermanChancellorsPresidentsCsvProvider.php:57
-#: src\GrampsCsvEventProvider.php:551
-msgid "German"
-msgstr "Deutsch"
-
-#: src\GermanChancellorsPresidentsWikidataProvider.php:45
-msgid "Chancellors and Presidents (Wikidata)"
-msgstr "Kanzler und Präsidenten (Wikidata)"
-
-#: src\GermanChancellorsPresidentsWikidataProvider.php:50
-msgid ""
-"Historical facts - Chancellors and Presidents of Germany, Austria and "
-"Switzerland"
-msgstr ""
-"Historische Fakten - Kanzler und Präsidenten Deutschlands, Österreichs und "
-"der Schweiz"
-
-#: src\GermanChancellorsPresidentsWikidataProvider.php:55
-#: src\GermanChancellorsPresidentsWikidataProvider.php:136
-msgid "Wikidata"
-msgstr "Wikidata"
-
-#: src\GermanChancellorsPresidentsWikidataProvider.php:70
-#: src\GermanChancellorsPresidentsWikidataProvider.php:85
-msgid "Multilingual / dynamically localized"
-msgstr "Mehrsprachig / dynamisch lokalisiert"
-
-#: src\GermanChancellorsPresidentsWikidataProvider.php:146
-msgid "from"
-msgstr "ab"
-
-#: src\GermanChancellorsPresidentsWikidataProvider.php:147
-#, php-format
-msgid "member of party %s"
-msgstr "Mitglied der Partei %s"
-
-#: src\GermanChancellorsPresidentsWikidataProvider.php:175
-#: src\GermanChancellorsPresidentsCsvProvider.php:63
-#: src\GermanChancellorsPresidentsCsvProvider.php:177
-msgid "Chancellor of Germany"
-msgstr "Bundeskanzler von Deutschland"
-
-#: src\GermanChancellorsPresidentsWikidataProvider.php:175
-#: src\GermanChancellorsPresidentsWikidataProvider.php:176
-#: src\GermanChancellorsPresidentsWikidataProvider.php:177
-#: src\GermanChancellorsPresidentsCsvProvider.php:81
-msgid "Germany"
-msgstr "Deutschland"
-
-#: src\GermanChancellorsPresidentsWikidataProvider.php:176
-#: src\GermanChancellorsPresidentsCsvProvider.php:64
-#: src\GermanChancellorsPresidentsCsvProvider.php:177
-msgid "President of Germany"
-msgstr "Bundespräsident von Deutschland"
-
-#: src\GermanChancellorsPresidentsWikidataProvider.php:177
-msgid "Head of former state GDR"
-msgstr "Staatsoberhaupt der DDR"
-
-#: src\GermanChancellorsPresidentsWikidataProvider.php:178
-msgid "Chancellor of Austria"
-msgstr "Bundeskanzler von Österreich"
-
-#: src\GermanChancellorsPresidentsWikidataProvider.php:178
-#: src\GermanChancellorsPresidentsWikidataProvider.php:179
-msgid "Austria"
-msgstr "Österreich"
-
-#: src\GermanChancellorsPresidentsWikidataProvider.php:179
-msgid "President of Austria"
-msgstr "Bundespräsident von Österreich"
-
-#: src\GermanChancellorsPresidentsWikidataProvider.php:180
-msgid "President of the Swiss Confederation"
-msgstr "Bundespräsident der Schweizerischen Eidgenossenschaft"
-
-#: src\GermanChancellorsPresidentsCsvProvider.php:32
-msgid "German Chancellors Presidents (CSV)"
-msgstr "Deutsche Kanzler und Präsidenten (CSV)"
-
-#: src\GermanChancellorsPresidentsCsvProvider.php:37
-msgid "Historical facts - Chancellors and Presidents of Germany (since 1949)"
-msgstr ""
-"Historische Fakten - Bundeskanzler und Bundespräsidenten in Deutschland, "
-"sowie Staatsoberhäupter der DDR (seit 1949)"
-
-#: src\GermanChancellorsPresidentsCsvProvider.php:42
-msgid "Wikipedia and Wikimedia Commons"
-msgstr "Wikipedia und Wikimedia Commons"
-
-#: src\GermanChancellorsPresidentsCsvProvider.php:65
-#: src\GermanChancellorsPresidentsCsvProvider.php:177
-msgid "acting"
-msgstr "geschäftsführend"
-
-#: src\GermanChancellorsPresidentsCsvProvider.php:97
-msgid "source"
-msgstr "Quelle"
-
-#: src\HhHistoricEvents.php:149
-msgid "Historic Events"
-msgstr "Historische Ereignisse"
-
-#: src\HhHistoricEvents.php:154
-msgid "Historical facts from selectable data collections"
-msgstr "Historische Fakten aus wählbaren Datensammlungen"
-
-#: src\HhHistoricEvents.php:209
-msgid ""
-"The Historic Events module can query Wikidata for selected historical event "
-"data. Responses are cached locally for 24 hours to reduce external requests."
-msgstr ""
-"Das Modul \"Historische Ereignisse\" kann Wikidata nach ausgewählten "
-"historischen Ereignisdaten abfragen. Antworten werden 24 Stunden lokal "
-"zwischengespeichert, um externe Anfragen zu reduzieren."
-
-#: src\HhHistoricEvents.php:211
-msgid "Server IP address and technical request metadata."
-msgstr "IP-Adresse des Servers und technische Metadaten der Anfrage."
-
-#: src\HhHistoricEvents.php:212
-msgid "Requested Wikidata entities for the enabled historical event provider."
-msgstr "Abgefragte Wikidata-Entitäten für den aktivierten Ereignis-Anbieter."
-
-#: src\HhHistoricEvents.php:217
-msgid ""
-"Wikidata responses are cached locally for 24 hours to reduce external "
-"requests."
-msgstr ""
-"Wikidata-Antworten werden 24 Stunden lokal zwischengespeichert, um externe "
-"Anfragen zu reduzieren."
-
-#: src\HhHistoricEvents.php:438
-msgid "Equivalence group"
-msgstr "Äquivalenzgruppe"
-
-#: src\HhHistoricEvents.php:464 src\HhHistoricEvents.php:714
-msgid "The JSON equivalence file is too large. The maximum size is 1 MiB."
-msgstr "Die JSON-Datei für Äquivalenzgruppen ist zu groß. Die maximale Größe beträgt 1 MiB."
-
-#: src\HhHistoricEvents.php:469
-msgid "The JSON equivalence file is invalid."
-msgstr "Die JSON-Datei für Äquivalenzgruppen ist ungültig."
-
-#: src\HhHistoricEvents.php:472
-msgid "The JSON equivalence file has an unsupported format."
-msgstr ""
-"Die JSON-Datei für Äquivalenzgruppen hat ein nicht unterstütztes Format."
-
-#: src\HhHistoricEvents.php:475
-msgid "The JSON equivalence file contains too many groups."
-msgstr "Die JSON-Datei für Äquivalenzgruppen enthält zu viele Gruppen."
-
-#: src\HhHistoricEvents.php:481 src\HhHistoricEvents.php:485
-#: src\HhHistoricEvents.php:494
-msgid "The JSON equivalence file contains an invalid group."
-msgstr "Die JSON-Datei für Äquivalenzgruppen enthält eine ungültige Gruppe."
-
-#: src\HhHistoricEvents.php:489
-msgid "The JSON equivalence file contains an invalid event ID."
-msgstr ""
-"Die JSON-Datei für Äquivalenzgruppen enthält eine ungültige Ereigniskennung."
-
-#: src\HhHistoricEvents.php:575
-#, php-format
-msgid "(aged %s)"
-msgstr ""
-
-#: src\HhHistoricEvents.php:691
-#, php-format
-msgid "The preferences for the module “%s” have been updated."
-msgstr ""
-
-#: src\HhHistoricEvents.php:710
-msgid "Choose a JSON equivalence file to import."
-msgstr "Wählen Sie eine JSON-Datei für Äquivalenzgruppen zum Importieren aus."
-
-#: src\HhHistoricEvents.php:712
-msgid "The JSON equivalence file could not be uploaded."
-msgstr "Die JSON-Datei für Äquivalenzgruppen konnte nicht hochgeladen werden."
-
-#: src\HhHistoricEvents.php:719
-#, php-format
-msgid "One equivalence group was imported."
-msgid_plural "%s equivalence groups were imported."
-msgstr[0] "Eine Äquivalenzgruppe wurde importiert."
-msgstr[1] "%s Äquivalenzgruppen wurden importiert."
-
-#: src\HhHistoricEvents.php:731
-msgid "Enter at least one event identity."
-msgstr "Tragen Sie mindestens eine Ereigniskennung ein."
-
-#: src\HhHistoricEvents.php:733
-#, php-format
-msgid "Invalid event identity: %s"
-msgstr "Ungültige Ereigniskennung: %s"
-
-#: src\HhHistoricEvents.php:737
-msgid "The event equivalence group has been saved."
-msgstr "Die Ereignisäquivalenzgruppe wurde gespeichert."
-
-#: src\HhHistoricEvents.php:747
-msgid "The event equivalence group has been deleted."
-msgstr "Die Ereignisäquivalenzgruppe wurde gelöscht."
-
-#: src\HhHistoricEvents.php:759
-msgid "The custom CSV file has been created."
-msgstr "Die nutzerspezifische CSV-Datei wurde angelegt."
-
-#: src\HhHistoricEvents.php:763
-msgid "The custom CSV file has been saved."
-msgstr "Die nutzerspezifische CSV-Datei wurde gespeichert."
-
-#: src\HhHistoricEvents.php:772
-msgid "The custom CSV file has been saved under the new filename."
-msgstr ""
-"Die nutzerspezifische CSV-Datei wurde unter dem neuen Dateinamen gespeichert."
-
-#: src\HhHistoricEvents.php:776
-msgid "The custom CSV file has been deleted."
-msgstr "Die nutzerspezifische CSV-Datei wurde gelöscht."
-
-#: src\HhHistoricEvents.php:802
-#, php-format
-msgid "One invalid date value was omitted."
-msgid_plural "%s invalid date values were omitted."
-msgstr[0] "Ein ungültiger Datumswert wurde weggelassen."
-msgstr[1] "%s ungültige Datumswerte wurden weggelassen."
-
-#: src\HhHistoricEvents.php:810
-#, php-format
-msgid "One end date before its start date was omitted."
-msgid_plural "%s end dates before their start dates were omitted."
-msgstr[0] "Ein Enddatum vor dem zugehörigen Anfangsdatum wurde weggelassen."
-msgstr[1] "%s Enddaten vor den zugehörigen Anfangsdaten wurden weggelassen."
-
-#: src\GrampsCsvEventProvider.php:80
-msgid "Gramps-compatible CSV historical facts"
-msgstr "Historische Fakten im Gramps-kompatiblen CSV-Format"
-
-#: src\GrampsCsvEventProvider.php:85
-msgid ""
-"Historical facts from the Gramps HistContext collection and CSV files "
-"provided by administrators or webmasters."
-msgstr ""
-"Historische Fakten aus der Gramps-HistContext-Sammlung und aus CSV-Dateien, "
-"die von Administratoren bzw. Webmastern bereitgestellt werden."
-
-#: src\GrampsCsvEventProvider.php:90
-msgid "Gramps HistContext repository (bundled files)"
-msgstr "Gramps-HistContext-Repository (mitgelieferte Dateien)"
-
-#: src\GrampsCsvEventProvider.php:134
-#, php-format
-msgid "Newer Gramps data files are available: %s"
-msgstr "Neuere Gramps-Datendateien sind verfügbar: %s"
-
-#: src\GrampsCsvEventProvider.php:138
-#, php-format
-msgid "Additional Gramps data files are available: %s"
-msgstr "Zusätzliche Gramps-Datendateien sind verfügbar: %s"
-
-#: src\GrampsCsvEventProvider.php:146
-#, php-format
-msgid ""
-"Included Gramps data files are current. Local version: %s. Latest source "
-"version found: %s."
-msgstr ""
-"Die enthaltenen Gramps-Datendateien sind aktuell. Lokale Version: %s. "
-"Neueste gefundene Quellversion: %s."
-
-#: src\GrampsCsvEventProvider.php:155 src\GrampsCsvEventProvider.php:547
-msgid "Danish"
-msgstr "Dänisch"
-
-#: src\GrampsCsvEventProvider.php:156 src\GrampsCsvEventProvider.php:550
-msgid "English"
-msgstr "Englisch"
-
-#: src\GrampsCsvEventProvider.php:157 src\GrampsCsvEventProvider.php:548
-msgid "Swedish"
-msgstr "Schwedisch"
-
-#: src\GrampsCsvEventProvider.php:158 src\GrampsCsvEventProvider.php:549
-msgid "Ukrainian"
-msgstr "Ukrainisch"
-
-#: src\GrampsCsvEventProvider.php:326
-msgid "Historic event"
-msgstr "Historisches Ereignis"
-
-#: src\GrampsCsvEventProvider.php:552
-msgid "Dutch"
-msgstr "Niederländisch"
-
-#: src\GrampsCsvEventProvider.php:561
-msgid "Epidemic"
-msgstr "Epidemie"
-
-#: src\GrampsCsvEventProvider.php:562
-msgid "Pandemic"
-msgstr "Pandemie"
-
-#: src\GrampsCsvEventProvider.php:563
-msgid "Institutional care"
-msgstr "Institutionelle Betreuung"
-
-#: src\GrampsCsvEventProvider.php:564
-msgid "Disaster"
-msgstr "Katastrophe"
-
-#: src\GrampsCsvEventProvider.php:565
-msgid "Health"
-msgstr "Gesundheit"
-
-#: src\GrampsCsvEventProvider.php:566
-msgid "History"
-msgstr "Geschichte"
-
-#: src\GrampsCsvEventProvider.php:567
-msgid "Politics"
-msgstr "Politik"
-
-#: src\GrampsCsvEventProvider.php:568
-msgid "Science"
-msgstr "Wissenschaft"
-
-#: src\GrampsCsvEventProvider.php:569
-msgid "Society"
-msgstr "Gesellschaft"
-
-#: src\GrampsCsvEventProvider.php:570
-msgid "Technology"
-msgstr "Technologie"
-
-#: src\HistoricEventResolver.php:100
-msgid "Alternative description"
-msgstr "Alternative Beschreibung"
-
-#: src\HistoricEventResolver.php:101
-msgid "Alternative dates"
-msgstr "Alternative Datumsangaben"
-
-#: src\HistoricEventResolver.php:102
-msgid "Alternative categories"
-msgstr "Alternative Kategorien"
-
-#: src\HistoricEventResolver.php:103
-msgid "Alternative links"
-msgstr "Alternative Links"
-
-#: src\HistoricEventResolver.php:104
-msgid "Alternative descriptions"
-msgstr "Alternative Beschreibungen"
-
-#: src\HistoricEventResolver.php:123
-#: resources\views\settings\event-identities.phtml:30
-#: resources\views\settings\event-identities.phtml:61
-msgid "External references"
-msgstr "Externe Referenzen"
-
-#: resources\views\settings\configuration.phtml:10
-#, fuzzy
-msgid "Options"
-msgstr "Operation"
-
-#: resources\views\settings\configuration.phtml:14
-msgid "Historical event ages"
-msgstr "Alter bei historischen Ereignissen"
-
-#: resources\views\settings\configuration.phtml:27
-msgid "Show ages at historical events"
-msgstr "Alter bei historischen Ereignissen anzeigen"
-
-#: resources\views\settings\configuration.phtml:30
-msgid "Show the person's age at each historical event."
-msgstr "Zeigt das Alter der Person zu jedem historischen Ereignis an."
-
-#: resources\views\settings\configuration.phtml:37
-msgid "How the selections work"
-msgstr "Zusammenspiel der Auswahlmöglichkeiten"
-
-#: resources\views\settings\configuration.phtml:39
-msgid ""
-"The selections are combined. An event collection is used only when its data "
-"source is enabled, its event language is selected for that source, and the "
-"individual collection is selected. Clearing any one of these checkboxes "
-"disables the collection; the other selections are retained."
-msgstr ""
-"Die Auswahlen werden miteinander kombiniert. Eine Ereignissammlung wird nur "
-"verwendet, wenn ihre Datenquelle aktiviert, ihre Ereignissprache für diese "
-"Quelle ausgewählt und die einzelne Sammlung ausgewählt ist. Wird eines "
-"dieser Häkchen entfernt, wird die Sammlung nicht verwendet; die übrigen "
-"Einstellungen bleiben erhalten."
-
-#: resources\views\settings\configuration.phtml:43
-msgid "Selection by language"
-msgstr "Auswahl nach Sprache"
-
-#: resources\views\settings\configuration.phtml:48
-#: resources\views\settings\configuration.phtml:156
-msgid "Event languages"
-msgstr "Sprachen der Ereignisse"
-
-#: resources\views\settings\configuration.phtml:52
-msgid "Select which data sources are used for each event language."
-msgstr ""
-"Lege fest, welche Datenquellen für jede Ereignissprache verwendet werden."
-
-#: resources\views\settings\configuration.phtml:53
-msgid ""
-"The collections listed beneath each source are for orientation; select "
-"individual collections in the second section."
-msgstr ""
-"Die unter jeder Quelle aufgeführten Sammlungen dienen der Orientierung; "
-"einzelne Sammlungen werden im zweiten Abschnitt ausgewählt."
-
-#: resources\views\settings\configuration.phtml:82
-#: resources\views\settings\configuration.phtml:176
-msgid "User-specific"
-msgstr "Nutzerspezifisch"
-
-#: resources\views\settings\configuration.phtml:88
-#: resources\views\settings\configuration.phtml:196
-#: resources\views\settings\custom-csv.phtml:48
-#: resources\views\settings\custom-csv.phtml:93
-#: resources\views\settings\custom-csv.phtml:108
-msgid "Region"
-msgstr "Region"
-
-#: resources\views\settings\configuration.phtml:105
-msgid "Data sources and individual collections"
-msgstr "Datenquellen und einzelne Sammlungen"
-
-#: resources\views\settings\configuration.phtml:108
-msgid "Performance notice"
-msgstr "Hinweis zur Performance"
-
-#: resources\views\settings\configuration.phtml:110
-msgid ""
-"Activating many data sources, or even one large collection such as Wars and "
-"Battles Worldwide, can significantly reduce overall webtrees performance. "
-"Enable only the sources and collections that are actually needed."
-msgstr ""
-"Die Aktivierung vieler Datenquellen oder bereits einer großen Sammlung wie "
-"Weltweite Kriege und Schlachten kann die Gesamtperformance von webtrees "
-"deutlich beeinträchtigen. Aktivieren Sie nur die tatsächlich benötigten "
-"Quellen und Sammlungen."
-
-#: resources\views\settings\configuration.phtml:131
-msgid "Use this data source"
-msgstr "Verwende diese Datenquelle"
-
-#: resources\views\settings\configuration.phtml:139
-#: resources\views\settings\custom-csv.phtml:113
-msgid "Source"
-msgstr "Quelle"
-
-#: resources\views\settings\configuration.phtml:155
-msgid "Event language"
-msgstr "Sprache der Ereignisse"
-
-#: resources\views\settings\configuration.phtml:182
-#: resources\views\settings\configuration.phtml:183
-msgid "Overrides a bundled file"
-msgstr "Überschreibt eine mitgelieferte Datei"
-
-#: resources\views\settings\configuration.phtml:203
-#: resources\views\settings\custom-csv.phtml:165
-msgid "Category"
-msgstr ""
-
-#: resources\views\settings\configuration.phtml:228
-msgid "Overridden bundled files"
-msgstr "Überschriebene mitgelieferte Dateien"
-
-#: resources\views\settings\configuration.phtml:235
-#: resources\views\settings\configuration.phtml:236
-msgid "Overridden by a user-specific file"
-msgstr "Wird durch eine nutzerspezifische Datei überschrieben"
-
-#: resources\views\settings\configuration.phtml:252
-msgid "Regions"
-msgstr "Regionen"
-
-#: resources\views\settings\configuration.phtml:254
-msgid "The following regions are covered by these collections."
-msgstr "Die folgenden Regionen werden von diesen Sammlungen abgedeckt."
-
-#: resources\views\settings\configuration.phtml:279
-#: resources\views\settings\custom-csv.phtml:223
-msgid "save"
-msgstr ""
-
 #: resources\views\settings\event-identities.phtml:12
 msgid ""
 "Link identities that describe the same historical event in different "
@@ -706,6 +217,12 @@ msgstr "Wird automatisch aus dem ersten Ereignis vorgeschlagen"
 #: resources\views\settings\event-identities.phtml:59
 msgid "Event IDs"
 msgstr "Ereigniskennungen"
+
+#: resources\views\settings\event-identities.phtml:30
+#: resources\views\settings\event-identities.phtml:61
+#: src\HistoricEventResolver.php:123
+msgid "External references"
+msgstr "Externe Referenzen"
 
 #: resources\views\settings\event-identities.phtml:33
 #: resources\views\settings\event-identities.phtml:80
@@ -834,6 +351,14 @@ msgstr "Sprache"
 msgid "Topic"
 msgstr "Thema"
 
+#: resources\views\settings\custom-csv.phtml:48
+#: resources\views\settings\custom-csv.phtml:93
+#: resources\views\settings\custom-csv.phtml:108
+#: resources\views\settings\configuration.phtml:88
+#: resources\views\settings\configuration.phtml:196
+msgid "Region"
+msgstr "Region"
+
 #: resources\views\settings\custom-csv.phtml:49
 #: resources\views\settings\custom-csv.phtml:167
 msgid "Action"
@@ -871,6 +396,11 @@ msgstr "Kontakt"
 msgid "License"
 msgstr "Lizenz"
 
+#: resources\views\settings\custom-csv.phtml:113
+#: resources\views\settings\configuration.phtml:139
+msgid "Source"
+msgstr "Quelle"
+
 #: resources\views\settings\custom-csv.phtml:114
 msgid "Description"
 msgstr "Beschreibung"
@@ -905,6 +435,11 @@ msgstr "Ereignistext"
 msgid "Source link"
 msgstr "Quellenlink"
 
+#: resources\views\settings\custom-csv.phtml:165
+#: resources\views\settings\configuration.phtml:203
+msgid "Category"
+msgstr ""
+
 #: resources\views\settings\custom-csv.phtml:201
 msgid "Generated when saved"
 msgstr ""
@@ -919,6 +454,11 @@ msgstr "Zeile löschen"
 #: resources\views\settings\custom-csv.phtml:219
 msgid "Add row"
 msgstr "Zeile hinzufügen"
+
+#: resources\views\settings\custom-csv.phtml:223
+#: resources\views\settings\configuration.phtml:279
+msgid "save"
+msgstr ""
 
 #: resources\views\settings\custom-csv.phtml:227
 msgid "New filename"
@@ -936,14 +476,489 @@ msgstr "Soll diese nutzerspezifische CSV-Datei wirklich gelöscht werden?"
 msgid "Delete file"
 msgstr "Datei löschen"
 
+#: resources\views\settings\configuration.phtml:10
+#, fuzzy
+msgid "Options"
+msgstr "Operation"
+
+#: resources\views\settings\configuration.phtml:14
+msgid "Historical event ages"
+msgstr "Alter bei historischen Ereignissen"
+
+#: resources\views\settings\configuration.phtml:27
+msgid "Show ages at historical events"
+msgstr "Alter bei historischen Ereignissen anzeigen"
+
+#: resources\views\settings\configuration.phtml:30
+msgid "Show the person's age at each historical event."
+msgstr "Zeigt das Alter der Person zu jedem historischen Ereignis an."
+
+#: resources\views\settings\configuration.phtml:37
+msgid "How the selections work"
+msgstr "Zusammenspiel der Auswahlmöglichkeiten"
+
+#: resources\views\settings\configuration.phtml:39
+msgid ""
+"The selections are combined. An event collection is used only when its data "
+"source is enabled, its event language is selected for that source, and the "
+"individual collection is selected. Clearing any one of these checkboxes "
+"disables the collection; the other selections are retained."
+msgstr ""
+"Die Auswahlen werden miteinander kombiniert. Eine Ereignissammlung wird nur "
+"verwendet, wenn ihre Datenquelle aktiviert, ihre Ereignissprache für diese "
+"Quelle ausgewählt und die einzelne Sammlung ausgewählt ist. Wird eines "
+"dieser Häkchen entfernt, wird die Sammlung nicht verwendet; die übrigen "
+"Einstellungen bleiben erhalten."
+
+#: resources\views\settings\configuration.phtml:43
+msgid "Selection by language"
+msgstr "Auswahl nach Sprache"
+
+#: resources\views\settings\configuration.phtml:48
+#: resources\views\settings\configuration.phtml:156
+msgid "Event languages"
+msgstr "Sprachen der Ereignisse"
+
+#: resources\views\settings\configuration.phtml:52
+msgid "Select which data sources are used for each event language."
+msgstr ""
+"Lege fest, welche Datenquellen für jede Ereignissprache verwendet werden."
+
+#: resources\views\settings\configuration.phtml:53
+msgid ""
+"The collections listed beneath each source are for orientation; select "
+"individual collections in the second section."
+msgstr ""
+"Die unter jeder Quelle aufgeführten Sammlungen dienen der Orientierung; "
+"einzelne Sammlungen werden im zweiten Abschnitt ausgewählt."
+
+#: resources\views\settings\configuration.phtml:82
+#: resources\views\settings\configuration.phtml:176
+msgid "User-specific"
+msgstr "Nutzerspezifisch"
+
+#: resources\views\settings\configuration.phtml:105
+msgid "Data sources and individual collections"
+msgstr "Datenquellen und einzelne Sammlungen"
+
+#: resources\views\settings\configuration.phtml:108
+msgid "Performance notice"
+msgstr "Hinweis zur Performance"
+
+#: resources\views\settings\configuration.phtml:110
+msgid ""
+"Activating many data sources, or even one large collection such as Wars and "
+"Battles Worldwide, can significantly reduce overall webtrees performance. "
+"Enable only the sources and collections that are actually needed."
+msgstr ""
+"Die Aktivierung vieler Datenquellen oder bereits einer großen Sammlung wie "
+"Weltweite Kriege und Schlachten kann die Gesamtperformance von webtrees "
+"deutlich beeinträchtigen. Aktivieren Sie nur die tatsächlich benötigten "
+"Quellen und Sammlungen."
+
+#: resources\views\settings\configuration.phtml:131
+msgid "Use this data source"
+msgstr "Verwende diese Datenquelle"
+
+#: resources\views\settings\configuration.phtml:155
+msgid "Event language"
+msgstr "Sprache der Ereignisse"
+
+#: resources\views\settings\configuration.phtml:182
+#: resources\views\settings\configuration.phtml:183
+msgid "Overrides a bundled file"
+msgstr "Überschreibt eine mitgelieferte Datei"
+
+#: resources\views\settings\configuration.phtml:228
+msgid "Overridden bundled files"
+msgstr "Überschriebene mitgelieferte Dateien"
+
+#: resources\views\settings\configuration.phtml:235
+#: resources\views\settings\configuration.phtml:236
+msgid "Overridden by a user-specific file"
+msgstr "Wird durch eine nutzerspezifische Datei überschrieben"
+
+#: resources\views\settings\configuration.phtml:252
+msgid "Regions"
+msgstr "Regionen"
+
+#: resources\views\settings\configuration.phtml:254
+msgid "The following regions are covered by these collections."
+msgstr "Die folgenden Regionen werden von diesen Sammlungen abgedeckt."
+
+#: src\GermanChancellorsPresidentsCsvProvider.php:35
+msgid "German Chancellors Presidents (CSV)"
+msgstr "Deutsche Kanzler und Präsidenten (CSV)"
+
+#: src\GermanChancellorsPresidentsCsvProvider.php:40
+msgid "Historical facts - Chancellors and Presidents of Germany (since 1949)"
+msgstr ""
+"Historische Fakten - Bundeskanzler und Bundespräsidenten in Deutschland, "
+"sowie Staatsoberhäupter der DDR (seit 1949)"
+
+#: src\GermanChancellorsPresidentsCsvProvider.php:45
+msgid "Wikipedia and Wikimedia Commons"
+msgstr "Wikipedia und Wikimedia Commons"
+
+#: src\GermanChancellorsPresidentsCsvProvider.php:66
+#: src\GermanChancellorsPresidentsCsvProvider.php:199
+#: src\GermanChancellorsPresidentsWikidataProvider.php:175
+msgid "Chancellor of Germany"
+msgstr "Bundeskanzler von Deutschland"
+
+#: src\GermanChancellorsPresidentsCsvProvider.php:67
+#: src\GermanChancellorsPresidentsCsvProvider.php:199
+#: src\GermanChancellorsPresidentsWikidataProvider.php:176
+msgid "President of Germany"
+msgstr "Bundespräsident von Deutschland"
+
+#: src\GermanChancellorsPresidentsCsvProvider.php:68
+#: src\GermanChancellorsPresidentsCsvProvider.php:199
+msgid "acting"
+msgstr "geschäftsführend"
+
+#: src\GermanChancellorsPresidentsCsvProvider.php:84
+#: src\GermanChancellorsPresidentsWikidataProvider.php:175
+#: src\GermanChancellorsPresidentsWikidataProvider.php:176
+#: src\GermanChancellorsPresidentsWikidataProvider.php:177
+msgid "Germany"
+msgstr "Deutschland"
+
+#: src\GermanChancellorsPresidentsCsvProvider.php:100
+msgid "source"
+msgstr "Quelle"
+
+#: src\CustomCsvFileManager.php:99
+msgid "The selected CSV file is too large. The maximum size is 1 MiB."
+msgstr "Die ausgewählte CSV-Datei ist zu groß. Die maximale Größe beträgt 1 MiB."
+
+#: src\CustomCsvFileManager.php:113
+msgid "The selected CSV file exceeds the supported size limits."
+msgstr "Die ausgewählte CSV-Datei überschreitet die unterstützten Größenbegrenzungen."
+
+#: src\CustomCsvFileManager.php:149
+msgid "The CSV file contains too many rows."
+msgstr "Die CSV-Datei enthält zu viele Zeilen."
+
+#: src\CustomCsvFileManager.php:192
+msgid "A CSV field exceeds the supported size limit."
+msgstr "Ein CSV-Feld überschreitet die unterstützte Größenbegrenzung."
+
+#: src\HhHistoricEvents.php:149
+msgid "Historic Events"
+msgstr "Historische Ereignisse"
+
+#: src\HhHistoricEvents.php:154
+msgid "Historical facts from selectable data collections"
+msgstr "Historische Fakten aus wählbaren Datensammlungen"
+
+#: src\HhHistoricEvents.php:209
+msgid ""
+"The Historic Events module can query Wikidata for selected historical event "
+"data. Responses are cached locally for 24 hours to reduce external requests."
+msgstr ""
+"Das Modul \"Historische Ereignisse\" kann Wikidata nach ausgewählten "
+"historischen Ereignisdaten abfragen. Antworten werden 24 Stunden lokal "
+"zwischengespeichert, um externe Anfragen zu reduzieren."
+
+#: src\HhHistoricEvents.php:211
+msgid "Server IP address and technical request metadata."
+msgstr "IP-Adresse des Servers und technische Metadaten der Anfrage."
+
+#: src\HhHistoricEvents.php:212
+msgid "Requested Wikidata entities for the enabled historical event provider."
+msgstr "Abgefragte Wikidata-Entitäten für den aktivierten Ereignis-Anbieter."
+
+#: src\HhHistoricEvents.php:217
+msgid ""
+"Wikidata responses are cached locally for 24 hours to reduce external "
+"requests."
+msgstr ""
+"Wikidata-Antworten werden 24 Stunden lokal zwischengespeichert, um externe "
+"Anfragen zu reduzieren."
+
+#: src\HhHistoricEvents.php:438
+msgid "Equivalence group"
+msgstr "Äquivalenzgruppe"
+
+#: src\HhHistoricEvents.php:464 src\HhHistoricEvents.php:714
+msgid "The JSON equivalence file is too large. The maximum size is 1 MiB."
+msgstr ""
+"Die JSON-Datei für Äquivalenzgruppen ist zu groß. Die maximale Größe beträgt "
+"1 MiB."
+
+#: src\HhHistoricEvents.php:469
+msgid "The JSON equivalence file is invalid."
+msgstr "Die JSON-Datei für Äquivalenzgruppen ist ungültig."
+
+#: src\HhHistoricEvents.php:472
+msgid "The JSON equivalence file has an unsupported format."
+msgstr ""
+"Die JSON-Datei für Äquivalenzgruppen hat ein nicht unterstütztes Format."
+
+#: src\HhHistoricEvents.php:475
+msgid "The JSON equivalence file contains too many groups."
+msgstr "Die JSON-Datei für Äquivalenzgruppen enthält zu viele Gruppen."
+
+#: src\HhHistoricEvents.php:481 src\HhHistoricEvents.php:485
+#: src\HhHistoricEvents.php:494
+msgid "The JSON equivalence file contains an invalid group."
+msgstr "Die JSON-Datei für Äquivalenzgruppen enthält eine ungültige Gruppe."
+
+#: src\HhHistoricEvents.php:489
+msgid "The JSON equivalence file contains an invalid event ID."
+msgstr ""
+"Die JSON-Datei für Äquivalenzgruppen enthält eine ungültige Ereigniskennung."
+
+#: src\HhHistoricEvents.php:575
+#, php-format
+msgid "(aged %s)"
+msgstr ""
+
+#: src\HhHistoricEvents.php:691
+#, php-format
+msgid "The preferences for the module “%s” have been updated."
+msgstr ""
+
+#: src\HhHistoricEvents.php:710
+msgid "Choose a JSON equivalence file to import."
+msgstr "Wählen Sie eine JSON-Datei für Äquivalenzgruppen zum Importieren aus."
+
+#: src\HhHistoricEvents.php:712
+msgid "The JSON equivalence file could not be uploaded."
+msgstr "Die JSON-Datei für Äquivalenzgruppen konnte nicht hochgeladen werden."
+
+#: src\HhHistoricEvents.php:719
+#, php-format
+msgid "One equivalence group was imported."
+msgid_plural "%s equivalence groups were imported."
+msgstr[0] "Eine Äquivalenzgruppe wurde importiert."
+msgstr[1] "%s Äquivalenzgruppen wurden importiert."
+
+#: src\HhHistoricEvents.php:731
+msgid "Enter at least one event identity."
+msgstr "Tragen Sie mindestens eine Ereigniskennung ein."
+
+#: src\HhHistoricEvents.php:733
+#, php-format
+msgid "Invalid event identity: %s"
+msgstr "Ungültige Ereigniskennung: %s"
+
+#: src\HhHistoricEvents.php:737
+msgid "The event equivalence group has been saved."
+msgstr "Die Ereignisäquivalenzgruppe wurde gespeichert."
+
+#: src\HhHistoricEvents.php:747
+msgid "The event equivalence group has been deleted."
+msgstr "Die Ereignisäquivalenzgruppe wurde gelöscht."
+
+#: src\HhHistoricEvents.php:759
+msgid "The custom CSV file has been created."
+msgstr "Die nutzerspezifische CSV-Datei wurde angelegt."
+
+#: src\HhHistoricEvents.php:763
+msgid "The custom CSV file has been saved."
+msgstr "Die nutzerspezifische CSV-Datei wurde gespeichert."
+
+#: src\HhHistoricEvents.php:772
+msgid "The custom CSV file has been saved under the new filename."
+msgstr ""
+"Die nutzerspezifische CSV-Datei wurde unter dem neuen Dateinamen gespeichert."
+
+#: src\HhHistoricEvents.php:776
+msgid "The custom CSV file has been deleted."
+msgstr "Die nutzerspezifische CSV-Datei wurde gelöscht."
+
+#: src\HhHistoricEvents.php:802
+#, php-format
+msgid "One invalid date value was omitted."
+msgid_plural "%s invalid date values were omitted."
+msgstr[0] "Ein ungültiger Datumswert wurde weggelassen."
+msgstr[1] "%s ungültige Datumswerte wurden weggelassen."
+
+#: src\HhHistoricEvents.php:810
+#, php-format
+msgid "One end date before its start date was omitted."
+msgid_plural "%s end dates before their start dates were omitted."
+msgstr[0] "Ein Enddatum vor dem zugehörigen Anfangsdatum wurde weggelassen."
+msgstr[1] "%s Enddaten vor den zugehörigen Anfangsdaten wurden weggelassen."
+
+#: src\GrampsCsvEventProvider.php:83
+msgid "Gramps-compatible CSV historical facts"
+msgstr "Historische Fakten im Gramps-kompatiblen CSV-Format"
+
+#: src\GrampsCsvEventProvider.php:88
+msgid ""
+"Historical facts from the Gramps HistContext collection and CSV files "
+"provided by administrators or webmasters."
+msgstr ""
+"Historische Fakten aus der Gramps-HistContext-Sammlung und aus CSV-Dateien, "
+"die von Administratoren bzw. Webmastern bereitgestellt werden."
+
+#: src\GrampsCsvEventProvider.php:93
+msgid "Gramps HistContext repository (bundled files)"
+msgstr "Gramps-HistContext-Repository (mitgelieferte Dateien)"
+
+#: src\GrampsCsvEventProvider.php:137
+#, php-format
+msgid "Newer Gramps data files are available: %s"
+msgstr "Neuere Gramps-Datendateien sind verfügbar: %s"
+
+#: src\GrampsCsvEventProvider.php:141
+#, php-format
+msgid "Additional Gramps data files are available: %s"
+msgstr "Zusätzliche Gramps-Datendateien sind verfügbar: %s"
+
+#: src\GrampsCsvEventProvider.php:149
+#, php-format
+msgid ""
+"Included Gramps data files are current. Local version: %s. Latest source "
+"version found: %s."
+msgstr ""
+"Die enthaltenen Gramps-Datendateien sind aktuell. Lokale Version: %s. "
+"Neueste gefundene Quellversion: %s."
+
+#: src\GrampsCsvEventProvider.php:158 src\GrampsCsvEventProvider.php:557
+msgid "Danish"
+msgstr "Dänisch"
+
+#: src\GrampsCsvEventProvider.php:159 src\GrampsCsvEventProvider.php:560
+msgid "English"
+msgstr "Englisch"
+
+#: src\GrampsCsvEventProvider.php:160 src\GrampsCsvEventProvider.php:558
+msgid "Swedish"
+msgstr "Schwedisch"
+
+#: src\GrampsCsvEventProvider.php:161 src\GrampsCsvEventProvider.php:559
+msgid "Ukrainian"
+msgstr "Ukrainisch"
+
+#: src\GrampsCsvEventProvider.php:329
+msgid "Historic event"
+msgstr "Historisches Ereignis"
+
+#: src\GrampsCsvEventProvider.php:562
+msgid "Dutch"
+msgstr "Niederländisch"
+
+#: src\GrampsCsvEventProvider.php:571
+msgid "Epidemic"
+msgstr "Epidemie"
+
+#: src\GrampsCsvEventProvider.php:572
+msgid "Pandemic"
+msgstr "Pandemie"
+
+#: src\GrampsCsvEventProvider.php:573
+msgid "Institutional care"
+msgstr "Institutionelle Betreuung"
+
+#: src\GrampsCsvEventProvider.php:574
+msgid "Disaster"
+msgstr "Katastrophe"
+
+#: src\GrampsCsvEventProvider.php:575
+msgid "Health"
+msgstr "Gesundheit"
+
+#: src\GrampsCsvEventProvider.php:576
+msgid "History"
+msgstr "Geschichte"
+
+#: src\GrampsCsvEventProvider.php:577
+msgid "Politics"
+msgstr "Politik"
+
+#: src\GrampsCsvEventProvider.php:578
+msgid "Science"
+msgstr "Wissenschaft"
+
+#: src\GrampsCsvEventProvider.php:579
+msgid "Society"
+msgstr "Gesellschaft"
+
+#: src\GrampsCsvEventProvider.php:580
+msgid "Technology"
+msgstr "Technologie"
+
+#: src\GermanChancellorsPresidentsWikidataProvider.php:45
+msgid "Chancellors and Presidents (Wikidata)"
+msgstr "Kanzler und Präsidenten (Wikidata)"
+
+#: src\GermanChancellorsPresidentsWikidataProvider.php:50
+msgid ""
+"Historical facts - Chancellors and Presidents of Germany, Austria and "
+"Switzerland"
+msgstr ""
+"Historische Fakten - Kanzler und Präsidenten Deutschlands, Österreichs und "
+"der Schweiz"
+
+#: src\GermanChancellorsPresidentsWikidataProvider.php:55
+#: src\GermanChancellorsPresidentsWikidataProvider.php:136
+msgid "Wikidata"
+msgstr "Wikidata"
+
+#: src\GermanChancellorsPresidentsWikidataProvider.php:70
+#: src\GermanChancellorsPresidentsWikidataProvider.php:85
+msgid "Multilingual / dynamically localized"
+msgstr "Mehrsprachig / dynamisch lokalisiert"
+
+#: src\GermanChancellorsPresidentsWikidataProvider.php:146
+msgid "from"
+msgstr "ab"
+
+#: src\GermanChancellorsPresidentsWikidataProvider.php:147
+#, php-format
+msgid "member of party %s"
+msgstr "Mitglied der Partei %s"
+
+#: src\GermanChancellorsPresidentsWikidataProvider.php:177
+msgid "Head of former state GDR"
+msgstr "Staatsoberhaupt der DDR"
+
+#: src\GermanChancellorsPresidentsWikidataProvider.php:178
+msgid "Chancellor of Austria"
+msgstr "Bundeskanzler von Österreich"
+
+#: src\GermanChancellorsPresidentsWikidataProvider.php:178
+#: src\GermanChancellorsPresidentsWikidataProvider.php:179
+msgid "Austria"
+msgstr "Österreich"
+
+#: src\GermanChancellorsPresidentsWikidataProvider.php:179
+msgid "President of Austria"
+msgstr "Bundespräsident von Österreich"
+
+#: src\GermanChancellorsPresidentsWikidataProvider.php:180
+msgid "President of the Swiss Confederation"
+msgstr "Bundespräsident der Schweizerischen Eidgenossenschaft"
+
+#: src\HistoricEventResolver.php:100
+msgid "Alternative description"
+msgstr "Alternative Beschreibung"
+
+#: src\HistoricEventResolver.php:101
+msgid "Alternative dates"
+msgstr "Alternative Datumsangaben"
+
+#: src\HistoricEventResolver.php:102
+msgid "Alternative categories"
+msgstr "Alternative Kategorien"
+
+#: src\HistoricEventResolver.php:103
+msgid "Alternative links"
+msgstr "Alternative Links"
+
+#: src\HistoricEventResolver.php:104
+msgid "Alternative descriptions"
+msgstr "Alternative Beschreibungen"
+
 #~ msgid "Add"
 #~ msgstr "Hinzufügen"
 
 #~ msgid "Unknown CSV file action."
 #~ msgstr "Unbekannte Aktion für eine CSV-Datei."
-
-#~ msgid "The selected CSV file does not exist."
-#~ msgstr "Die ausgewählte CSV-Datei ist nicht vorhanden."
 
 #~ msgid "The selected CSV file cannot be read."
 #~ msgstr "Die ausgewählte CSV-Datei kann nicht gelesen werden."

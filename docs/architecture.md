@@ -127,6 +127,10 @@ The presentation rules for equivalent records are documented in [event-equivalen
 
 The module will generate an index from event identity to every collection and row in which it occurs. The index is derived data, is rebuilt or invalidated when collections change, and is used for lookup rather than scanning every collection on each request. The source CSV, GEDCOM, Wikidata data, and equivalence table remain authoritative.
 
+## Data-file limits
+
+Custom CSV files are limited to 1 MiB, 10,000 rows, and 16 KiB per field. Bundled and webmaster-provided CSV or GEDCOM collections are defensively limited to 5 MiB, 20,000 records, and 16 KiB per parsed field. Oversized collections are ignored during event loading; the custom-CSV editor reports an explicit validation error.
+
 ## Event Loading Flow
 
 When webtrees requests historical events:
