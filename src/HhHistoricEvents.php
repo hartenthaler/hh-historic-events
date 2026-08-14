@@ -63,6 +63,7 @@ use function sha1;
 use function rawurlencode;
 use function str_contains;
 use function str_ends_with;
+use function strnatcasecmp;
 use function substr;
 use function time;
 use function usort;
@@ -383,7 +384,10 @@ final class HhHistoricEvents extends AbstractModule implements ModuleCustomInter
         }
         unset($group);
 
-        return array_values($groups);
+        $groups = array_values($groups);
+        usort($groups, static fn (array $first, array $second): int => strnatcasecmp($first['title'], $second['title']) ?: ($first['identities'][0] <=> $second['identities'][0]));
+
+        return $groups;
     }
 
     /** @return list<string> */
