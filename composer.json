@@ -1,0 +1,18 @@
+{
+  "name": "hartenthaler/hh-historic-events",
+  "description": "Provides selectable historical events for the webtrees timeline.",
+  "license": "GPL-3.0-or-later",
+  "homepage": "https://github.com/hartenthaler/hh-historic-events",
+  "support": {
+    "issues": "https://github.com/hartenthaler/hh-historic-events/issues"
+  },
+  "extra": {
+    "webtrees-custom-module": {
+      "title": "Historic Events",
+      "description": "Provides selectable historical events for the webtrees timeline.",
+      "github-repo": "https://github.com/hartenthaler/hh-historic-events",
+      "tag-prefix": "v",
+      "category": "fact"
+    }
+  }
+}
